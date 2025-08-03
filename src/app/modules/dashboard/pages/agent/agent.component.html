@@ -1,0 +1,200 @@
+<div class="p-6">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900">Agent Dashboard</h1>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Patients -->
+    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+            <svg-icon src="assets/icons/heroicons/outline/users.svg" class="w-5 h-5 text-blue-600"></svg-icon>
+          </div>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Total Patients</p>
+          <p class="text-2xl font-semibold text-gray-900">{{ stats.totalPatients }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Leads -->
+    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+            <svg-icon src="assets/icons/heroicons/outline/user-circle.svg" class="w-5 h-5 text-green-600"></svg-icon>
+          </div>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Active Leads</p>
+          <p class="text-2xl font-semibold text-gray-900">{{ stats.activeLeads }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Appointments -->
+    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+            <svg-icon src="assets/icons/heroicons/outline/bell.svg" class="w-5 h-5 text-yellow-600"></svg-icon>
+          </div>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Upcoming Appointments</p>
+          <p class="text-2xl font-semibold text-gray-900">{{ stats.upcomingAppointments }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Queries -->
+    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+            <svg-icon src="assets/icons/heroicons/outline/exclamation-triangle.svg" class="w-5 h-5 text-red-600"></svg-icon>
+          </div>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Pending Queries</p>
+          <p class="text-2xl font-semibold text-gray-900">{{ stats.pendingQueries }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Patients Table -->
+  <div class="bg-white rounded-lg shadow mb-8">
+    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+      <h2 class="text-lg font-medium text-gray-900">Recent Patients</h2>
+      <button class="text-sm text-blue-600 hover:text-blue-800 font-medium">View All</button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Patient
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              MRD
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Service
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Last Updated
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let patient of recentPatients" class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10">
+                  <div class="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm">
+                    {{ patient.avatar }}
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">{{ patient.name }}</div>
+                  <div class="text-sm text-gray-500">{{ patient.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              {{ patient.mrd }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              {{ patient.service }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span [class]="getStatusClass(patient.status)">
+                {{ patient.status }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ patient.lastUpdated }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <div class="flex space-x-2">
+                <button (click)="viewPatient(patient)" class="text-blue-600 hover:text-blue-900">
+                  <svg-icon src="assets/icons/heroicons/outline/eye.svg" class="w-4 h-4"></svg-icon>
+                </button>
+                <button (click)="editPatient(patient)" class="text-green-600 hover:text-green-900">
+                  <svg-icon src="assets/icons/heroicons/outline/cog.svg" class="w-4 h-4"></svg-icon>
+                </button>
+                <button (click)="deletePatient(patient)" class="text-red-600 hover:text-red-900">
+                  <svg-icon src="assets/icons/heroicons/outline/x.svg" class="w-4 h-4"></svg-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Lead Management -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+      <h2 class="text-lg font-medium text-gray-900">Lead Management</h2>
+      <button 
+        (click)="addNewLead()"
+        class="bg-teal-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-700 transition-colors"
+      >
+        Add New Lead
+      </button>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex">
+        <button 
+          (click)="setActiveTab('new-leads')"
+          [class]="activeTab === 'new-leads' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm"
+        >
+          New Leads
+        </button>
+        <button 
+          (click)="setActiveTab('follow-up')"
+          [class]="activeTab === 'follow-up' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm"
+        >
+          Follow Up
+        </button>
+        <button 
+          (click)="setActiveTab('converted')"
+          [class]="activeTab === 'converted' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm"
+        >
+          Converted
+        </button>
+      </nav>
+    </div>
+    
+    <!-- Tab Content -->
+    <div class="p-6">
+      <div *ngIf="activeTab === 'new-leads'" class="text-center py-8">
+        <p class="text-gray-500">No new leads at the moment.</p>
+      </div>
+      <div *ngIf="activeTab === 'follow-up'" class="text-center py-8">
+        <p class="text-gray-500">No follow-up leads at the moment.</p>
+      </div>
+      <div *ngIf="activeTab === 'converted'" class="text-center py-8">
+        <p class="text-gray-500">No converted leads at the moment.</p>
+      </div>
+    </div>
+  </div>
+</div>

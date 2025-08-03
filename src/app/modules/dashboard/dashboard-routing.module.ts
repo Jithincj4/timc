@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
+import { AgentComponent } from './pages/agent/agent.component';
 import { NftComponent } from './pages/nft/nft.component';
 
 const routes: Routes = [
@@ -8,7 +9,8 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      { path: '', redirectTo: 'nfts', pathMatch: 'full' },
+      { path: '', redirectTo: 'agent', pathMatch: 'full' },
+      { path: 'agent', component: AgentComponent },
       { path: 'nfts', component: NftComponent },
       { path: '**', redirectTo: 'errors/404' },
     ],

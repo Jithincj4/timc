@@ -1,3 +1,9 @@
+.container {
+  padding: 1rem; // base (mobile)
+  @media (min-width: 768px) {
+    padding: 2rem; // tablet and up
+  }
+}
 .app-container {
     display: flex;
     min-height: 100vh;

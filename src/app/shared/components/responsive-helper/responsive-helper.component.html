@@ -1,9 +1,91 @@
 <div
   *ngIf="!env.production"
-  class="bg-primary text-primary-foreground fixed bottom-20 hidden rounded-md py-1 px-3 align-middle text-sm font-medium ltr:right-5 rtl:left-5 sm:block">
-  <span class="hidden sm:block md:hidden">sm</span>
-  <span class="hidden md:block lg:hidden">md</span>
-  <span class="hidden lg:block xl:hidden">lg</span>
-  <span class="hidden xl:block 2xl:hidden">xl</span>
-  <span class="hidden 2xl:block">2xl</span>
+  class="fixed bottom-4 right-4 z-50 bg-primary text-primary-foreground rounded-lg shadow-lg p-3 text-xs font-mono space-y-1 max-w-xs"
+  [ngClass]="{
+    'opacity-75 hover:opacity-100': true,
+    'animate-pulse': deviceInfo().isTouch
+  }">
+  
+  <!-- Breakpoint Display -->
+  <div class="flex items-center justify-between">
+    <span class="font-semibold">Breakpoint:</span>
+    <span class="px-2 py-1 bg-primary-foreground text-primary rounded text-xxs font-bold">
+      {{ deviceInfo().breakpoint }}
+    </span>
+  </div>
+  
+  <!-- Screen Dimensions -->
+  <div class="flex items-center justify-between">
+    <span>Screen:</span>
+    <span>{{ deviceInfo().width }}×{{ deviceInfo().height }}</span>
+  </div>
+  
+  <!-- Device Type -->
+  <div class="flex items-center justify-between">
+    <span>Device:</span>
+    <span class="capitalize">{{ deviceInfo().deviceType }}</span>
+  </div>
+  
+  <!-- Orientation -->
+  <div class="flex items-center justify-between">
+    <span>Orientation:</span>
+    <span class="capitalize">{{ deviceInfo().orientation }}</span>
+  </div>
+  
+  <!-- Pixel Ratio -->
+  <div class="flex items-center justify-between">
+    <span>DPR:</span>
+    <span>{{ deviceInfo().pixelRatio }}x</span>
+  </div>
+  
+  <!-- Touch Support -->
+  <div class="flex items-center justify-between">
+    <span>Touch:</span>
+    <span [ngClass]="{
+      'text-green-300': deviceInfo().isTouch,
+      'text-red-300': !deviceInfo().isTouch
+    }">
+      {{ deviceInfo().isTouch ? 'Yes' : 'No' }}
+    </span>
+  </div>
+  
+  <!-- Visual Breakpoint Indicators -->
+  <div class="flex space-x-1 pt-2 border-t border-primary-foreground/20">
+    <div class="w-2 h-2 rounded-full" 
+         [ngClass]="{
+           'bg-primary-foreground': deviceInfo().breakpoint === 'xs',
+           'bg-primary-foreground/30': deviceInfo().breakpoint !== 'xs'
+         }"
+         title="XS (< 475px)"></div>
+    <div class="w-2 h-2 rounded-full"
+         [ngClass]="{
+           'bg-primary-foreground': deviceInfo().breakpoint === 'sm',
+           'bg-primary-foreground/30': deviceInfo().breakpoint !== 'sm'
+         }"
+         title="SM (640px+)"></div>
+    <div class="w-2 h-2 rounded-full"
+         [ngClass]="{
+           'bg-primary-foreground': deviceInfo().breakpoint === 'md',
+           'bg-primary-foreground/30': deviceInfo().breakpoint !== 'md'
+         }"
+         title="MD (768px+)"></div>
+    <div class="w-2 h-2 rounded-full"
+         [ngClass]="{
+           'bg-primary-foreground': deviceInfo().breakpoint === 'lg',
+           'bg-primary-foreground/30': deviceInfo().breakpoint !== 'lg'
+         }"
+         title="LG (1024px+)"></div>
+    <div class="w-2 h-2 rounded-full"
+         [ngClass]="{
+           'bg-primary-foreground': deviceInfo().breakpoint === 'xl',
+           'bg-primary-foreground/30': deviceInfo().breakpoint !== 'xl'
+         }"
+         title="XL (1280px+)"></div>
+    <div class="w-2 h-2 rounded-full"
+         [ngClass]="{
+           'bg-primary-foreground': deviceInfo().breakpoint === '2xl',
+           'bg-primary-foreground/30': deviceInfo().breakpoint !== '2xl'
+         }"
+         title="2XL (1536px+)"></div>
+  </div>
 </div>

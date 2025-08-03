@@ -1,4 +1,5 @@
 <div>
   <router-outlet></router-outlet>
-  <ngx-sonner-toaster [theme]="themeService.isDark ? 'dark' : 'light'"></ngx-sonner-toaster>
+  <app-responsive-helper [hidden]="true"></app-responsive-helper>
+  <ngx-sonner-toaster [theme]="'light'"></ngx-sonner-toaster>
 </div>

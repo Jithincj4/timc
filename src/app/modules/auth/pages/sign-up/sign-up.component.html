@@ -1,160 +1,140 @@
-<div class="min-h-screen bg-gradient-to-br from-background to-card p-4">
-  <div class="max-w-md mx-auto">
+<div class="w-full max-w-md mx-auto">
     <!-- Progress Indicator -->
-    <div class="mb-8">
+    <div class="mb-6 sm:mb-8">
       <div class="flex items-center justify-between mb-2">
         <div *ngFor="let step of steps; let i = index" class="flex items-center">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium"
+          <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-medium"
                [ngClass]="currentStep >= i ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'">
             {{i + 1}}
           </div>
-          <div *ngIf="i < steps.length - 1" class="w-12 h-1 mx-1"
+          <div *ngIf="i < steps.length - 1" class="w-8 sm:w-12 h-1 mx-1"
                [ngClass]="currentStep > i ? 'bg-primary' : 'bg-muted'"></div>
         </div>
       </div>
-      <div class="text-center text-sm text-muted-foreground">
+      <div class="text-center text-xs sm:text-sm text-muted-foreground">
         Step {{currentStep + 1}} of {{steps.length}}: {{steps[currentStep].title}}
       </div>
     </div>
-
-    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="bg-card rounded-2xl shadow-lg p-6">
+    
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="bg-card rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6">
       <!-- Step 1: Personal Information -->
-      <div *ngIf="currentStep === 0" class="space-y-5 animate-fade-in">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-primary">Personal Information</h2>
+      <div *ngIf="currentStep === 0" class="space-y-4 sm:space-y-5 animate-fade-in">
+        <div class="text-center mb-4 sm:mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-primary">Personal Information</h2>
           <p class="text-muted-foreground text-sm mt-1">Let's start with your basic details</p>
         </div>
-
         <div>
           <label class="block text-sm font-medium text-foreground mb-1.5">Full Name</label>
           <input type="text" formControlName="fullName" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                 class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base"
                  placeholder="John Doe" />
         </div>
-
         <div>
           <label class="block text-sm font-medium text-foreground mb-1.5">Date of Birth</label>
           <input type="date" formControlName="dateOfBirth" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                 class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base" />
         </div>
-
-        <div>
-          <label class="block text-sm font-medium text-foreground mb-1.5">Gender</label>
-          <div class="grid grid-cols-3 gap-2">
-            <label *ngFor="let gender of genders" class="flex items-center justify-center p-3 rounded-xl border border-border cursor-pointer transition-all"
-                   [ngClass]="signUpForm.get('gender')?.value === gender.value ? 'border-primary bg-primary/10' : 'hover:bg-muted/50'">
-              <input type="radio" formControlName="gender" [value]="gender.value" class="sr-only" />
-              <span class="text-sm font-medium">{{gender.label}}</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-foreground mb-1.5">Nationality</label>
-          <input type="text" formControlName="nationality" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                 placeholder="e.g. American" />
-        </div>
-      </div>
-
-      <!-- Step 2: Identification Details -->
-      <div *ngIf="currentStep === 1" class="space-y-5 animate-fade-in">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-primary">Identification</h2>
-          <p class="text-muted-foreground text-sm mt-1">Provide your identification details</p>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-foreground mb-1.5">ID Type</label>
-          <div class="grid grid-cols-2 gap-3">
-            <label *ngFor="let idType of idTypes" class="flex items-center justify-center p-3 rounded-xl border border-border cursor-pointer transition-all"
-                   [ngClass]="signUpForm.get('identificationType')?.value === idType.value ? 'border-primary bg-primary/10' : 'hover:bg-muted/50'">
-              <input type="radio" formControlName="identificationType" [value]="idType.value" class="sr-only" />
-              <span class="text-sm font-medium">{{idType.label}}</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-foreground mb-1.5">ID Number</label>
-          <input type="text" formControlName="passportNumber" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                 placeholder="Enter your ID number" />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-foreground mb-1.5">Expiry Date</label>
-          <input type="date" formControlName="passportExpiryDate" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
-        </div>
-      </div>
-
-      <!-- Step 3: Account Setup -->
-      <div *ngIf="currentStep === 2" class="space-y-5 animate-fade-in">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-primary">Account Setup</h2>
-          <p class="text-muted-foreground text-sm mt-1">Create your login credentials</p>
-        </div>
-
         <div>
           <label class="block text-sm font-medium text-foreground mb-1.5">Email Address</label>
           <input type="email" formControlName="email" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                 class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base"
                  placeholder="you@example.com" />
         </div>
-
         <div>
           <label class="block text-sm font-medium text-foreground mb-1.5">Password</label>
           <div class="relative">
             <input [type]="showPassword ? 'text' : 'password'" formControlName="password" 
-                   class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base"
                    placeholder="Create a strong password" />
             <button type="button" (click)="togglePassword()" 
-                    class="absolute inset-y-0 right-0 flex items-center pr-4 text-muted-foreground">
-              <svg-icon [src]="showPassword ? 'assets/icons/heroicons/outline/eye.svg' : 'assets/icons/heroicons/outline/eye-off.svg'" [svgClass]="'h-5 w-5'"></svg-icon>
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 sm:pr-4 text-muted-foreground touch-target">
+              <svg-icon [src]="showPassword ? 'assets/icons/heroicons/outline/eye.svg' : 'assets/icons/heroicons/outline/eye-off.svg'" [svgClass]="'h-4 w-4 sm:h-5 sm:w-5'"></svg-icon>
             </button>
           </div>
         </div>
-
+      </div>
+      
+      <!-- Step 2: Identification Details -->
+      <div *ngIf="currentStep === 1" class="space-y-4 sm:space-y-5 animate-fade-in">
+        <div class="text-center mb-4 sm:mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-primary">Identification</h2>
+          <p class="text-muted-foreground text-sm mt-1">Provide your identification details</p>
+        </div>
         <div>
-          <label class="block text-sm font-medium text-foreground mb-1.5">Confirm Password</label>
-          <input type="password" formControlName="confirmPassword" 
-                 class="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                 placeholder="Re-enter your password" />
+          <label class="block text-sm font-medium text-foreground mb-1.5">ID Type</label>
+          <div class="grid grid-cols-2 gap-2 sm:gap-3">
+            <label *ngFor="let idType of idTypes" class="flex items-center justify-center p-2.5 sm:p-3 rounded-lg sm:rounded-xl border border-border cursor-pointer transition-all touch-target"
+                   [ngClass]="signUpForm.get('identificationType')?.value === idType.value ? 'border-primary bg-primary/10' : 'hover:bg-muted/50'">
+              <input type="radio" formControlName="identificationType" [value]="idType.value" class="sr-only" />
+              <span class="text-xs sm:text-sm font-medium">{{idType.label}}</span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-foreground mb-1.5">ID Number</label>
+          <input type="text" formControlName="passportNumber" 
+                 class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base"
+                 placeholder="Enter your ID number" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-foreground mb-1.5">Expiry Date</label>
+          <input type="date" formControlName="passportExpiryDate" 
+                 class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-foreground mb-1.5">Nationality</label>
+          <input type="text" formControlName="nationality" 
+                 class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm sm:text-base"
+                 placeholder="e.g. American" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-foreground mb-1.5">Gender</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label *ngFor="let gender of genders" class="flex items-center justify-center p-2.5 sm:p-3 rounded-lg sm:rounded-xl border border-border cursor-pointer transition-all touch-target"
+                   [ngClass]="signUpForm.get('gender')?.value === gender.value ? 'border-primary bg-primary/10' : 'hover:bg-muted/50'">
+              <input type="radio" formControlName="gender" [value]="gender.value" class="sr-only" />
+              <span class="text-xs sm:text-sm font-medium">{{gender.label}}</span>
+            </label>
+          </div>
         </div>
       </div>
-
-      <!-- Step 4: Document Upload -->
-      <div *ngIf="currentStep === 3" class="space-y-5 animate-fade-in">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-primary">Upload Document</h2>
-          <p class="text-muted-foreground text-sm mt-1">Upload your ID document</p>
+      
+      <!-- Step 3: Document Upload & Terms -->
+      <div *ngIf="currentStep === 2" class="space-y-4 sm:space-y-5 animate-fade-in">
+        <div class="text-center mb-4 sm:mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-primary">Finalize Registration</h2>
+          <p class="text-muted-foreground text-sm mt-1">Upload your document and accept terms</p>
         </div>
-
-        <div class="border-2 border-dashed border-border rounded-xl p-8 text-center">
-          <div class="flex justify-center mb-4">
-            <svg-icon src="assets/icons/heroicons/outline/document-text.svg" [svgClass]="'h-12 w-12 text-muted-foreground'"></svg-icon>
+        
+        <!-- Document Upload -->
+        <div class="border-2 border-dashed border-border rounded-lg sm:rounded-xl p-6 sm:p-8 text-center">
+          <div class="flex justify-center mb-3 sm:mb-4">
+            <svg-icon src="assets/icons/heroicons/outline/document-text.svg" [svgClass]="'h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground'"></svg-icon>
           </div>
           <p class="text-sm text-muted-foreground mb-2">Upload your passport or ID document</p>
-          <p class="text-xs text-muted-foreground mb-4">PDF, JPG or PNG (Max. 5MB)</p>
-          <label class="inline-block px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium cursor-pointer hover:bg-primary/90 transition-colors">
+          <p class="text-xs text-muted-foreground mb-3 sm:mb-4">PDF, JPG or PNG (Max. 5MB)</p>
+          <label class="inline-block px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium cursor-pointer hover:bg-primary/90 transition-colors touch-target">
             Choose File
             <input type="file" id="idDocument" (change)="onFileChange($event)" class="hidden" />
           </label>
-          <div *ngIf="uploadedFileName" class="mt-4 text-sm text-foreground">
+          <div *ngIf="uploadedFileName" class="mt-3 sm:mt-4 text-sm text-foreground">
             Selected: {{uploadedFileName}}
           </div>
         </div>
-      </div>
-
-      <!-- Step 5: Terms & Submission -->
-      <div *ngIf="currentStep === 4" class="space-y-5 animate-fade-in">
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-primary">Almost Done!</h2>
-          <p class="text-muted-foreground text-sm mt-1">Review and submit your registration</p>
+        
+        <!-- Terms & Conditions -->
+        <div class="flex items-start gap-3 mt-4 sm:mt-6">
+          <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" 
+                 class="mt-1 h-4 w-4 sm:h-5 sm:w-5 rounded border-border text-primary focus:ring-primary touch-target" />
+          <label for="acceptTerms" class="text-sm text-muted-foreground leading-relaxed">
+            I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and 
+            <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+          </label>
         </div>
-
-        <div class="bg-muted/50 rounded-xl p-4 space-y-3">
+        
+        <!-- Summary -->
+        <div class="bg-muted/50 rounded-lg sm:rounded-xl p-3 sm:p-4 space-y-2 sm:space-y-3 mt-4 sm:mt-6">
+          <h3 class="font-medium text-foreground text-sm sm:text-base">Registration Summary</h3>
           <div class="flex justify-between">
             <span class="text-sm text-muted-foreground">Full Name:</span>
             <span class="text-sm font-medium">{{signUpForm.get('fullName')?.value || 'Not provided'}}</span>
@@ -168,44 +148,34 @@
             <span class="text-sm font-medium">{{signUpForm.get('identificationType')?.value || 'Not provided'}}</span>
           </div>
         </div>
-
-        <div class="flex items-start gap-3">
-          <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" 
-                 class="mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary" />
-          <label for="acceptTerms" class="text-sm text-muted-foreground">
-            I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and 
-            <a href="#" class="text-primary hover:underline">Privacy Policy</a>
-          </label>
-        </div>
       </div>
-
+      
       <!-- Navigation Buttons -->
-      <div class="flex justify-between mt-8">
+      <div class="flex justify-between mt-6 sm:mt-8 gap-3">
         <button type="button" *ngIf="currentStep > 0" (click)="previousStep()" 
-                class="px-5 py-2.5 border border-border rounded-xl text-foreground hover:bg-muted/50 transition-colors">
+                class="px-4 sm:px-5 py-2.5 border border-border rounded-lg sm:rounded-xl text-foreground hover:bg-muted/50 transition-colors touch-target text-sm sm:text-base">
           Previous
         </button>
         
-        <div *ngIf="currentStep === 0" class="w-full"></div>
+        <div *ngIf="currentStep === 0" class="flex-1"></div>
         
         <button type="button" *ngIf="currentStep < steps.length - 1" (click)="nextStep()" 
                 [disabled]="!isCurrentStepValid()" 
-                class="ml-auto px-5 py-2.5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                class="ml-auto px-4 sm:px-5 py-2.5 bg-primary text-primary-foreground rounded-lg sm:rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-target text-sm sm:text-base">
           Next
         </button>
         
         <button type="submit" *ngIf="currentStep === steps.length - 1" 
                 [disabled]="signUpForm.invalid" 
-                class="ml-auto px-5 py-2.5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                class="ml-auto px-4 sm:px-5 py-2.5 bg-primary text-primary-foreground rounded-lg sm:rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-target text-sm sm:text-base">
           Create Account
         </button>
       </div>
     </form>
-
+    
     <!-- Sign In Link -->
-    <div class="text-center mt-6 text-sm text-muted-foreground">
+    <div class="text-center mt-4 sm:mt-6 text-sm text-muted-foreground">
       Already have an account? 
-      <a (click)="onNavigateToSignIn()" class="text-primary font-medium hover:underline">Sign in</a>
+      <a (click)="onNavigateToSignIn()" class="text-primary font-medium hover:underline touch-target">Sign in</a>
     </div>
-  </div>
 </div>

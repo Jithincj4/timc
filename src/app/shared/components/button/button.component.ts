@@ -35,7 +35,7 @@ export class ButtonComponent implements OnInit {
   public classes: string = '';
 
   baseClasses =
-    'font-semibold focus-visible:outline-none flex items-center justify-center focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-px disabled:pointer-events-none disabled:opacity-50';
+    'font-semibold focus-visible:outline-none flex items-center justify-center focus-visible:ring-2 focus-visible:ring-offset-2 active:translate-y-px disabled:pointer-events-none disabled:opacity-50 transition-all duration-200 touch-friendly';
 
   impactClasses: Record<ButtonProps['tone'], Record<ButtonProps['impact'], string>> = {
     primary: {
@@ -71,9 +71,9 @@ export class ButtonComponent implements OnInit {
   };
 
   sizeClasses: Record<ButtonProps['size'], string> = {
-    small: 'px-3 py-1 text-xs',
-    medium: 'px-5 py-2 text-sm',
-    large: 'px-7 py-2.5 text-lg',
+    small: 'px-3 py-1.5 text-xs min-h-[32px] xs:px-4 xs:py-2',
+    medium: 'px-4 py-2 text-sm min-h-[40px] xs:px-5 xs:py-2.5 sm:px-6 sm:py-3',
+    large: 'px-6 py-3 text-base min-h-[48px] xs:px-7 xs:py-3.5 sm:px-8 sm:py-4 sm:text-lg',
   };
 
   shapeClasses: Record<ButtonProps['shape'], string> = {
@@ -99,6 +99,8 @@ export class ButtonComponent implements OnInit {
       this.shapeClasses[this.shape()],
       this.shadowClasses[this.shadow()],
       this.full() ? 'w-full' : '',
+      'touch-target',
+      '@media (hover: none) { hover:scale-105 }',
     );
   }
 

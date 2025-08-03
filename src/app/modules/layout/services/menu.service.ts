@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Injectable, OnDestroy, signal, effect } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from 'src/app/core/constants/menu';
@@ -8,7 +8,7 @@ import { MenuItem, SubMenuItem } from 'src/app/core/models/menu.model';
   providedIn: 'root',
 })
 export class MenuService implements OnDestroy {
-  private _showSidebar = signal(true);
+  private _showSidebar = signal(false);
   private _showMobileMenu = signal(false);
   private _pagesMenu = signal<MenuItem[]>([]);
   private _subscription = new Subscription();
@@ -16,6 +16,17 @@ export class MenuService implements OnDestroy {
   constructor(private router: Router) {
     /** Set dynamic menu */
     this._pagesMenu.set(Menu.pages);
+
+    // Initialize sidebar state based on screen size
+    this.initializeSidebarState();
+
+    // Listen to window resize events
+    if (typeof window !== 'undefined') {
+      const resizeObserver = new ResizeObserver(() => {
+        this.handleScreenResize();
+      });
+      resizeObserver.observe(document.body);
+    }
 
     let sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -38,6 +49,31 @@ export class MenuService implements OnDestroy {
     this._subscription.add(sub);
   }
 
+  private initializeSidebarState(): void {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('sidebarState');
+      if (stored) {
+        this._showSidebar.set(false); // Force sidebar to be hidden regardless of stored state
+      } else {
+        // Default to hidden
+        this._showSidebar.set(false);
+      }
+    }
+  }
+
+  private handleScreenResize(): void {
+    if (typeof window !== 'undefined') {
+      const isLargeScreen = window.innerWidth >= 1280;
+      // Auto-collapse on smaller screens, but respect user preference on large screens
+      if (window.innerWidth < 1024) {
+        this._showSidebar.set(false);
+      } else if (isLargeScreen && !this._showSidebar()) {
+        // Optional: Auto-expand on very large screens
+        // this._showSidebar.set(true);
+      }
+    }
+  }
+
   get showSideBar() {
     return this._showSidebar();
   }
@@ -56,7 +92,13 @@ export class MenuService implements OnDestroy {
   }
 
   public toggleSidebar() {
-    this._showSidebar.set(!this._showSidebar());
+    const newState = !this._showSidebar();
+    this._showSidebar.set(newState);
+    
+    // Persist sidebar state
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('sidebarState', JSON.stringify(newState));
+    }
   }
 
   public toggleMenu(menu: SubMenuItem) {

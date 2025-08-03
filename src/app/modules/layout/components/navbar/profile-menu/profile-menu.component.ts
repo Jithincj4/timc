@@ -83,11 +83,7 @@ export class ProfileMenuComponent implements OnInit {
   public themeMode = ['light', 'dark'];
   public themeDirection = ['ltr', 'rtl'];
 
-  constructor(public themeService: ThemeService) {
-    this.themeService.theme.update((theme) => {
-      return { ...theme, color: 'green', mode: 'light' };
-    });
-  }
+  constructor(public themeService: ThemeService) {}
 
   ngOnInit(): void {}
 

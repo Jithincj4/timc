@@ -33,18 +33,16 @@ export class SignUpComponent implements OnInit {
   
   steps = [
     { title: 'Personal Information' },
-    { title: 'Identification' },
-    { title: 'Account Setup' },
-    { title: 'Document Upload' },
-    { title: 'Review & Submit' }
+    { title: 'Identification Details' },
+    { title: 'Finalize Registration' }
   ];
-
+  
   genders = [
     { value: 'Male', label: 'Male' },
     { value: 'Female', label: 'Female' },
     { value: 'Other', label: 'Other' }
   ];
-
+  
   idTypes = [
     { value: 'Passport', label: 'Passport' },
     { value: 'National ID', label: 'National ID' }
@@ -115,22 +113,23 @@ export class SignUpComponent implements OnInit {
   isCurrentStepValid(): boolean {
     switch (this.currentStep) {
       case 0:
+        // Personal Information step
         return !!this.signUpForm.get('fullName')?.valid &&
-               !!this.signUpForm.get('gender')?.valid &&
                !!this.signUpForm.get('dateOfBirth')?.valid &&
-               !!this.signUpForm.get('nationality')?.valid;
-      case 1:
-        return !!this.signUpForm.get('identificationType')?.valid &&
-               !!this.signUpForm.get('passportNumber')?.valid &&
-               !!this.signUpForm.get('passportExpiryDate')?.valid;
-      case 2:
-        return !!this.signUpForm.get('email')?.valid &&
+               !!this.signUpForm.get('email')?.valid &&
                !!this.signUpForm.get('password')?.valid &&
                !!this.signUpForm.get('confirmPassword')?.valid;
-      case 3:
-        return this.uploadedFileName !== null;
-      case 4:
-        return !!this.signUpForm.get('acceptTerms')?.valid;
+      case 1:
+        // Identification Details step
+        return !!this.signUpForm.get('identificationType')?.valid &&
+               !!this.signUpForm.get('passportNumber')?.valid &&
+               !!this.signUpForm.get('passportExpiryDate')?.valid &&
+               !!this.signUpForm.get('nationality')?.valid &&
+               !!this.signUpForm.get('gender')?.valid;
+      case 2:
+        // Finalize Registration step
+        return this.uploadedFileName !== null &&
+               !!this.signUpForm.get('acceptTerms')?.valid;
       default:
         return true;
     }
