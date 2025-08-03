@@ -1,0 +1,15 @@
+<div class="flex h-screen w-screen overflow-hidden">
+  <!-- Left Section -->
+  <div class="bg-background flex flex-1 items-center justify-center overflow-auto">
+    <div class="max-w-md w-full px-4 sm:w-[500px]">
+      <!-- Logo -->
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <a class="bg-primary rounded-sm p-2">
+          <svg-icon src="assets/icons/logo.svg" [svgClass]="'h-5 w-5'"> </svg-icon>
+        </a>
+        <b class="text-md text-foreground font-bold"> TIMC</b>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

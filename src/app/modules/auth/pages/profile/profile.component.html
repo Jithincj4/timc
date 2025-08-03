@@ -1,0 +1,13 @@
+<div class="profile-container">
+  <h1>User Profile</h1>
+  <div *ngIf="userDetails; else noData">
+    <p><strong>Full Name:</strong> {{ userDetails.fullName }}</p>
+    <p><strong>Email:</strong> {{ userDetails.email }}</p>
+    <p><strong>Gender:</strong> {{ userDetails.gender }}</p>
+    <p><strong>Date of Birth:</strong> {{ userDetails.dateOfBirth }}</p>
+    <p><strong>Nationality:</strong> {{ userDetails.nationality }}</p>
+  </div>
+  <ng-template #noData>
+    <p>No user details available.</p>
+  </ng-template>
+</div>

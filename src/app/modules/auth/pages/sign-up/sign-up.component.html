@@ -1,0 +1,110 @@
+
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="space-y-6 w-full max-w-lg bg-background p-6 rounded-lg shadow-md">
+    <!-- Header -->
+    <div class="text-center">
+      <h2 class="text-primary mb-2 text-3xl font-bold"></h2>
+      <p class="text-primary text-sm">Register Patient for international medical support</p>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="space-y-4">
+      <!-- Full Name -->
+      <div class="relative">
+        <label for="fullName" class="block text-sm font-medium text-muted-foreground mb-1">Full Name</label>
+        <input type="text" formControlName="fullName" id="fullName" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" placeholder="Enter your full name" />
+      </div>
+
+      <!-- Gender and Date of Birth -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative">
+          <label for="gender" class="block text-sm font-medium text-muted-foreground mb-1">Gender</label>
+          <select formControlName="gender" id="gender" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary">
+            <option value="" disabled>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="relative">
+          <label for="dateOfBirth" class="block text-sm font-medium text-muted-foreground mb-1">Date of Birth</label>
+          <input type="date" formControlName="dateOfBirth" id="dateOfBirth" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" />
+        </div>
+      </div>
+
+      <!-- Nationality -->
+      <div class="relative">
+        <label for="nationality" class="block text-sm font-medium text-muted-foreground mb-1">Nationality</label>
+        <input type="text" formControlName="nationality" id="nationality" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" placeholder="Enter your nationality" />
+      </div>
+
+      <!-- Identification Type and Passport Number -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative">
+          <label for="identificationType" class="block text-sm font-medium text-muted-foreground mb-1">Identification Type</label>
+          <select formControlName="identificationType" id="identificationType" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary">
+            <option value="" disabled>Select Identification Type</option>
+            <option value="Passport">Passport</option>
+            <option value="National ID">National ID</option>
+          </select>
+        </div>
+        <div class="relative">
+          <label for="passportNumber" class="block text-sm font-medium text-muted-foreground mb-1">Passport / ID Number</label>
+          <input type="text" formControlName="passportNumber" id="passportNumber" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" placeholder="Enter passport or ID number" />
+        </div>
+      </div>
+
+      <!-- Passport Expiry Date -->
+      <div class="relative">
+        <label for="passportExpiryDate" class="block text-sm font-medium text-muted-foreground mb-1">Passport Expiry Date</label>
+        <input type="date" formControlName="passportExpiryDate" id="passportExpiryDate" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" />
+      </div>
+
+      <!-- Email -->
+      <div class="relative">
+        <label for="email" class="block text-sm font-medium text-muted-foreground mb-1">Email Address</label>
+        <input type="email" formControlName="email" id="email" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" placeholder="Enter your email address" />
+      </div>
+
+      <!-- Password and Confirm Password -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative">
+          <label for="password" class="block text-sm font-medium text-muted-foreground mb-1">Password</label>
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" id="password" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" placeholder="Enter your password" />
+          <span class="absolute right-3 top-3 cursor-pointer" (click)="togglePassword()">
+            <svg-icon [src]="showPassword ? 'assets/icons/heroicons/outline/eye.svg' : 'assets/icons/heroicons/outline/eye-off.svg'" [svgClass]="'h-5 w-5 text-muted-foreground hover:text-primary'"></svg-icon>
+          </span>
+        </div>
+        <div class="relative">
+          <label for="confirmPassword" class="block text-sm font-medium text-muted-foreground mb-1">Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" id="confirmPassword" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" placeholder="Confirm your password" />
+        </div>
+      </div>
+
+      <!-- File Upload -->
+      <div class="relative">
+        <label for="idDocument" class="block text-sm font-medium text-muted-foreground mb-1">Upload Passport / ID Document (PDF or image)</label>
+        <input type="file" id="idDocument" (change)="onFileChange($event)" class="block w-full rounded-md border border-muted-foreground bg-background text-foreground p-2 focus:outline-none focus:ring focus:ring-primary" />
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="flex items-center gap-2 mt-4">
+        <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" class="rounded border-muted-foreground focus:ring-primary" />
+        <label for="acceptTerms" class="text-sm text-muted-foreground">I accept the terms and conditions</label>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <app-button full impact="bold" tone="primary" shape="rounded" size="medium" [disabled]="signUpForm.invalid">
+        Sign up
+      </app-button>
+    </div>
+
+    <!-- Already Have an Account -->
+    <div class="text-muted-foreground flex items-center justify-center text-sm mt-4">
+      Already have an account?
+      <app-button (buttonClick)="onNavigateToSignIn()" routerLink="/sign-in" impact="none" tone="primary" shape="rounded" size="small" class="ml-2">
+        Sign in
+      </app-button>
+    </div>
+  </form>

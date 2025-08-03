@@ -1,0 +1,57 @@
+<nav
+  [ngClass]="menuService.showSideBar ? 'w-[200px] xl:w-[260px]' : 'w-[60px]'"
+  class="bg-background hidden h-full flex-col justify-between pt-2 transition-all duration-300 lg:flex">
+  <div class="overflow-hidden">
+    <!-- Logo -->
+    <div
+      [ngClass]="menuService.showSideBar ? 'justify-between items-center' : 'justify-center items-center'"
+      class="mx-3 mb-1 flex h-8">
+      <div class="flex items-center" *ngIf="menuService.showSideBar">
+        <!-- <a
+          (click)="toggleSidebar()"
+          class="bg-primary flex cursor-pointer items-center justify-center rounded-sm p-1 focus:outline-hidden focus:ring-1">
+          <svg-icon src="assets/icons/logo.svg"> </svg-icon>
+        </a> -->
+        <b class="text-foreground ps-1 ml-1 grow text-xs font-bold">
+          {{ appJson.displayName }}
+        </b>
+      </div>
+      <button
+        (click)="toggleSidebar()"
+        class="text-muted-foreground/50 hover:text-muted-foreground flex items-center justify-center rounded-md p-1 transition-all duration-200 focus:outline-hidden"
+        [ngClass]="{ 'rotate-180': !menuService.showSideBar }">
+        <svg-icon src="assets/icons/heroicons/solid/chevron-double-left.svg"> </svg-icon>
+      </button>
+    </div>
+
+    <!-- Menu Items -->
+    <div
+      class="scrollbar-thumb--sm scrollbar-track-rounded scrollbar-thin scrollbar-track-transparent scrollbar-thumb-card h-full overflow-auto px-3">
+      <app-sidebar-menu></app-sidebar-menu>
+    </div>
+  </div>
+
+  <div class="mx-3 my-3 space-y-1">
+    <!-- Version -->
+    <a
+      target="_blank"
+      href="https://github.com/luciano-work/angular-tailwind"
+      class="-sm hover:bg-card group flex h-8 cursor-pointer items-center justify-start p-1">
+      <svg-icon
+        src="assets/icons/heroicons/outline/information-circle.svg"
+        [svgClass]="'h-4 w-4 text-muted-foreground/50'">
+      </svg-icon>
+
+      <div class="ml-2 truncate text-[9px] font-semibold tracking-wide focus:outline-hidden">
+        <span class="bg-primary/10 text-primary px-1 font-semibold">v{{ appJson.version }}</span>
+      </div>
+
+      <div class="fixed w-full" *ngIf="!menuService.showSideBar">
+        <span
+          class="z-1 bg-foreground text-background absolute left-10 -top-3 w-auto min-w-max origin-left scale-0 p-1 text-xs font-bold shadow-md transition-all duration-200 group-hover:scale-100">
+          v{{ appJson.version }}
+        </span>
+      </div>
+    </a>
+  </div>
+</nav>
