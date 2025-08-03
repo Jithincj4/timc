@@ -13,16 +13,8 @@ import { TableFilterService } from './services/table-filter.service';
 
 @Component({
   selector: 'app-table',
-  imports: [
-    AngularSvgIconModule,
-    FormsModule,
-    TableHeaderComponent,
-    TableFooterComponent,
-    TableRowComponent,
-    TableActionComponent,
-  ],
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.css',
+  imports: [],
+  template: '',
 })
 export class TableComponent implements OnInit {
   users = signal<User[]>([]);

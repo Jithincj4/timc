@@ -5,7 +5,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
   selector: '[app-table-header]',
   imports: [AngularSvgIconModule],
   templateUrl: './table-header.component.html',
-  styleUrl: './table-header.component.css',
+  styleUrls: [],
 })
 export class TableHeaderComponent {
   @Output() onCheck = new EventEmitter<boolean>();

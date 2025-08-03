@@ -5,6 +5,5 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-uikit',
   imports: [RouterOutlet],
   templateUrl: './uikit.component.html',
-  styleUrl: './uikit.component.css',
 })
 export class UikitComponent {}

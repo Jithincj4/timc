@@ -7,7 +7,7 @@ import { User } from '../../model/user.model';
   selector: '[app-table-row]',
   imports: [FormsModule, AngularSvgIconModule],
   templateUrl: './table-row.component.html',
-  styleUrl: './table-row.component.css',
+  styleUrls: [],
 })
 export class TableRowComponent {
   @Input() user: User = <User>{};

@@ -7,7 +7,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
   selector: 'app-error404',
   imports: [AngularSvgIconModule, ButtonComponent],
   templateUrl: './error404.component.html',
-  styleUrl: './error404.component.css',
+  styleUrls: [],
 })
 export class Error404Component {
   constructor(private router: Router) {}

@@ -8,7 +8,6 @@ import { MenuService } from '../../../services/menu.service';
 @Component({
   selector: 'app-sidebar-submenu',
   templateUrl: './sidebar-submenu.component.html',
-  styleUrls: ['./sidebar-submenu.component.css'],
   imports: [NgClass, NgFor, NgTemplateOutlet, RouterLinkActive, RouterLink, AngularSvgIconModule],
 })
 export class SidebarSubmenuComponent implements OnInit {

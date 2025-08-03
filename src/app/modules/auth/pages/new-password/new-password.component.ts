@@ -7,7 +7,6 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 @Component({
   selector: 'app-new-password',
   templateUrl: './new-password.component.html',
-  styleUrls: ['./new-password.component.css'],
   imports: [FormsModule, RouterLink, AngularSvgIconModule, ButtonComponent],
 })
 export class NewPasswordComponent implements OnInit {

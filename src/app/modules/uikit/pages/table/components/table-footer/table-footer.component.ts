@@ -5,6 +5,6 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
   selector: 'app-table-footer',
   imports: [AngularSvgIconModule],
   templateUrl: './table-footer.component.html',
-  styleUrl: './table-footer.component.css',
+  styleUrls: [],
 })
 export class TableFooterComponent {}

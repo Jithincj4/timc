@@ -5,7 +5,6 @@ import { ThemeService } from './core/services/theme.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
   imports: [RouterOutlet, NgxSonnerToaster],
 })
 export class AppComponent {

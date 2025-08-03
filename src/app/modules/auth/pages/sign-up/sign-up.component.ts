@@ -15,7 +15,6 @@ import { MockUserService } from '../../services/mock-user.service';
   selector: 'app-sign-up',
   standalone: true,
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
   imports: [ButtonComponent,   CommonModule,
     MatDatepickerModule,
     MatInputModule,
