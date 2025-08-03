@@ -71,7 +71,6 @@ export class SignUpComponent implements OnInit {
     if (this.signUpForm.invalid) return;
 
     const formValue = this.signUpForm.value;
-
     // Add user details
     this.userService.addUser({
       username: formValue.email,
