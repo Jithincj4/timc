@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -10,22 +9,53 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MockUserService } from '../../services/mock-user.service';
+import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   templateUrl: './sign-up.component.html',
-  imports: [ButtonComponent,   CommonModule,
+  imports: [
+    CommonModule,
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    MatFormFieldModule ,AngularSvgIconModule, ReactiveFormsModule],
+    MatFormFieldModule,
+    AngularSvgIconModule,
+    ReactiveFormsModule
+  ],
 })
 export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup;
   showPassword = false;
+  currentStep = 0;
+  uploadedFileName: string | null = null;
+  
+  steps = [
+    { title: 'Personal Information' },
+    { title: 'Identification' },
+    { title: 'Account Setup' },
+    { title: 'Document Upload' },
+    { title: 'Review & Submit' }
+  ];
 
-  constructor(private fb: FormBuilder, private router: Router, private dialog: MatDialog, private userService: MockUserService) {}
+  genders = [
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' },
+    { value: 'Other', label: 'Other' }
+  ];
+
+  idTypes = [
+    { value: 'Passport', label: 'Passport' },
+    { value: 'National ID', label: 'National ID' }
+  ];
+
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router, 
+    private dialog: MatDialog, 
+    private userService: MockUserService
+  ) {}
 
   ngOnInit(): void {
     this.signUpForm = this.fb.group(
@@ -43,7 +73,7 @@ export class SignUpComponent implements OnInit {
         acceptTerms: [false, Validators.requiredTrue],
         idDocument: [null, Validators.required],
       },
-      { validators: this.passwordMatchValidator },
+      { validators: this.passwordMatchValidator }
     );
   }
 
@@ -57,27 +87,67 @@ export class SignUpComponent implements OnInit {
     const file = event.target.files?.[0];
     if (file) {
       this.signUpForm.patchValue({ idDocument: file });
+      this.uploadedFileName = file.name;
     }
   }
+
   openDatePicker(fieldName: string): void {
     console.log(`Date picker opened for field: ${fieldName}`);
     // Add logic to open the date picker if applicable
   }
+
   onNavigateToSignIn(): void {
     this.router.navigate(['/sign-in']);
   }
-  //oN SUBMIT CALL USER SERVICE TO ADD USER AND PATIENT DETAILS
-  onSubmit(): void {
-    if (this.signUpForm.invalid) return;
 
+  nextStep(): void {
+    if (this.currentStep < this.steps.length - 1 && this.isCurrentStepValid()) {
+      this.currentStep++;
+    }
+  }
+
+  previousStep(): void {
+    if (this.currentStep > 0) {
+      this.currentStep--;
+    }
+  }
+
+  isCurrentStepValid(): boolean {
+    switch (this.currentStep) {
+      case 0:
+        return !!this.signUpForm.get('fullName')?.valid &&
+               !!this.signUpForm.get('gender')?.valid &&
+               !!this.signUpForm.get('dateOfBirth')?.valid &&
+               !!this.signUpForm.get('nationality')?.valid;
+      case 1:
+        return !!this.signUpForm.get('identificationType')?.valid &&
+               !!this.signUpForm.get('passportNumber')?.valid &&
+               !!this.signUpForm.get('passportExpiryDate')?.valid;
+      case 2:
+        return !!this.signUpForm.get('email')?.valid &&
+               !!this.signUpForm.get('password')?.valid &&
+               !!this.signUpForm.get('confirmPassword')?.valid;
+      case 3:
+        return this.uploadedFileName !== null;
+      case 4:
+        return !!this.signUpForm.get('acceptTerms')?.valid;
+      default:
+        return true;
+    }
+  }
+
+  onSubmit(): void {
+    if (this.signUpForm.invalid || this.currentStep !== this.steps.length - 1) return;
+    
     const formValue = this.signUpForm.value;
+    
     // Add user details
     this.userService.addUser({
       username: formValue.email,
       password: formValue.password,
       userType: 0, // 0 for Patient
     });
-
+    
     // Add patient details
     this.userService.addPatientDetails({
       fullName: formValue.fullName,
@@ -89,12 +159,20 @@ export class SignUpComponent implements OnInit {
       passportExpiryDate: formValue.passportExpiryDate,
       email: formValue.email,
     });
-
-    this.router.navigate(['/dashboard']);
+    
+    // Show success dialog
+    this.dialog.open(SuccessDialogComponent, {
+      data: {
+        title: 'Registration Successful',
+        message: 'Your account has been created successfully!',
+        buttonText: 'Go to Dashboard'
+      }
+    }).afterClosed().subscribe(() => {
+      this.router.navigate(['/dashboard']);
+    });
   }
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
-
 }
