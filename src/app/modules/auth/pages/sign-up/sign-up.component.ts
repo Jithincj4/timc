@@ -64,7 +64,7 @@ export class SignUpComponent implements OnInit {
     // Add logic to open the date picker if applicable
   }
   onNavigateToSignIn(): void {
-    this.router.navigate(['/auth/sign-in']);
+    this.router.navigate(['/sign-in']);
   }
   //oN SUBMIT CALL USER SERVICE TO ADD USER AND PATIENT DETAILS
   onSubmit(): void {

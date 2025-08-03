@@ -292,6 +292,12 @@ select {
   @apply h-4 w-4 rounded-sm border-border bg-background checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary focus:ring-2 focus:ring-primary;
 }
 
+/* Add text-size-adjust for better browser compatibility */
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* Ensure the signup form is fully visible and responsive */
 .signup-container {
   display: flex;
@@ -316,4 +322,36 @@ select {
 body {
   margin: 0;
   overflow: hidden;
+}
+
+/* Add comments for unsupported scrollbar properties */
+/* Note: scrollbar-color and scrollbar-width are not supported by Safari */
+.scrollbar {
+  scrollbar-color: var(--muted) var(--background);
+  scrollbar-width: thin;
+}
+
+/* Responsive adjustments for signup form */
+@media (max-width: 640px) {
+  .signup-container {
+    padding: 0.5rem;
+  }
+
+  .signup-form {
+    padding: 1rem;
+    box-shadow: none;
+  }
+
+  .signup-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .signup-form p {
+    font-size: 0.875rem;
+  }
+
+  .signup-form input,
+  .signup-form select {
+    font-size: 0.875rem;
+  }
 }

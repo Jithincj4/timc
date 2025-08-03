@@ -45,7 +45,7 @@ export class ProfileMenuComponent implements OnInit {
     {
       title: 'Log out',
       icon: './assets/icons/heroicons/outline/logout.svg',
-      link: '/auth',
+      link: '/sign-in',
     },
   ];
 
@@ -83,7 +83,11 @@ export class ProfileMenuComponent implements OnInit {
   public themeMode = ['light', 'dark'];
   public themeDirection = ['ltr', 'rtl'];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) {
+    this.themeService.theme.update((theme) => {
+      return { ...theme, color: 'green', mode: 'light' };
+    });
+  }
 
   ngOnInit(): void {}
 

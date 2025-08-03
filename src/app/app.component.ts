@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSonnerToaster } from 'ngx-sonner';
 import { ThemeService } from './core/services/theme.service';
@@ -7,8 +7,16 @@ import { ThemeService } from './core/services/theme.service';
   templateUrl: './app.component.html',
   imports: [RouterOutlet, NgxSonnerToaster],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'FuFiConnect';
 
   constructor(public themeService: ThemeService) {}
+
+  ngOnInit(): void {
+    this.themeService.theme.update((theme) => ({
+      ...theme,
+      color: 'green',
+      mode: 'light',
+    }));
+  }
 }
