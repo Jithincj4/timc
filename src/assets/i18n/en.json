@@ -1,0 +1,83 @@
+{
+  "auth": {
+    "title": "Hello Again",
+    "subtitle": "Enter your credential to access your account.",
+    "email": {
+      "label": "Email address",
+      "errors": {
+        "required": "Required field",
+        "invalid": "Email must be a valid email address"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "errors": {
+        "required": "Required field"
+      },
+      "toggle": {
+        "show": "Show password",
+        "hide": "Hide password"
+      }
+    },
+    "remember": "Remember me",
+    "forgot": "Forgot your password?",
+    "login": "Sign in",
+    "signup": {
+      "prompt": "Not a Member yet?",
+      "action": "Sign up"
+    }
+  },
+  "signup": {
+    "steps": [
+      { "title": "Personal Information" },
+      { "title": "Identification" },
+      { "title": "Finalize Registration" }
+    ],
+    "personal": {
+      "heading": "Personal Information",
+      "subheading": "Let's start with your basic details",
+      "fullName": "Full Name",
+      "dob": "Date of Birth",
+      "email": "Email Address",
+      "password": "Password",
+      "passwordPlaceholder": "Create a strong password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "identification": {
+      "heading": "Identification",
+      "subheading": "Provide your identification details",
+      "idType": "ID Type",
+      "idNumber": "ID Number",
+      "expiryDate": "Expiry Date",
+      "nationality": "Nationality",
+      "gender": "Gender"
+    },
+    "final": {
+      "heading": "Finalize Registration",
+      "subheading": "Upload your document and accept terms",
+      "uploadTitle": "Upload your passport or ID document",
+      "uploadNote": "PDF, JPG or PNG (Max. 5MB)",
+      "chooseFile": "Choose File",
+      "termsText": "I agree to the",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy",
+      "summaryTitle": "Registration Summary",
+      "summary": {
+        "name": "Full Name:",
+        "email": "Email:",
+        "idType": "ID Type:"
+      }
+    },
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Create Account",
+      "alreadyHaveAccount": "Already have an account?",
+      "signin": "Sign in"
+    },
+    "generic": {
+      "notProvided": "Not provided"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "auth": {
+    "title": "Bonjour à nouveau",
+    "subtitle": "Entrez vos identifiants pour accéder à votre compte.",
+    "email": {
+      "label": "Adresse e-mail",
+      "errors": {
+        "required": "Champ requis",
+        "invalid": "L'adresse e-mail doit être valide"
+      }
+    },
+    "password": {
+      "label": "Mot de passe",
+      "errors": {
+        "required": "Champ requis"
+      },
+      "toggle": {
+        "show": "Afficher le mot de passe",
+        "hide": "Masquer le mot de passe"
+      }
+    },
+    "remember": "Se souvenir de moi",
+    "forgot": "Mot de passe oublié ?",
+    "login": "Se connecter",
+    "signup": {
+      "prompt": "Pas encore membre ?",
+      "action": "S'inscrire"
+    }
+  },"signup": {
+    "steps": [
+      { "title": "Informations personnelles" },
+      { "title": "Identification" },
+      { "title": "Finaliser l'inscription" }
+    ],
+    "personal": {
+      "heading": "Informations personnelles",
+      "subheading": "Commençons par vos informations de base",
+      "fullName": "Nom complet",
+      "dob": "Date de naissance",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Créez un mot de passe sécurisé",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe"
+    },
+    "identification": {
+      "heading": "Identification",
+      "subheading": "Fournissez vos informations d'identification",
+      "idType": "Type d'identifiant",
+      "idNumber": "Numéro d'identifiant",
+      "expiryDate": "Date d'expiration",
+      "nationality": "Nationalité",
+      "gender": "Genre"
+    },
+    "final": {
+      "heading": "Finaliser l'inscription",
+      "subheading": "Téléversez votre document et acceptez les conditions",
+      "uploadTitle": "Téléversez votre passeport ou pièce d'identité",
+      "uploadNote": "PDF, JPG ou PNG (Max. 5 Mo)",
+      "chooseFile": "Choisir un fichier",
+      "termsText": "J'accepte les",
+      "termsLink": "Conditions d'utilisation",
+      "privacyLink": "Politique de confidentialité",
+      "summaryTitle": "Résumé de l'inscription",
+      "summary": {
+        "name": "Nom complet :",
+        "email": "Email :",
+        "idType": "Type d'identifiant :"
+      }
+    },
+    "navigation": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "submit": "Créer un compte",
+      "alreadyHaveAccount": "Vous avez déjà un compte ?",
+      "signin": "Se connecter"
+    },
+    "generic": {
+      "notProvided": "Non fourni"
+    }
+  }
+}

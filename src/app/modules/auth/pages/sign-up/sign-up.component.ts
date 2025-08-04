@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MockUserService } from '../../services/mock-user.service';
 import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,6 +18,7 @@ import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog
   templateUrl: './sign-up.component.html',
   imports: [
     CommonModule,
+    TranslateModule,
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,

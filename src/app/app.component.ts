@@ -4,6 +4,7 @@ import { NgxSonnerToaster } from 'ngx-sonner';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
 import { ResponsiveService } from './core/services/responsive.service';
 import { ThemeService } from './core/services/theme.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ import { ThemeService } from './core/services/theme.service';
 export class AppComponent implements OnInit {
   private responsiveService = inject(ResponsiveService);
   private themeService = inject(ThemeService); // Inject theme service to initialize it
+  private translate= inject(TranslateService); 
+  selectedLang = 'en';
 
   @HostBinding('class') 
   get hostClasses(): string {
@@ -21,6 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   constructor() {
+  
     // React to responsive changes and update body classes
     effect(() => {
       const classes = this.responsiveService.getResponsiveClasses();
@@ -50,13 +54,14 @@ export class AppComponent implements OnInit {
       document.documentElement.setAttribute('data-touch', deviceInfo.isTouch.toString());
     });
   }
-
   ngOnInit(): void {
     // Initial setup for responsive behavior
     this.setupViewportMeta();
     this.preventZoomOnFocus();
   }
-
+  switchLanguage(lang: string) {
+    this.translate.use(lang);
+  }
   private setupViewportMeta(): void {
     // Ensure proper viewport meta tag for responsive design
     let viewportMeta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
