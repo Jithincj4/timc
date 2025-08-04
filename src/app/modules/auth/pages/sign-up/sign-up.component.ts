@@ -119,8 +119,8 @@ export class SignUpComponent implements OnInit {
         return !!this.signUpForm.get('fullName')?.valid &&
                !!this.signUpForm.get('dateOfBirth')?.valid &&
                !!this.signUpForm.get('email')?.valid &&
-               !!this.signUpForm.get('password')?.valid &&
-               !!this.signUpForm.get('confirmPassword')?.valid;
+               !!this.signUpForm.get('password')?.valid 
+             
       case 1:
         // Identification Details step
         return !!this.signUpForm.get('identificationType')?.valid &&
