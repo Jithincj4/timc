@@ -6,7 +6,7 @@ import { effect } from '@angular/core';
   providedIn: 'root',
 })
 export class ThemeService {
-  public theme = signal<Theme>({ mode: 'dark', color: 'base', direction: 'ltr' }); // Set 'dark' as the default mode
+  public theme = signal<Theme>({ mode: 'light', color: 'green', direction: 'ltr' });
 
   constructor() {
     this.loadTheme();
@@ -16,10 +16,9 @@ export class ThemeService {
   }
 
   private loadTheme() {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      this.theme.set(JSON.parse(theme));
-    }
+    // Force light green theme - clear any existing theme and use our default
+    localStorage.removeItem('theme');
+    this.theme.set({ mode: 'light', color: 'green', direction: 'ltr' });
   }
 
   private setConfig() {

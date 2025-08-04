@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { NgxSonnerToaster } from 'ngx-sonner';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
 import { ResponsiveService } from './core/services/responsive.service';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { ResponsiveService } from './core/services/responsive.service';
 })
 export class AppComponent implements OnInit {
   private responsiveService = inject(ResponsiveService);
+  private themeService = inject(ThemeService); // Inject theme service to initialize it
 
   @HostBinding('class') 
   get hostClasses(): string {
