@@ -3,10 +3,10 @@
   "displayName": "Fufi Med",
   "version": "0.10.1",
   "description": "Manage your medical treatment and tourism services all in one place. Access personalized services tailored to your needs.",
-  "homepage": "https://github.com/lannodev/angular-tailwind#readme",
+  "homepage": "https://timc.vercel.app/sign-in",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lannodev/angular-tailwind.git"
+    "url": "https://github.com/Jithincj4/timc.git"
   },
   "keywords": [
     "angular",
@@ -16,7 +16,7 @@
     "dark mode",
     "open source"
   ],
-  "author": "Luciano Oliveira <me@lanno.dev>",
+  "author": "FUFI MED",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

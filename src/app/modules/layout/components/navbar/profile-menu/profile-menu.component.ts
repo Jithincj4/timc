@@ -10,7 +10,7 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/click-ou
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
   styleUrls: ['./profile-menu.component.css'],
-  imports: [ClickOutsideDirective, NgClass, RouterLink, AngularSvgIconModule],
+  imports: [ClickOutsideDirective, RouterLink, AngularSvgIconModule],
   animations: [
     trigger('openClose', [
       state(
