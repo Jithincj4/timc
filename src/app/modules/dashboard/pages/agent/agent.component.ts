@@ -23,8 +23,7 @@ interface DashboardStats {
 @Component({
   selector: 'app-agent',
   templateUrl: './agent.component.html',
-  styleUrls: ['./agent.component.scss'],
-  imports: [NgFor, NgIf, AngularSvgIconModule],
+  imports: [ AngularSvgIconModule],
 })
 export class AgentComponent implements OnInit {
   stats: DashboardStats = {

@@ -1,92 +1,118 @@
-<form class="my-10 space-y-6" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="text-center">
-    <h2 class="text-foreground mb-1 text-3xl font-semibold">
-      {{ 'auth.title' | translate }} <span class="text-primary">!</span>
-    </h2>
-    <p class="text-muted-foreground text-sm">{{ 'auth.subtitle' | translate }}</p>
-  </div>
-
-  <div class="space-y-3 text-left">
-    <div class="form__group">
-      <div class="relative">
-        <input
-          type="text"
-          id="email"
-          [ngClass]="{ 'is__invalid-input': submitted && f['email'].errors }"
-          class="peer block"
-          placeholder=" "
-          formControlName="email" />
-        <label
-          for="email"
-          [ngClass]="{ 'peer-focus:text-destructive!': submitted && f['email'].errors }"
-          class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
-          {{ 'auth.email.label' | translate }}
-        </label>
-      </div>
-      <div *ngIf="submitted && f['email'].errors" class="is__invalid-error">
-        <div *ngIf="f['email'].errors['required']">{{ 'auth.email.errors.required' | translate }}</div>
-        <div *ngIf="f['email'].errors['email']">{{ 'auth.email.errors.invalid' | translate }}</div>
-      </div>
-    </div>
-
-    <div class="form__group">
-      <div class="relative">
-        <input
-          [type]="passwordTextType ? 'text' : 'password'"
-          id="password"
-          [ngClass]="{ 'is__invalid-input': submitted && f['password'].errors }"
-          class="peer block"
-          placeholder=" "
-          formControlName="password" />
-        <label
-          for="password"
-          [ngClass]="{ 'peer-focus:text-destructive!': submitted && f['password'].errors }"
-          class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
-          {{ 'auth.password.label' | translate }}
-        </label>
-        <span
-          class="text-muted-foreground absolute top-2 cursor-pointer ltr:right-3 rtl:left-3"
-          (click)="togglePasswordTextType()"
-          [attr.aria-label]="passwordTextType ? ('auth.password.toggle.hide' | translate) : ('auth.password.toggle.show' | translate)">
-          <svg-icon
-            [src]="
-              !passwordTextType
-                ? 'assets/icons/heroicons/outline/eye-off.svg'
-                : 'assets/icons/heroicons/outline/eye.svg'
-            "
-            [svgClass]="'h-5 w-5'">
-          </svg-icon>
-        </span>
-      </div>
-      <div *ngIf="submitted && f['password'].errors" class="is__invalid-error">
-        <div *ngIf="f['password'].errors['required']">{{ 'auth.password.errors.required' | translate }}</div>
-      </div>
+<div class="flex min-h-screen">
+  <!-- Left portion with image - properly contained -->
+  <div class="relative hidden w-1/2 lg:block">
+    <img
+      src="assets/bg/auth.png"
+      alt="Authentication illustration"
+      class="h-full w-full object-cover" />
+    <!-- Gradient overlay contained within the image container -->
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
+    <!-- Welcome text overlay -->
+    <div class="absolute bottom-10 left-10 p-6 text-white">
+      <h1 class="mb-2 text-4xl font-bold">Welcome Back</h1>
+      <p class="text-lg opacity-90">Sign in to access your account</p>
     </div>
   </div>
 
-  <div class="mb-2 flex items-center justify-between space-x-3">
-    <div class="flex items-center">
-      <input id="remember-me" name="remember-me" type="checkbox" />
-      <label for="remember-me" class="text-muted-foreground ml-2 block text-sm">
-        {{ 'auth.remember' | translate }}
-      </label>
-    </div>
-
-    <app-button routerLink="/auth/forgot-password" impact="none" tone="primary" shape="rounded" size="small">
-      {{ 'auth.forgot' | translate }}
-    </app-button>
+  <!-- Right portion with form - properly positioned -->
+  <div class="flex w-full flex-col items-center justify-center p-8 lg:w-1/2 relative z-10">
+    <form class="my-10 w-full max-w-md space-y-6" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <a class="bg-primary rounded-sm p-2">
+            <svg-icon src="assets/icons/logo.svg" [svgClass]="'h-5 w-5'"> </svg-icon>
+          </a>
+          <b class="text-md text-foreground font-bold"> Fufi Med</b>
+        </div>
+        <p class="text-muted-foreground text-sm">{{ 'auth.subtitle' | translate }}</p>
+      </div>
+      
+      <div class="space-y-3 text-left">
+        <!-- Email field -->
+        <div class="form__group">
+          <div class="relative">
+            <input
+              type="text"
+              id="email"
+              [ngClass]="{ 'is__invalid-input': submitted && f['email'].errors }"
+              class="peer block"
+              placeholder=" "
+              formControlName="email" />
+            <label
+              for="email"
+              [ngClass]="{ 'peer-focus:text-destructive!': submitted && f['email'].errors }"
+              class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
+              {{ 'auth.email.label' | translate }}
+            </label>
+          </div>
+          <div *ngIf="submitted && f['email'].errors" class="is__invalid-error">
+            <div *ngIf="f['email'].errors['required']">{{ 'auth.email.errors.required' | translate }}</div>
+            <div *ngIf="f['email'].errors['email']">{{ 'auth.email.errors.invalid' | translate }}</div>
+          </div>
+        </div>
+        
+        <!-- Password field -->
+        <div class="form__group">
+          <div class="relative">
+            <input
+              [type]="passwordTextType ? 'text' : 'password'"
+              id="password"
+              [ngClass]="{ 'is__invalid-input': submitted && f['password'].errors }"
+              class="peer block"
+              placeholder=" "
+              formControlName="password" />
+            <label
+              for="password"
+              [ngClass]="{ 'peer-focus:text-destructive!': submitted && f['password'].errors }"
+              class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
+              {{ 'auth.password.label' | translate }}
+            </label>
+            <span
+              class="text-muted-foreground absolute top-2 cursor-pointer ltr:right-3 rtl:left-3 z-20"
+              (click)="togglePasswordTextType()"
+              [attr.aria-label]="
+                passwordTextType ? ('auth.password.toggle.hide' | translate) : ('auth.password.toggle.show' | translate)
+              ">
+              <svg-icon
+                [src]="
+                  !passwordTextType
+                    ? 'assets/icons/heroicons/outline/eye-off.svg'
+                    : 'assets/icons/heroicons/outline/eye.svg'
+                "
+                [svgClass]="'h-5 w-5'">
+              </svg-icon>
+            </span>
+          </div>
+          <div *ngIf="submitted && f['password'].errors" class="is__invalid-error">
+            <div *ngIf="f['password'].errors['required']">{{ 'auth.password.errors.required' | translate }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-2 flex items-center justify-between space-x-3">
+        <div class="flex items-center">
+          <input id="remember-me" name="remember-me" type="checkbox" />
+          <label for="remember-me" class="text-muted-foreground ml-2 block text-sm">
+            {{ 'auth.remember' | translate }}
+          </label>
+        </div>
+        <app-button routerLink="/auth/forgot-password" impact="none" tone="primary" shape="rounded" size="small">
+          {{ 'auth.forgot' | translate }}
+        </app-button>
+      </div>
+      
+      <div>
+        <app-button full impact="bold" tone="primary" shape="rounded" size="medium">
+          {{ 'auth.login' | translate }}
+        </app-button>
+      </div>
+      
+      <div class="text-muted-foreground flex items-center text-sm">
+        {{ 'auth.signup.prompt' | translate }}
+        <app-button routerLink="/sign-up" impact="none" tone="primary" shape="rounded" size="small">
+          {{ 'auth.signup.action' | translate }}
+        </app-button>
+      </div>
+    </form>
   </div>
-
-  <div>
-    <app-button full impact="bold" tone="primary" shape="rounded" size="medium">
-      {{ 'auth.login' | translate }}
-    </app-button>
-  </div>
-
-  <div class="text-muted-foreground flex items-center text-sm">
-    {{ 'auth.signup.prompt' | translate }}
-    <app-button routerLink="/sign-up" impact="none" tone="primary" shape="rounded" size="small">
-      {{ 'auth.signup.action' | translate }}
-    </app-button>
-  </div>
-</form>
+</div>
