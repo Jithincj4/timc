@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from '../../../admin.service';
 import { UserDto } from 'src/app/core/models/user-dto.model';
 import { CommonModule } from '@angular/common';
-import { CreateUserComponent } from '../user-create/user-create.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicDialogComponent } from 'src/app/shared/components/dialog/dynamic-dialog.component';
+import { UserCreateComponent } from '../user-create/user-create.component';
 
 @Component({
   selector: 'app-user-list',
@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
     const dialogRef = this.dialog.open(DynamicDialogComponent, {
       width: '500px',
       data: {
-        component: CreateUserComponent,
+        component: UserCreateComponent,
         inputs: {}
       }
     });

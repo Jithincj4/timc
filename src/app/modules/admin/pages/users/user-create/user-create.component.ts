@@ -1,20 +1,25 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { UserDto } from 'src/app/core/models/user-dto.model';
-import { AdminService } from '../../../admin.service';
-import { CommonModule } from '@angular/common';
-import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
+import { AdminService } from '../../../admin.service';
+import { AdminUserFormComponent } from "./admin-user-form.component";
+import { PatientUserFormComponent } from "./app-patient-user-form.component";
+import { FacilitatorUserFormComponent } from "./facilitator-user-form.component";
+import { SaccoUserFormComponent } from "./sacco-user-form.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-create-user',
-  imports: [CommonModule,ReactiveFormsModule],
-  templateUrl: './user-create.component.html'
+  selector: 'app-user-create',
+  templateUrl: './user-create.component.html',
+  imports: [AdminUserFormComponent,FormsModule,CommonModule , PatientUserFormComponent, FacilitatorUserFormComponent, SaccoUserFormComponent]
 })
-export class CreateUserComponent {
+export class UserCreateComponent {
   @Output() saved = new EventEmitter<void>();
-
+  selectedType: string = '';
+  isPatient = false;
   form: FormGroup;
   roles = [
     { id: 1, name: 'Admin' },
@@ -22,8 +27,12 @@ export class CreateUserComponent {
     { id: 3, name: 'Patient' },
   ];
 
-  constructor(private fb: FormBuilder, private adminService: AdminService, private router: Router, 
-    private dialog: MatDialog, ) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: AdminService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {
     this.form = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -36,14 +45,17 @@ export class CreateUserComponent {
   submit() {
     if (this.form.valid) {
       const user: UserDto = this.form.value;
-      this.adminService.createUser(user).subscribe({
-        next: () => {this.saved.emit();this.dialog.open(SuccessDialogComponent, {
-              data: {
-                title: 'Registration Successful',
-                message: 'Account has been created successfully!',
-                buttonText: 'Go to list'
-              }
-            })},   // emit event
+      this.userService.createUser(user).subscribe({
+        next: () => {
+          this.saved.emit();
+          this.dialog.open(SuccessDialogComponent, {
+            data: {
+              title: 'Registration Successful',
+              message: 'Account has been created successfully!',
+              buttonText: 'Go to list'
+            }
+          });
+        },
         error: (err) => console.error(err)
       });
     }

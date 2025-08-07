@@ -1,41 +1,46 @@
-<div class="p-6 space-y-6">
-    <!-- Header -->
-    <h2 class="text-2xl font-semibold text-primary">Admin Dashboard</h2>
-  
-    <!-- Stat Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
-        <p class="text-sm">Total Users</p>
-        <h3 class="text-2xl font-bold">{{ stats.totalUsers }}</h3>
-      </div>
-      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
-        <p class="text-sm">Patients</p>
-        <h3 class="text-2xl font-bold">{{ stats.totalPatients }}</h3>
-      </div>
-      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
-        <p class="text-sm">SACCOs</p>
-        <h3 class="text-2xl font-bold">{{ stats.totalSaccos }}</h3>
-      </div>
-      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
-        <p class="text-sm">Facilitators</p>
-        <h3 class="text-2xl font-bold">{{ stats.totalFacilitators }}</h3>
-      </div>
+<div class="p-6 space-y-8 max-w-screen-xl mx-auto">
+  <h1 class="text-3xl font-bold text-primary">Admin Dashboard</h1>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white p-6 rounded-xl shadow border">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Users</h2>
+      <p class="text-3xl font-bold text-primary">{{ stats.totalUsers }}</p>
     </div>
-  
-    <!-- Charts (placeholder for now) -->
-    <div class="bg-card-bg rounded-2xl p-6 shadow text-white">
-      <h3 class="text-lg font-medium mb-4">Monthly Patient Registrations</h3>
-      <canvas id="patientsChart"></canvas>
+    <div class="bg-white p-6 rounded-xl shadow border">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Patients</h2>
+      <p class="text-3xl font-bold text-primary">{{ stats.totalPatients }}</p>
     </div>
-  
-    <!-- Recent Activity -->
-    <div class="bg-card-bg rounded-2xl p-6 shadow text-white">
-      <h3 class="text-lg font-medium mb-4">Recent Activity</h3>
-      <ul class="space-y-2">
-        <li *ngFor="let log of recentActivity" class="text-sm">
-          {{ log }}
+    <div class="bg-white p-6 rounded-xl shadow border">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Facilitators</h2>
+      <p class="text-3xl font-bold text-primary">{{ stats.totalFacilitators }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow border">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Saccos</h2>
+      <p class="text-3xl font-bold text-primary">{{ stats.totalSaccos }}</p>
+    </div>
+  </div>
+
+  <!-- Messages and Milestones -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white p-6 rounded-xl shadow border">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Messages</h3>
+      <ul class="space-y-3">
+        <li *ngFor="let msg of recentMessages" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
+          <span class="font-medium text-secondary">{{ msg.sender }}:</span>
+          {{ msg.content }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow border">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Patient Milestones</h3>
+      <ul class="space-y-3">
+        <li *ngFor="let milestone of milestones" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
+          <span class="font-medium text-secondary">{{ milestone.patientName }}</span>
+          – {{ milestone.stage }} ({{ milestone.date | date: 'shortDate' }})
         </li>
       </ul>
     </div>
   </div>
-  
+</div>

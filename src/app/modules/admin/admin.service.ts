@@ -22,6 +22,21 @@ export class AdminService {
   createUser(user: UserDto): Observable<UserDto> {
     return this.http.post<UserDto>(`${this.baseUrl}/Users`, user);
   }
+  createPatient(payload: any) {
+    return this.http.post('/api/Patients', payload);
+  }
+
+  createFacilitator(payload: any) {
+    return this.http.post('/api/Facilitators', payload);
+  }
+
+  createSacco(payload: any) {
+    return this.http.post('/api/Saccos', payload);
+  }
+
+  getSaccos() {
+    return this.http.get<any[]>('/api/Saccos');
+  }
 
   /** Update user */
   updateUser(id: number, user: UserDto): Observable<void> {

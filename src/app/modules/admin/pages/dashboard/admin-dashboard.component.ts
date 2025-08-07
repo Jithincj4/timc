@@ -1,48 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit } from '@angular/core';
-import Chart from 'chart.js/auto';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [CommonModule],
-  templateUrl: './admin-dashboard.component.html',
+  imports: [CommonModule,FormsModule],
+  templateUrl: './admin-dashboard.component.html'
 })
-export class AdminDashboardComponent implements AfterViewInit {
+export class AdminDashboardComponent implements OnInit {
   stats = {
     totalUsers: 128,
-    totalPatients: 72,
-    totalSaccos: 6,
-    totalFacilitators: 15
+    totalPatients: 56,
+    totalFacilitators: 12,
+    totalSaccos: 8
   };
 
-  recentActivity = [
-    'New patient John Doe registered',
-    'Milestone completed for Jane Smith',
-    'New SACCO added: HealthCare Kenya',
-    'Facilitator approved: Asha Ali'
+  recentMessages = [
+    { sender: 'Dr. Adams', content: 'New referral added.' },
+    { sender: 'Coordinator', content: 'Please check patient ID 453.' },
+    { sender: 'Admin', content: 'Weekly report submitted.' }
   ];
 
-  ngAfterViewInit() {
-    new Chart('patientsChart', {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-        datasets: [{
-          label: 'Patients',
-          data: [5, 12, 8, 10, 15],
-          backgroundColor: 'rgba(0, 212, 255, 0.5)',
-          borderColor: '#00d4ff',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  }
+  milestones = [
+    { patientName: 'John Doe', stage: 'Visa Approval', date: new Date('2025-08-12') },
+    { patientName: 'Jane Smith', stage: 'Travel Scheduled', date: new Date('2025-08-15') }
+  ];
+
+  ngOnInit(): void {}
 }

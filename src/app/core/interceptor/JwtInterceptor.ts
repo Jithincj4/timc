@@ -1,16 +1,33 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token'); // or sessionStorage
+  const router = inject(Router);
+  const token = localStorage.getItem('token');
 
-  if (token) {
-    const cloned = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return next(cloned);
-  }
+  const clonedReq = token
+    ? req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    : req;
 
-  return next(req);
+  return next(clonedReq).pipe(
+    catchError(err => {
+      if (err.status === 401) {
+        // Clear token/session
+        localStorage.removeItem('token');
+
+        // Optional: redirect to login
+        router.navigate(['/sign-in']);
+
+        // Optional: show toast or log
+        console.warn('Unauthorized - logging out...');
+      }
+      return throwError(() => err);
+    })
+  );
 };
