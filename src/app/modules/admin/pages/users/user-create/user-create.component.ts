@@ -40,7 +40,7 @@ export class CreateUserComponent {
         next: () => {this.saved.emit();this.dialog.open(SuccessDialogComponent, {
               data: {
                 title: 'Registration Successful',
-                message: 'Your account has been created successfully!',
+                message: 'Account has been created successfully!',
                 buttonText: 'Go to list'
               }
             })},   // emit event

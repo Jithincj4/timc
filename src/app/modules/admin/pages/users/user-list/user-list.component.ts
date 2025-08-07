@@ -31,17 +31,20 @@ export class UserListComponent implements OnInit {
     });
   }
   onAddUser() {
-    this.dialog.open(DynamicDialogComponent, {
-      width: '400px',
+    const dialogRef = this.dialog.open(DynamicDialogComponent, {
+      width: '500px',
       data: {
         component: CreateUserComponent,
-        inputs: {
-          
-        },
-      },
+        inputs: {}
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'saved') {
+        this.ngOnInit(); // Reload the user list after saving
+      }
     });
   }
-  
   onEditUser(user: UserDto) {
     // Open dialog with user data or navigate to edit page
   }

@@ -34,5 +34,11 @@ export class DynamicDialogComponent implements AfterViewInit {
     if (this.componentRef.instance['dialogRef'] === undefined) {
       this.componentRef.instance['dialogRef'] = this.dialogRef;
     }
+    const instance = this.componentRef.instance;
+    if (instance.saved && instance.saved.subscribe) {
+      instance.saved.subscribe(() => {
+        this.dialogRef.close('saved');
+      });
+    }
   }
 }
