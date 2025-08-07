@@ -1,21 +1,41 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { inject, NgModule } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterModule, Routes  } from '@angular/router';
 import { LayoutComponent } from './layout.component';
+import { authGuard } from 'src/app/core/guards/auth.guard';
+import { AuthStore } from 'src/app/core/state/auth.store.service';
+
+
 
 const routes: Routes = [
   {
-    path: 'dashboard',
-    component: LayoutComponent,
-    loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
+    path: '',
+    redirectTo: () => {
+      const auth = inject(AuthStore);
+      const role = auth.user()?.role;
+
+      switch (role) {
+        case 'Admin':
+          return 'admin';
+        case 'patient':
+          return 'patient';
+        case 'facilitator':
+          return 'facilitator';
+        case 'sacco':
+          return 'sacco';
+        default:
+          return '/unauthorized';
+      }
+    },
+    pathMatch: 'full',
   },
   {
-    path: 'components',
+    path: 'admin',
+    canActivate: [authGuard],
     component: LayoutComponent,
-    loadChildren: () => import('../uikit/uikit.module').then((m) => m.UikitModule),
-  },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'error/404' },
+    loadChildren: () => import('../admin/admin.module').then((m) => m.AdminModule),
+  }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

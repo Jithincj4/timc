@@ -1,0 +1,41 @@
+<div class="p-6 space-y-6">
+    <!-- Header -->
+    <h2 class="text-2xl font-semibold text-primary">Admin Dashboard</h2>
+  
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
+        <p class="text-sm">Total Users</p>
+        <h3 class="text-2xl font-bold">{{ stats.totalUsers }}</h3>
+      </div>
+      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
+        <p class="text-sm">Patients</p>
+        <h3 class="text-2xl font-bold">{{ stats.totalPatients }}</h3>
+      </div>
+      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
+        <p class="text-sm">SACCOs</p>
+        <h3 class="text-2xl font-bold">{{ stats.totalSaccos }}</h3>
+      </div>
+      <div class="bg-card-bg rounded-2xl p-4 shadow text-white">
+        <p class="text-sm">Facilitators</p>
+        <h3 class="text-2xl font-bold">{{ stats.totalFacilitators }}</h3>
+      </div>
+    </div>
+  
+    <!-- Charts (placeholder for now) -->
+    <div class="bg-card-bg rounded-2xl p-6 shadow text-white">
+      <h3 class="text-lg font-medium mb-4">Monthly Patient Registrations</h3>
+      <canvas id="patientsChart"></canvas>
+    </div>
+  
+    <!-- Recent Activity -->
+    <div class="bg-card-bg rounded-2xl p-6 shadow text-white">
+      <h3 class="text-lg font-medium mb-4">Recent Activity</h3>
+      <ul class="space-y-2">
+        <li *ngFor="let log of recentActivity" class="text-sm">
+          {{ log }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  

@@ -1,10 +1,11 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthStore } from 'src/app/core/state/auth.store.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,9 +15,10 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class SignInComponent implements OnInit {
   form!: FormGroup;
-  submitted = false;
+  private readonly _authStore = inject(AuthStore);
   passwordTextType!: boolean;
-
+  submitted = signal(false);
+  passwordVisible = signal(false);
   constructor(private readonly _formBuilder: FormBuilder, private readonly _router: Router) {}
 
   onClick() {
@@ -25,7 +27,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       password: ['', Validators.required],
     });
   }
@@ -38,15 +40,17 @@ export class SignInComponent implements OnInit {
     this.passwordTextType = !this.passwordTextType;
   }
 
-  onSubmit() {
-    this._router.navigate(['/dashboard']);
-    this.submitted = true;
+  async onSubmit() {
+    this.submitted.set(true);
+
+   // if (this.form.invalid) return;
+
     const { email, password } = this.form.value;
 
-    if (this.form.invalid) {
-      return;
-    }
+    const success = await this._authStore.login(email, password);
 
-    this._router.navigate(['/']);
+    if (success) {
+      this._router.navigate(['/home']);
+    }
   }
 }

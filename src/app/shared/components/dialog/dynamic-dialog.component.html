@@ -1,0 +1,28 @@
+<!-- Overlay -->
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <!-- Dialog container -->
+    <div
+      class="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-xl mx-4 relative animate-fade-in"
+    >
+      <!-- Header -->
+      <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Dialog</h2>
+        <button
+          (click)="dialogRef.close()"
+          class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+      </div>
+  
+      <!-- Body -->
+      <div class="p-6 max-h-[70vh] overflow-y-auto">
+        <ng-template #container></ng-template>
+      </div>
+  
+      <!-- Footer (optional) -->
+      <!-- You can place projected buttons here if needed -->
+    </div>
+  </div>
+  

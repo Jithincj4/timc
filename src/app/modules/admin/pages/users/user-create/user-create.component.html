@@ -1,0 +1,46 @@
+<h2 class="text-xl font-semibold text-gray-800 mb-4">Create New User</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+    <input type="text" formControlName="username"
+           class="w-full rounded border px-3 py-2 focus:outline-none focus:ring focus:border-primary"
+           placeholder="Enter username" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+    <input type="email" formControlName="email"
+           class="w-full rounded border px-3 py-2 focus:outline-none focus:ring focus:border-primary"
+           placeholder="Enter email" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+    <input type="password" formControlName="password"
+           class="w-full rounded border px-3 py-2 focus:outline-none focus:ring focus:border-primary"
+           placeholder="Enter password" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+    <select formControlName="roleId"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring focus:border-primary">
+      <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+    </select>
+  </div>
+
+  <div class="flex items-center">
+    <input type="checkbox" formControlName="isActive" id="isActive"
+           class="rounded text-primary focus:ring-2 focus:ring-offset-2 focus:ring-primary" />
+    <label for="isActive" class="ml-2 text-sm text-gray-700">Active</label>
+  </div>
+
+  <div class="pt-4 flex justify-end">
+    <button type="submit"
+            class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 disabled:opacity-50"
+            [disabled]="form.invalid">
+      Save
+    </button>
+  </div>
+</form>

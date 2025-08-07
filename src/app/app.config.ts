@@ -1,4 +1,4 @@
-import { provideHttpClient, HttpClient } from "@angular/common/http";
+import { provideHttpClient, HttpClient, HTTP_INTERCEPTORS, withInterceptors } from "@angular/common/http";
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
@@ -7,11 +7,13 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TRANSLATE_HTTP_LOADER_CONFIG } from "@ngx-translate/http-loader";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
+import { jwtInterceptor } from "./core/interceptor/JwtInterceptor";
+
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
     provideRouter([]),
     provideAnimations(),
     {
