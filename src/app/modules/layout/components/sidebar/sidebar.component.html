@@ -1,6 +1,6 @@
 <nav
   [ngClass]="menuService.showSideBar ? 'w-[210px] xl:w-[280px]' : 'w-[70px]'"
-  class="bg-background hidden h-full flex-col justify-between pt-3 transition-all duration-300 lg:flex">
+  class="bg-side hidden h-full flex-col justify-between pt-3 transition-all duration-300 lg:flex">
   <div class="overflow-hidden">
     <!-- Logo -->
     <div
@@ -8,7 +8,7 @@
       class="mx-4 mb-2 flex h-9 items-center">
       <div class="flex items-center" *ngIf="menuService.showSideBar">
        
-        <b class="text-foreground ml-3 grow text-sm font-bold">
+        <b class="text-green-600 ml-3 grow text-sm font-bold">
           {{ appJson.displayName }}
         </b>
       </div>
