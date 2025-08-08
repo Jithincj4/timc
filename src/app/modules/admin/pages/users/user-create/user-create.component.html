@@ -9,14 +9,12 @@
   >
     <option value="">-- Select --</option>
     <option value="admin">Admin</option>
-    <option value="patient">Patient</option>
     <option value="facilitator">Facilitator</option>
     <option value="sacco">SACCO</option>
   </select>
 
   <div class="mt-8 space-y-6">
     <app-admin-user-form *ngIf="selectedType === 'admin'"></app-admin-user-form>
-    <app-patient-user-form *ngIf="selectedType === 'patient'"></app-patient-user-form>
     <app-facilitator-user-form *ngIf="selectedType === 'facilitator'"></app-facilitator-user-form>
     <app-sacco-user-form *ngIf="selectedType === 'sacco'"></app-sacco-user-form>
   </div>

@@ -1,0 +1,44 @@
+<div class="p-6 max-w-xl mx-auto bg-card-bg rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-bold text-primary mb-4">Link SACCO to Facilitator</h2>
+  
+    <div class="space-y-4">
+      <!-- SACCO Dropdown -->
+      <div>
+        <label class="block mb-1 font-medium">Select SACCO</label>
+        <select
+          [(ngModel)]="selectedSaccoId"
+          class="w-full p-2 rounded bg-dark border border-gray-700"
+        >
+          <option value="">-- Choose SACCO --</option>
+          <option *ngFor="let s of saccos" [value]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
+  
+      <!-- Facilitator Dropdown -->
+      <div>
+        <label class="block mb-1 font-medium">Select Facilitator</label>
+        <select
+          [(ngModel)]="selectedFacilitatorId"
+          class="w-full p-2 rounded bg-dark border border-gray-700"
+        >
+          <option value="">-- Choose Facilitator --</option>
+          <option *ngFor="let f of facilitators" [value]="f.id">{{ f.name }}</option>
+        </select>
+      </div>
+  
+      <!-- Action Button -->
+      <div class="pt-4">
+        <button
+          (click)="linkSacco()"
+          [disabled]="clickLock.isLocked('createFacilitator')"
+          disableAfterClick
+          [disableTime]="3000"
+          [disabled]="loading"
+          class="bg-primary px-4 py-2 rounded text-white hover:opacity-90"
+        >
+          {{ loading ? 'Linking...' : 'Link SACCO' }}
+        </button>
+      </div>
+    </div>
+  </div>
+  

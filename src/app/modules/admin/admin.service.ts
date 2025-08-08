@@ -23,21 +23,22 @@ export class AdminService {
     return this.http.post<UserDto>(`${this.baseUrl}/Users`, user);
   }
   createPatient(payload: any) {
-    return this.http.post('/api/Patients', payload);
+    return this.http.post('/Patients', payload);
   }
 
   createFacilitator(payload: any) {
-    return this.http.post('/api/Facilitators', payload);
+    return this.http.post('/Facilitators', payload);
   }
-
-  createSacco(payload: any) {
-    return this.http.post('/api/Saccos', payload);
+  createSacco(saccoData: any) {
+    return this.http.post<any>(`${this.baseUrl}/saccos`, saccoData);
   }
 
   getSaccos() {
-    return this.http.get<any[]>('/api/Saccos');
+    return this.http.get<any[]>('/Saccos');
   }
-
+  deleteSacco(id: string) {
+    return this.http.delete(`${this.baseUrl}/saccos/${id}`);
+  }
   /** Update user */
   updateUser(id: number, user: UserDto): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, user);
@@ -46,5 +47,20 @@ export class AdminService {
   /** Delete user */
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  getFacilitators() {
+    return this.http.get<any[]>(`${this.baseUrl}/facilitators`);
+  }
+  deleteFacilitator(id: string) {
+    return this.http.delete(`${this.baseUrl}/facilitators/${id}`);
+  }
+
+  getPatientsByFacilitator(facilitatorId: string) {
+    return this.http.get<any[]>(`${this.baseUrl}/facilitators/${facilitatorId}/patients`);
+  }
+
+  linkSaccoToFacilitator(saccoId: string, facilitatorId: string) {
+    return this.http.post(`${this.baseUrl}/link-sacco`, { saccoId, facilitatorId });
   }
 }

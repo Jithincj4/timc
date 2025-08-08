@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 import { AdminService } from '../../../admin.service';
 import { AdminUserFormComponent } from "./admin-user-form.component";
-import { PatientUserFormComponent } from "./app-patient-user-form.component";
 import { FacilitatorUserFormComponent } from "./facilitator-user-form.component";
 import { SaccoUserFormComponent } from "./sacco-user-form.component";
 import { CommonModule } from '@angular/common';
@@ -14,7 +13,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
-  imports: [AdminUserFormComponent,FormsModule,CommonModule , PatientUserFormComponent, FacilitatorUserFormComponent, SaccoUserFormComponent]
+  imports: [AdminUserFormComponent,FormsModule,CommonModule , FacilitatorUserFormComponent, SaccoUserFormComponent]
 })
 export class UserCreateComponent {
   @Output() saved = new EventEmitter<void>();
