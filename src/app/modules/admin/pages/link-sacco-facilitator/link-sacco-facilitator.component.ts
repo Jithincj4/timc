@@ -39,9 +39,10 @@ export class LinkSaccoFacilitatorComponent implements OnInit {
 
     if (!this.selectedSaccoId || !this.selectedFacilitatorId) {
       alert('Please select both SACCO and Facilitator.');
-      this.clickLock.lock('createFacilitator');
+     
       return;
     }
+    this.clickLock.lock('createFacilitator');
 
     this.loading = true;
     this.adminService.linkSaccoToFacilitator(this.selectedSaccoId, this.selectedFacilitatorId).subscribe({

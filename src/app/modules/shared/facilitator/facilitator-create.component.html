@@ -1,5 +1,5 @@
 <!-- src/app/components/facilitator-create/facilitator-create.component.html -->
-  <div class="user-creation-container items-center">
+<div class="user-creation-container items-center">
     <div class="creation-header">
         <h1>Fufi Med Facilitator Creation</h1>
         <p>Create a new Facilitator account</p>
@@ -34,12 +34,11 @@
     
     <!-- Form Container -->
     <div class="creation-body">
-      <!-- Step 1: User Account -->
-      <div *ngIf="currentStep === 1" class="p-8">
-        <h2 class="mb-8 text-2xl font-bold text-gray-800">Create User Account</h2>
-        <form [formGroup]="userForm">
-          <div class="space-y-6">
-            <div class="form-group">
+        <!-- Step 1: User Account -->
+        <div *ngIf="currentStep === 1" class="p-8">
+          <h2 class="mb-8 text-2xl font-bold text-blue-800">Create User Account</h2>
+          <form [formGroup]="userForm" class="space-y-6 max-w-md">
+            <div>
               <label for="username" class="mb-2 block text-sm font-medium text-gray-700">Username</label>
               <div class="form-control-with-icon">
                 <i class="fas fa-user"></i>
@@ -62,7 +61,8 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
+    
+            <div>
               <label for="email" class="mb-2 block text-sm font-medium text-gray-700">Email</label>
               <div class="form-control-with-icon">
                 <i class="fas fa-envelope"></i>
@@ -81,7 +81,8 @@
                 <div *ngIf="userForm.get('email')?.errors?.['email']">Please enter a valid email</div>
               </div>
             </div>
-            <div class="form-group">
+    
+            <div>
               <label for="password" class="mb-2 block text-sm font-medium text-gray-700">Password</label>
               <div class="form-control-with-icon">
                 <i class="fas fa-lock"></i>
@@ -104,7 +105,8 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
+    
+            <div>
               <label for="confirmPassword" class="mb-2 block text-sm font-medium text-gray-700">Confirm Password</label>
               <div class="form-control-with-icon">
                 <i class="fas fa-lock"></i>
@@ -125,15 +127,14 @@
                 <div *ngIf="userForm.errors?.['passwordMismatch']">Passwords do not match</div>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-      
-      <!-- Step 2: Facilitator Details -->
-      <div *ngIf="currentStep === 2" class="p-8">
-        <h2 class="mb-8 text-2xl font-bold text-gray-800">Facilitator Details</h2>
-        <form [formGroup]="facilitatorForm">
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          </form>
+        </div>
+    
+        <!-- Step 2: Facilitator Details -->
+        <div *ngIf="currentStep === 2" class="p-8">
+          <h4 class="mb-8 text-2xl font-bold text-blue-800">Facilitator Details</h4>
+          <form [formGroup]="facilitatorForm" class="grid grid-cols-1 gap-6 md:grid-cols-2 max-w-4xl">
+    
             <div class="form-group">
               <label for="firstName" class="mb-2 block text-sm font-medium text-gray-700">First Name</label>
               <div class="form-control-with-icon">
@@ -155,6 +156,7 @@
                 First name is required
               </div>
             </div>
+    
             <div class="form-group">
               <label for="lastName" class="mb-2 block text-sm font-medium text-gray-700">Last Name</label>
               <div class="form-control-with-icon">
@@ -175,6 +177,7 @@
                 Last name is required
               </div>
             </div>
+    
             <div class="form-group">
               <label for="phone" class="mb-2 block text-sm font-medium text-gray-700">Phone</label>
               <div class="form-control-with-icon">
@@ -195,6 +198,7 @@
                 Phone number is required
               </div>
             </div>
+    
             <div class="form-group">
               <label for="dateOfBirth" class="mb-2 block text-sm font-medium text-gray-700">Date of Birth</label>
               <div class="form-control-with-icon">
@@ -207,6 +211,7 @@
                   placeholder="Date of Birth" />
               </div>
             </div>
+    
             <div class="form-group">
               <label for="gender" class="mb-2 block text-sm font-medium text-gray-700">Gender</label>
               <div class="form-control-with-icon">
@@ -222,6 +227,7 @@
                 </select>
               </div>
             </div>
+    
             <div class="form-group">
               <label for="idType" class="mb-2 block text-sm font-medium text-gray-700">ID Type</label>
               <div class="form-control-with-icon">
@@ -237,6 +243,7 @@
                 </select>
               </div>
             </div>
+    
             <div class="form-group">
               <label for="idNumber" class="mb-2 block text-sm font-medium text-gray-700">ID Number</label>
               <div class="form-control-with-icon">
@@ -249,6 +256,7 @@
                   placeholder="ID Number" />
               </div>
             </div>
+    
             <div class="form-group">
               <label for="country" class="mb-2 block text-sm font-medium text-gray-700">Country</label>
               <div class="form-control-with-icon">
@@ -261,6 +269,7 @@
                   placeholder="Country" />
               </div>
             </div>
+    
             <div class="form-group md:col-span-2">
               <label for="address" class="mb-2 block text-sm font-medium text-gray-700">Address</label>
               <div class="form-control-with-icon">
@@ -273,89 +282,50 @@
                   placeholder="Address"></textarea>
               </div>
             </div>
-            
-            <!-- Languages Multi-select -->
-            <div class="form-group md:col-span-2">
-              <label class="mb-2 block text-sm font-medium text-gray-700">Languages</label>
-              <div class="form-control-with-icon">
-                <i class="fas fa-language"></i>
-                <select
-                  id="languageIds"
-                  formControlName="languageIds"
-                  multiple
-                  class="form-control">
-                  <option *ngFor="let language of languages" [value]="language.languageId">
-                    {{ language.languageName }}
-                  </option>
-                </select>
-              </div>
-              <div
-                *ngIf="facilitatorForm.get('languageIds')?.touched && facilitatorForm.get('languageIds')?.invalid"
-                class="mt-1 text-sm text-red-600">
-                Please select at least one language
-              </div>
-            </div>
-            
-            <!-- Specializations Multi-select -->
-            <div class="form-group md:col-span-2">
-              <label class="mb-2 block text-sm font-medium text-gray-700">Specializations</label>
-              <div class="form-control-with-icon">
-                <i class="fas fa-briefcase-medical"></i>
-                <select
-                  id="specializationIds"
-                  formControlName="specializationIds"
-                  multiple
-                  class="form-control">
-                  <option *ngFor="let specialization of specializations" [value]="specialization.specializationId">
-                    {{ specialization.specializationName }} ({{ specialization.categoryName }})
-                  </option>
-                </select>
-              </div>
-              <div
-                *ngIf="
-                  facilitatorForm.get('specializationIds')?.touched && facilitatorForm.get('specializationIds')?.invalid
-                "
-                class="mt-1 text-sm text-red-600">
-                Please select at least one specialization
-              </div>
-            </div>
+          </form>
+        </div>
+    
+        <!-- Step 3: Review and Submit -->
+        <div *ngIf="currentStep === 3" class="p-8 max-w-4xl">
+          <h2 class="mb-8 text-2xl font-bold text-blue-800">Review Details & Submit</h2>
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">User Account</h3>
+            <p><strong>Username:</strong> {{ userForm.get('username')?.value }}</p>
+            <p><strong>Email:</strong> {{ userForm.get('email')?.value }}</p>
+    
+            <h3 class="mt-6 text-lg font-semibold">Facilitator Details</h3>
+            <p><strong>First Name:</strong> {{ facilitatorForm.get('firstName')?.value }}</p>
+            <p><strong>Last Name:</strong> {{ facilitatorForm.get('lastName')?.value }}</p>
+            <p><strong>Phone:</strong> {{ facilitatorForm.get('phone')?.value }}</p>
+            <p><strong>Date of Birth:</strong> {{ facilitatorForm.get('dateOfBirth')?.value }}</p>
+            <p><strong>Gender:</strong> {{ facilitatorForm.get('gender')?.value }}</p>
+            <p><strong>ID Type:</strong> {{ facilitatorForm.get('idType')?.value }}</p>
+            <p><strong>ID Number:</strong> {{ facilitatorForm.get('idNumber')?.value }}</p>
+            <p><strong>Country:</strong> {{ facilitatorForm.get('country')?.value }}</p>
+            <p><strong>Address:</strong> {{ facilitatorForm.get('address')?.value }}</p>
           </div>
-        </form>
-      </div>
-      
-      <!-- Navigation Buttons -->
-      <div class="flex justify-between bg-gray-50 px-8 py-6">
-        <button
-          *ngIf="currentStep > 1"
-          type="button"
-          (click)="previousStep()"
-          class="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-          Previous
-        </button>
-        <div class="ml-auto">
+        </div>
+    
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between max-w-4xl p-8">
+          <button
+            *ngIf="currentStep > 1"
+            (click)="previousStep()"
+            class="rounded bg-gray-400 px-4 py-2 font-semibold text-white hover:bg-gray-500">
+            Back
+          </button>
           <button
             *ngIf="currentStep < totalSteps"
-            type="button"
             (click)="nextStep()"
-            [disabled]="isSubmitting"
-            class="rounded-lg border border-transparent bg-blue-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50">
-            <span *ngIf="isSubmitting" class="mr-2">
-              <i class="fas fa-spinner fa-spin"></i>
-            </span>
+            class="ml-auto rounded bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700">
             Next
           </button>
           <button
             *ngIf="currentStep === totalSteps"
-            type="button"
             (click)="submitFacilitator()"
-            [disabled]="isSubmitting"
-            class="rounded-lg border border-transparent bg-green-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50">
-            <span *ngIf="isSubmitting" class="mr-2">
-              <i class="fas fa-spinner fa-spin"></i>
-            </span>
-            Create Facilitator
+            class="ml-auto rounded bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700">
+            Submit
           </button>
         </div>
       </div>
     </div>
-  </div>
