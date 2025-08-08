@@ -1,56 +1,85 @@
 <div class="p-6">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-bold text-primary">Facilitator List</h2>
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold text-primary">Facilitator List</h2>
+    <button
+      class="bg-primary text-white px-4 py-2 rounded hover:opacity-90"
+      (click)="router.navigate(['/admin/facilitator-create'])"
+    >
+      + Create Facilitator
+    </button>
+  </div>
+
+  <input
+    type="text"
+    placeholder="Search by name or email..."
+    [(ngModel)]="searchTerm"
+    class="mb-4 px-3 py-2 border border-gray-400 rounded w-full max-w-md"
+  />
+
+  <div *ngIf="loading" class="text-gray-400">Loading facilitators...</div>
+
+  <div *ngIf="!loading && filteredFacilitators.length === 0" class="text-gray-400">
+    No facilitators found.
+  </div>
+
+  <div *ngIf="!loading && filteredFacilitators.length > 0" class="overflow-x-auto">
+    <table class="min-w-full border border-gray-700 rounded-lg overflow-hidden">
+      <thead class="bg-gray-800 text-gray-300">
+        <tr>
+          <th class="px-4 py-2 text-left">Name</th>
+          <th class="px-4 py-2 text-left">Email</th>
+          <th class="px-4 py-2 text-left">Phone</th>
+          <th class="px-4 py-2 text-left">Specializations</th>
+          <th class="px-4 py-2 text-left">Address</th>
+          <th class="px-4 py-2 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-dark">
+        <tr *ngFor="let facilitator of pagedFacilitators" class="border-t border-gray-700">
+          <td class="px-4 py-2">{{ facilitator.firstName }} {{ facilitator.lastName }}</td>
+          <td class="px-4 py-2">{{ facilitator.email }}</td>
+          <td class="px-4 py-2">{{ facilitator.phone }}</td>
+          <td class="px-4 py-2">{{ getSpecializations(facilitator) }}</td>
+          <td class="px-4 py-2">{{ facilitator.address || '-' }}</td>
+          <td class="px-4 py-2 text-center space-x-2">
+            <button
+              class="bg-blue-500 text-white px-3 py-1 rounded hover:opacity-90"
+              (click)="editFacilitator(facilitator.facilitatorId)"
+            >
+              Edit
+            </button>
+            <button
+              class="bg-red-500 text-white px-3 py-1 rounded hover:opacity-90"
+              (click)="deleteFacilitator(facilitator.facilitatorId)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div class="mt-4 flex justify-center space-x-2 text-gray-300">
       <button
-        class="bg-primary text-white px-4 py-2 rounded hover:opacity-90"
-        (click)="router.navigate(['/admin/facilitator-create'])"
+        class="px-3 py-1 rounded border border-gray-600 hover:bg-gray-700 disabled:opacity-50"
+        (click)="previousPage()"
+        [disabled]="currentPage === 1"
       >
-        + Create Facilitator
+        Previous
+      </button>
+
+      <span class="px-3 py-1 rounded border border-gray-600 bg-gray-900">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+
+      <button
+        class="px-3 py-1 rounded border border-gray-600 hover:bg-gray-700 disabled:opacity-50"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
       </button>
     </div>
-  
-    <div *ngIf="loading" class="text-gray-400">Loading facilitators...</div>
-  
-    <div *ngIf="!loading && facilitators.length === 0" class="text-gray-400">
-      No facilitators found.
-    </div>
-  
-    <div *ngIf="!loading && facilitators.length > 0" class="overflow-x-auto">
-      <table class="min-w-full border border-gray-700 rounded-lg overflow-hidden">
-        <thead class="bg-gray-800 text-gray-300">
-          <tr>
-            <th class="px-4 py-2 text-left">Name</th>
-            <th class="px-4 py-2 text-left">Email</th>
-            <th class="px-4 py-2 text-left">Phone</th>
-            <th class="px-4 py-2 text-left">Specialization</th>
-            <th class="px-4 py-2 text-left">Address</th>
-            <th class="px-4 py-2 text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="bg-dark">
-          <tr *ngFor="let facilitator of facilitators" class="border-t border-gray-700">
-            <td class="px-4 py-2">{{ facilitator.name }}</td>
-            <td class="px-4 py-2">{{ facilitator.email }}</td>
-            <td class="px-4 py-2">{{ facilitator.phone }}</td>
-            <td class="px-4 py-2">{{ facilitator.specialization || '-' }}</td>
-            <td class="px-4 py-2">{{ facilitator.address }}</td>
-            <td class="px-4 py-2 text-center space-x-2">
-              <button
-                class="bg-blue-500 text-white px-3 py-1 rounded hover:opacity-90"
-                (click)="editFacilitator(facilitator.id)"
-              >
-                Edit
-              </button>
-              <button
-                class="bg-red-500 text-white px-3 py-1 rounded hover:opacity-90"
-                (click)="deleteFacilitator(facilitator.id)"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
-  
+</div>

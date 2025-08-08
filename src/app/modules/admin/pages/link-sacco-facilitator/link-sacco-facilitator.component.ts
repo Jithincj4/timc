@@ -34,11 +34,12 @@ export class LinkSaccoFacilitatorComponent implements OnInit {
   linkSacco() {
     if (this.clickLock.isLocked('createFacilitator')) return;
 
-    this.clickLock.lock('createFacilitator');
+   
 
 
     if (!this.selectedSaccoId || !this.selectedFacilitatorId) {
       alert('Please select both SACCO and Facilitator.');
+      this.clickLock.lock('createFacilitator');
       return;
     }
 

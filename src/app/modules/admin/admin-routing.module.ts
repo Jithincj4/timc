@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminDashboardComponent } from './pages/dashboard/admin-dashboard.component';
-import { UserListComponent } from './pages/users/user-list/user-list.component';
 import { SaccoCreateComponent } from '../shared/sacco/sacco-create.component';
 import { SaccoListComponent } from '../shared/sacco-list/sacco-list.component';
 import { FacilitatorCreateComponent } from '../shared/facilitator/facilitator-create.component';
@@ -11,7 +10,6 @@ import { LinkSaccoFacilitatorComponent } from './pages/link-sacco-facilitator/li
 
 const routes: Routes = [
   { path: '', component: AdminDashboardComponent },
-  { path: 'users', component: UserListComponent },
   { path: 'sacco-create', component: SaccoCreateComponent },
   { path: 'sacco-list', component: SaccoListComponent },
   { path: 'facilitator-create', component: FacilitatorCreateComponent },
