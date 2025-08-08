@@ -12,6 +12,7 @@ import { User } from '../../uikit/pages/table/model/user.model';
   selector: 'app-facilitator-create',
   imports: [FormsModule, ReactiveFormsModule,CommonModule],
   templateUrl: './facilitator-create.component.html',
+  styleUrls: ['./facilitator-create.component.css']
 })
 export class FacilitatorCreateComponent implements OnInit {
   currentStep = 1;
@@ -96,7 +97,7 @@ export class FacilitatorCreateComponent implements OnInit {
       
       this.facilitatorService.createUser(userAccount).subscribe({
         next: (response) => {
-          this.userId = response.id;
+          this.userId = response.i;
           this.currentStep++;
           this.isSubmitting = false;
         },
