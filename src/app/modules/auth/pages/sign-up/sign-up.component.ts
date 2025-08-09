@@ -9,8 +9,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MockUserService } from '../../services/mock-user.service';
-import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { AlertDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -162,7 +162,7 @@ export class SignUpComponent implements OnInit {
     });
     
     // Show success dialog
-    this.dialog.open(SuccessDialogComponent, {
+    this.dialog.open(AlertDialogComponent, {
       data: {
         title: 'Registration Successful',
         message: 'Your account has been created successfully!',

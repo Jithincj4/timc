@@ -55,6 +55,20 @@
     cursor: pointer;
     transition: all 0.3s ease;
 }
+/* Facilitator create small helpers */
+.form-control-with-icon { display: flex; align-items: center; gap: 0.5rem; }
+.form-control-with-icon i { color: #64748b; } /* slate-400 */
+.step-disabled { pointer-events: none; opacity: 0.6; }
+
+/* Keep card usable on short screens */
+@media (max-height: 700px) {
+  .min-h-screen { min-height: auto; }
+}
+
+/* Optional: increase select appearance on some browsers */
+select[multiple] {
+  min-height: 6rem;
+}
 
 .user-type-btn:hover {
     background-color: #e9ecef;
