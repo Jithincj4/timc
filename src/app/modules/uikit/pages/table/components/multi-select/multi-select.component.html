@@ -1,0 +1,60 @@
+<div class="relative w-full" (clickOutside)="isOpen = false">
+    <!-- Dropdown Trigger -->
+    <div
+      class="border border-gray-300 rounded-lg p-2 bg-white shadow-sm cursor-pointer flex flex-wrap gap-1 items-center min-h-[42px]"
+      (click)="toggleDropdown()"
+    >
+      <!-- Show chips if selected -->
+      <ng-container *ngIf="selectedValues.length > 0; else placeholderTpl">
+        <span
+          *ngFor="let label of selectedLabelsArray"
+          class="bg-blue-100 text-blue-700 text-sm px-2 py-0.5 rounded-full flex items-center gap-1"
+        >
+          {{ label }}
+          <button
+            class="text-blue-500 hover:text-blue-700"
+            (click)="removeValue(label, $event)"
+          >
+            ✕
+          </button>
+        </span>
+      </ng-container>
+  
+      <!-- Placeholder -->
+      <ng-template #placeholderTpl>
+        <span class="text-gray-400">{{ placeholder }}</span>
+      </ng-template>
+  
+      <!-- Chevron -->
+      <svg
+        class="w-4 h-4 ml-auto text-gray-500 transform transition-transform"
+        [class.rotate-180]="isOpen"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  
+    <!-- Dropdown Options -->
+    <div
+      *ngIf="isOpen"
+      class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto animate-fadeIn"
+    >
+      <div
+        *ngFor="let option of options"
+        (click)="toggleSelection(option.value)"
+        class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100"
+      >
+        <input
+          type="checkbox"
+          [checked]="isSelected(option.value)"
+          class="mr-2 accent-blue-500"
+        />
+        <span>{{ option.label }}</span>
+      </div>
+    </div>
+  </div>
+  

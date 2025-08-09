@@ -187,10 +187,11 @@ layer(base);
   /* Better Form Element Sizing */
   input,
   textarea,
-  select,
+  select,app-multi-select ,
   button {
     font-family: inherit;
     font-size: inherit;
+   
   }
 }
 .dropdown-content {
@@ -359,7 +360,8 @@ layer(base);
 [type='week'],
 [multiple],
 textarea,
-select {
+select,
+app-multi-select {
   @apply border-border bg-background text-foreground placeholder-muted-foreground focus:border-primary focus:ring-primary/20 w-full rounded-lg border px-4 py-3 text-sm transition-all focus:z-10 focus:outline-none focus:ring-2;
   min-height: 44px; /* Touch-friendly minimum height */
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
@@ -367,6 +369,12 @@ select {
   border: 1px solid #1a238f;
   border-radius: 6px;
   opacity: 1;
+}
+
+app-multi-select{
+ height: fit-content;
+  background: #d2691e00;
+  border: none;
 }
 /* Mobile-specific form improvements */
 @media (max-width: 767px) {
@@ -384,7 +392,7 @@ select {
   [type='week'],
   [multiple],
   textarea,
-  select {
+  select,app-multi-select  {
     font-size: 16px; /* Prevents zoom on iOS */
     min-height: 48px;
   }
