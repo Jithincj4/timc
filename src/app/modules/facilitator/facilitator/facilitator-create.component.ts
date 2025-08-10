@@ -9,11 +9,10 @@ import { Router } from '@angular/router';
 import { AlertDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { MultiSelectComponent } from '../../uikit/pages/table/components/multi-select/multi-select.component';
 
 @Component({
   selector: 'app-facilitator-create',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatInputModule, MultiSelectComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatInputModule],
   templateUrl: './facilitator-create.component.html',
   styleUrls: ['./facilitator-create.component.css'],
 })
@@ -49,7 +48,7 @@ export class FacilitatorCreateComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private facilitatorService: FacilitatorService,
-    private router: Router,
+    public router: Router,
   ) {}
 
   ngOnInit(): void {

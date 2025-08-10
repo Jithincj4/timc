@@ -9,12 +9,13 @@ layer(base);
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/aspect-ratio";
 @plugin "tailwind-scrollbar";
-@custom-variant dark (&:where(.dark, .dark *));
+
+/* --- Theme & Animations (light only) --- */
 @theme {
   --font-*: initial;
   --font-poppins: Poppins, system-ui, sans-serif;
-  --font-nunito: Nunito Sans, sans-serif;
-  /* Enhanced Responsive Breakpoints */
+  --font-nunito: 'Nunito Sans', sans-serif;
+
   --breakpoint-xs: 475px;
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
@@ -22,6 +23,7 @@ layer(base);
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
   --breakpoint-3xl: 1920px;
+
   --animate-wiggle: wiggle 1s ease-in-out infinite;
   --animate-fade-in-down: fade-in-down 0.3s ease-out;
   --animate-fade-out-down: fade-out-down 0.3s ease-out;
@@ -29,133 +31,52 @@ layer(base);
   --animate-fade-out-up: fade-out-up 0.3s ease-out;
   --animate-slide-in-left: slide-in-left 0.3s ease-out;
   --animate-slide-out-left: slide-out-left 0.3s ease-out;
+
   --shadow-custom: 0px 0px 50px 0px rgb(82 63 105 / 15%);
+
   --color-border: var(--border);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  @keyframes wiggle {
-    0%,
-    100% {
-      transform: rotate(-3deg);
-    }
-    50% {
-      transform: rotate(3deg);
-    }
-  }
-  @keyframes fade-in-down {
-    0% {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes fade-out-down {
-    from {
-      opacity: 1;
-      transform: translateY(0px);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-  }
-  @keyframes fade-in-up {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes fade-out-up {
-    from {
-      opacity: 1;
-      transform: translateY(0px);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-  }
-  @keyframes slide-in-left {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
-  @keyframes slide-out-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
 }
-/* Enhanced Container Utility */
+
+/* Keyframes */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes fade-in-down { 0% { opacity:0; transform:translateY(-10px); } 100% { opacity:1; transform:none; } }
+@keyframes fade-out-down { from { opacity:1; transform:none } to { opacity:0; transform:translateY(10px) } }
+@keyframes fade-in-up { 0% { opacity:0; transform:translateY(10px); } 100% { opacity:1; transform:none; } }
+@keyframes fade-out-up { from { opacity:1; transform:none } to { opacity:0; transform:translateY(10px) } }
+@keyframes slide-in-left { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } }
+@keyframes slide-out-left { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+/* --- Container utility (responsive) --- */
 .container {
   padding-inline: 1rem;
   margin-inline: auto;
   width: 100%;
-  @media (width >= 475px) {
-    padding-inline: 1.5rem;
-  }
-  @media (width >= 640px) {
-    padding-inline: 2rem;
-    max-width: 640px;
-  }
-  @media (width >= 768px) {
-    padding-inline: 2.5rem;
-    max-width: 768px;
-  }
-  @media (width >= 1024px) {
-    padding-inline: 3rem;
-    max-width: 1024px;
-  }
-  @media (width >= 1280px) {
-    padding-inline: 4rem;
-    max-width: 1280px;
-  }
-  @media (width >= 1536px) {
-    padding-inline: 5rem;
-    max-width: 1536px;
-  }
-  @media (width >= 1920px) {
-    padding-inline: 6rem;
-    max-width: 1920px;
-  }
 }
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+@media (min-width: 475px) { .container { padding-inline: 1.5rem; } }
+@media (min-width: 640px) { .container { padding-inline: 2rem; max-width: 640px; } }
+@media (min-width: 768px) { .container { padding-inline: 2.5rem; max-width: 768px; } }
+@media (min-width: 1024px) { .container { padding-inline: 3rem; max-width: 1024px; } }
+@media (min-width: 1280px) { .container { padding-inline: 4rem; max-width: 1280px; } }
+@media (min-width: 1536px) { .container { padding-inline: 5rem; max-width: 1536px; } }
+@media (min-width: 1920px) { .container { padding-inline: 6rem; max-width: 1920px; } }
+
+/* --- Base improvements & accessibility (light only) --- */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-muted, currentColor);
   }
-  /* Enhanced Root Styles for Better Responsiveness */
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
@@ -168,65 +89,13 @@ layer(base);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-family: var(--font-poppins);
+    background: var(--background, #ffffff);
+    color: var(--foreground, #1a238f);
   }
-  /* Improved Focus Management */
-  *:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-  /* Better Image Responsiveness */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  /* Improved Table Responsiveness */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  /* Better Form Element Sizing */
-  input,
-  textarea,
-  select,app-multi-select ,
-  button {
-    font-family: inherit;
-    font-size: inherit;
-   
-  }
-}
-.dropdown-content {
-  @apply pointer-events-none scale-95 opacity-0 duration-100 ease-in;
-  .dropdown:hover > & {
-    @apply animate-fade-in-up pointer-events-auto block scale-100 opacity-100 duration-200;
-  }
-}
-.dropdown {
-  &:hover > .dropdown-content {
-    @apply animate-fade-in-up pointer-events-auto block scale-100 opacity-100 duration-200;
-  }
-}
-/* Enhanced Touch Target Utility */
-.touch-target {
-  min-height: 44px;
-  min-width: 44px;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
 
-  @media (hover: none) and (pointer: coarse) {
-    min-height: 48px;
-    min-width: 48px;
-  }
-}
-/* Touch-Friendly Class */
-.touch-friendly {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
-}
-@layer base {
   :root {
-    /* Medical Tech Theme Colors */
+    /* Light theme tokens */
     --background: #ffffff;
     --foreground: #1a238f;
     --card: #ffffff;
@@ -241,272 +110,153 @@ layer(base);
     --accent: #f0f9ff;
     --accent-foreground: #0c4a6e;
   }
-  .dark {
-    --background: #0f172a;
-    --foreground: #f8fafc;
-    --card: #1e293b;
-    --card-foreground: #f8fafc;
-    --muted: #334155;
-    --muted-foreground: #94a3b8;
-    --border: #334155;
-    --accent: #0c4a6e;
-    --accent-foreground: #f0f9ff;
+
+  /* Focus-visible for keyboard accessibility */
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
-  /* Enhanced Theme Variants */
-  :root[data-theme='violet'] {
-    --primary: #6e56cf;
-  }
-  .dark[data-theme='violet'] {
-    --background: #060815;
-    --foreground: #f6f8fb;
-    --card: #0b0f1a;
-    --card-foreground: #f6f8fb;
-    --primary-foreground: #f6f8fb;
-    --muted: #232b3d;
-    --muted-foreground: #a1a8bf;
-    --border: #232b3d;
-  }
-  :root[data-theme='red'] {
-    --primary: #dc2626;
-  }
-  .dark[data-theme='red'] {
-    --primary-foreground: #ffe5e5;
-  }
-  :root[data-theme='blue'] {
-    --primary: #0066cc;
-  }
-  .dark[data-theme='blue'] {
-    --background: #02080f;
-    --foreground: #f8fafc;
-    --card: #0b1117;
-    --card-foreground: #f8fafc;
-    --primary-foreground: #f0f9ff;
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
-    --border: #1e293b;
-  }
-  :root[data-theme='orange'] {
-    --primary: #ea580c;
-  }
-  .dark[data-theme='orange'] {
-    --background: #0c0a09;
-    --foreground: #fafaf9;
-    --card: #141110;
-    --card-foreground: #fafaf9;
-    --primary-foreground: #fafaf9;
-    --muted: #292524;
-    --muted-foreground: #a8a29e;
-    --border: #292524;
-  }
-  :root[data-theme='yellow'] {
-    --primary: #facc15;
-  }
-  .dark[data-theme='yellow'] {
-    --background: #0c0a09;
-    --foreground: #fafaf9;
-    --card: #141110;
-    --card-foreground: #fafaf9;
-    --primary: #facc15;
-    --primary-foreground: #422006;
-    --muted: #292524;
-    --muted-foreground: #a8a29e;
-    --border: #292524;
-  }
-  :root[data-theme='green'] {
-    --primary: #4d62f4;
-  }
-  .dark[data-theme='green'] {
-    --primary: #22c55e;
-    --primary-foreground: #052e16;
+
+  img { max-width: 100%; height: auto; }
+  table { width: 100%; border-collapse: collapse; }
+
+  /* Ensure form elements inherit */
+  input, textarea, select, app-multi-select, button {
+    font-family: inherit;
+    font-size: inherit;
   }
 }
-/** Enhanced Scroll bar Support **/
-@supports selector(::-webkit-scrollbar) {
-  .supports-scrollbars\:pr-2 {
-    padding-right: 0.5rem;
-  }
 
-  /* Custom Scrollbar Styles */
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: var(--color-muted);
-    border-radius: 3px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: var(--color-muted-foreground);
-  }
+/* --- Dropdown hover helper --- */
+.dropdown-content {
+  pointer-events: none;
+  transform: scale(.95);
+  opacity: 0;
+  transition: all .12s ease;
 }
-/** Enhanced Custom Forms - Medical Tech Style **/
-[type='text'],
-[type='email'],
-[type='url'],
-[type='password'],
-[type='number'],
-[type='date'],
-[type='datetime-local'],
-[type='month'],
-[type='search'],
-[type='tel'],
-[type='time'],
-[type='week'],
-[multiple],
-textarea,
-select,
-app-multi-select {
-  @apply border-border bg-background text-foreground placeholder-muted-foreground focus:border-primary focus:ring-primary/20 w-full rounded-lg border px-4 py-3 text-sm transition-all focus:z-10 focus:outline-none focus:ring-2;
-  min-height: 44px; /* Touch-friendly minimum height */
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid #1a238f;
-  border-radius: 6px;
+.dropdown:hover > .dropdown-content {
+  pointer-events: auto;
+  transform: scale(1);
   opacity: 1;
+  transition-duration: .18s;
 }
 
-app-multi-select{
- height: fit-content;
-  background: #d2691e00;
-  border: none;
+/* --- Touch & accessibility helpers --- */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-/* Mobile-specific form improvements */
+.touch-friendly {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* --- Scrollbar (light) --- */
+@supports selector(::-webkit-scrollbar) {
+  .supports-scrollbars\:pr-2 { padding-right: .5rem; }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+}
+
+/* --- Form controls: polished light styling --- */
+[type='text'], [type='email'], [type='url'], [type='password'],
+[type='number'], [type='date'], [type='datetime-local'], [type='month'],
+[type='search'], [type='tel'], [type='time'], [type='week'],
+[multiple], textarea, select, app-multi-select {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  padding: .75rem 1rem;
+  border-radius: .5rem;
+  width: 100%;
+  min-height: 44px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+[type='text']:focus, [type='email']:focus, textarea:focus, select:focus, app-multi-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 6px 18px rgba(26,35,143,0.06);
+}
+
+/* app-multi-select small tweak */
+app-multi-select { height: fit-content; background: transparent; border: none; }
+
+/* Mobile tweaks */
 @media (max-width: 767px) {
-  [type='text'],
-  [type='email'],
-  [type='url'],
-  [type='password'],
-  [type='number'],
-  [type='date'],
-  [type='datetime-local'],
-  [type='month'],
-  [type='search'],
-  [type='tel'],
-  [type='time'],
-  [type='week'],
-  [multiple],
-  textarea,
-  select,app-multi-select  {
-    font-size: 16px; /* Prevents zoom on iOS */
+  [type='text'], [type='email'], [type='url'], [type='password'],
+  [type='number'], [type='date'], [type='datetime-local'], [type='month'],
+  [type='search'], [type='tel'], [type='time'], [type='week'],
+  [multiple], textarea, select, app-multi-select {
+    font-size: 16px; /* prevents iOS zoom */
     min-height: 48px;
   }
 }
-[type='checkbox'],
-[type='radio'] {
-  @apply border-border bg-background checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary focus:ring-primary/20 h-4 w-4 rounded-sm focus:ring-2;
-  min-height: 44px;
-  min-width: 44px;
+
+/* Checkboxes / radios touch target */
+[type='checkbox'], [type='radio'] {
+  border: 1px solid var(--border);
+  background: var(--card);
+  height: 1.1rem;
+  width: 1.1rem;
+  border-radius: .25rem;
 }
-/* Login Form Specific Styles */
+
+/* --- Utility components --- */
 .login-form {
-  @apply bg-card rounded-xl p-8 shadow-lg;
+  background: var(--card);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-custom);
   max-width: 420px;
   width: 100%;
 }
-.login-header {
-  @apply mb-8 text-center;
+.login-header h1 { color: var(--foreground); font-weight: 700; margin-bottom: .5rem; }
+.login-button {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: .75rem;
+  padding: .75rem;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
 }
-.login-header h1 {
-  @apply text-foreground text-2xl font-bold;
-  margin-bottom: 0.5rem;
-}
-.login-header p {
-  @apply text-muted-foreground text-sm;
-}
-.login-form .form-group {
-  @apply mb-5;
-}
-.login-form label {
-  @apply text-foreground mb-2 block text-sm font-medium;
-}
-.login-form .input-group {
-  @apply relative;
-}
-.login-form .captcha-container {
-  @apply mb-6 flex items-center space-x-3;
-}
-.login-form .captcha-image {
-  @apply border-border h-12 rounded-lg border;
-}
-.login-form .login-button {
-  @apply bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 w-full rounded-lg py-3 text-center font-medium shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-offset-2;
-  min-height: 48px;
-}
-/* Medical Tech Illustration Panel */
+
+/* Illustration panel */
 .medical-illustration {
-  @apply hidden flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-8 md:flex;
-  border-radius: 1rem;
+  display: none;
 }
-.medical-illustration .logo {
-  @apply text-primary mb-6 text-3xl font-bold;
+@media (min-width: 768px) {
+  .medical-illustration { display: flex; gap: 1rem; align-items: center; padding: 2rem; border-radius: 1rem; background: linear-gradient(135deg,#f0f9ff,#eef2ff); }
 }
-.medical-illustration .date {
-  @apply text-muted-foreground mb-8;
-}
-/* Responsive Typography Improvements */
+
+/* Responsive typography */
 @media (max-width: 640px) {
-  h1 {
-    font-size: clamp(1.5rem, 5vw, 2rem);
-  }
-  h2 {
-    font-size: clamp(1.25rem, 4vw, 1.5rem);
-  }
-  h3 {
-    font-size: clamp(1.125rem, 3vw, 1.25rem);
-  }
-  h4 {
-    font-size: clamp(1rem, 2.5vw, 1.125rem);
-  }
-  h5 {
-    font-size: clamp(0.875rem, 2vw, 1rem);
-  }
-  h6 {
-    font-size: clamp(0.75rem, 1.5vw, 0.875rem);
-  }
+  h1 { font-size: clamp(1.5rem, 5vw, 2rem); }
+  h2 { font-size: clamp(1.25rem, 4vw, 1.5rem); }
 }
-/* Better Loading States */
-.loading {
-  position: relative;
-  overflow: hidden;
-}
+
+/* Loading shimmer */
+.loading { position: relative; overflow: hidden; }
 .loading::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
   animation: loading 1.5s infinite;
 }
-@keyframes loading {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-  * {
-    border-color: currentColor !important;
-  }
-}
-/* Reduced Motion Support */
+@keyframes loading { 0% { left:-100% } 100% { left:100% } }
+
+/* Reduced motion & high contrast helpers */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+@media (prefers-contrast: high) {
+  * { border-color: currentColor !important; }
 }

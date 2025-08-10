@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminDashboardComponent } from './pages/dashboard/admin-dashboard.component';
-import { SaccoCreateComponent } from '../shared/sacco/sacco-create.component';
-import { SaccoListComponent } from '../shared/sacco-list/sacco-list.component';
-import { FacilitatorCreateComponent } from '../shared/facilitator/facilitator-create.component';
-import { FacilitatorListComponent } from '../shared/facilitator-list/facilitator-list.component';
+import { SaccoCreateComponent } from '../sacco/sacco/sacco-create.component';
+import { SaccoListComponent } from '../sacco/sacco-list/sacco-list.component';
+import { FacilitatorCreateComponent } from '../facilitator/facilitator/facilitator-create.component';
+import { FacilitatorListComponent } from '../facilitator/facilitator-list/facilitator-list.component';
 import { PatientByFacilitatorComponent } from '../shared/patients-list/patient-by-facilitator.component';
 import { LinkSaccoFacilitatorComponent } from './pages/link-sacco-facilitator/link-sacco-facilitator.component';
 

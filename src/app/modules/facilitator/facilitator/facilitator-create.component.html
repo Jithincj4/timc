@@ -1,10 +1,17 @@
 <!-- src/app/components/facilitator-create/facilitator-create.component.html -->
-<div class="bg-slate-50 py-8">
+<div class=" py-8">
     <div class=" mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="mb-6">
         <h1 class="text-2xl sm:text-3xl font-bold text-blue-800">FuFi Med — Facilitator Creation</h1>
         <p class="text-sm text-slate-500 mt-1">Create user account first, then enter facilitator details and submit.</p>
+        <br/>
+        <button
+        class="bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-primary/80"
+        (click)="router.navigate(['/home/admin/facilitator-list'])"
+        >
+        Facilitator List
+      </button>
       </div>
   
       <!-- Card -->

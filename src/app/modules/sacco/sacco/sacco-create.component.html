@@ -1,0 +1,181 @@
+<!-- src/app/components/sacco-create/sacco-create.component.html -->
+<div class="bg-slate-50 py-8">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-blue-800">FuFi Med — SACCO Creation</h1>
+      <p class="text-sm text-slate-500 mt-1">Create user account first, then enter SACCO details and submit.</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <!-- Stepper -->
+      <div class="px-6 py-4 border-b">
+        <div class="flex items-center gap-6">
+          <!-- Step 1 -->
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-full flex items-center justify-center font-semibold text-sm"
+              [ngClass]="{
+                'bg-blue-600 text-white shadow-md': currentStep === 1,
+                'bg-green-600 text-white': currentStep > 1,
+                'bg-white text-slate-500 border border-slate-200': currentStep < 1
+              }">
+              1
+            </div>
+            <div class="text-sm">
+              <div [ngClass]="{ 'text-blue-600 font-semibold': currentStep === 1, 'text-slate-500': currentStep !== 1 }">User Account</div>
+            </div>
+          </div>
+
+          <div class="flex-1 border-t h-0 mx-3" [ngClass]="{ 'border-green-500': currentStep > 1, 'border-slate-200': currentStep <= 1 }"></div>
+
+          <!-- Step 2 -->
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-full flex items-center justify-center font-semibold text-sm"
+              [ngClass]="{
+                'bg-blue-600 text-white shadow-md': currentStep === 2,
+                'bg-white text-slate-500 border border-slate-200': currentStep < 2,
+                'bg-green-600 text-white': currentStep > 2
+              }">
+              2
+            </div>
+            <div class="text-sm">
+              <div [ngClass]="{ 'text-blue-600 font-semibold': currentStep === 2, 'text-slate-500': currentStep !== 2 }">SACCO Details</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="px-6 py-6">
+        <!-- Step 1: User Account -->
+        <div *ngIf="currentStep === 1">
+          <h2 class="text-xl font-semibold text-slate-800 mb-4">Create User Account</h2>
+
+          <form [formGroup]="userForm" class="space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 gap-4">
+              <div>
+                <label class="text-sm font-medium text-slate-700">Username</label>
+                <input formControlName="username" type="text"
+                  class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  placeholder="Username" />
+              </div>
+
+              <div>
+                <label class="text-sm font-medium text-slate-700">Email</label>
+                <input formControlName="email" type="email"
+                  class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  placeholder="Email" />
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="text-sm font-medium text-slate-700">Password</label>
+                  <input formControlName="password" type="password"
+                    class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    placeholder="Password" />
+                </div>
+
+                <div>
+                  <label class="text-sm font-medium text-slate-700">Confirm Password</label>
+                  <input formControlName="confirmPassword" type="password"
+                    class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    placeholder="Confirm Password" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 2: SACCO Details -->
+        <div *ngIf="currentStep === 2">
+          <h2 class="text-xl font-semibold text-slate-800 mb-4">SACCO Details</h2>
+
+          <form [formGroup]="saccoForm" class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="text-sm font-medium text-slate-700">SACCO Name</label>
+              <input formControlName="agentName" type="text"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Enter SACCO name" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium text-slate-700">Registration Number</label>
+              <input formControlName="registrationNumber" type="text"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Enter registration number" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium text-slate-700">Location</label>
+              <input formControlName="location" type="text"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Enter location" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium text-slate-700">Contact Person</label>
+              <input formControlName="contactPerson" type="text"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Contact person name" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium text-slate-700">Phone</label>
+              <input formControlName="phone" type="tel"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Phone number" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium text-slate-700">Country</label>
+              <input formControlName="country" type="text"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Country" />
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="text-sm font-medium text-slate-700">Address</label>
+              <textarea formControlName="address" rows="3"
+                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Address"></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer navigation -->
+      <div class="px-6 py-4 border-t flex items-center gap-4 justify-between">
+        <div>
+          <button
+            *ngIf="currentStep > 1"
+            (click)="previousStep()"
+            [disabled]="isSubmitting"
+            class="rounded-md px-4 py-2 bg-gray-200 text-slate-700 hover:bg-gray-300">
+            Back
+          </button>
+        </div>
+
+        <div class="ml-auto flex items-center gap-3">
+          <button
+            *ngIf="currentStep < totalSteps"
+            (click)="nextStep()"
+            [disabled]="isSubmitting || (currentStep === 1 && userForm.invalid) || (currentStep === 2 && saccoForm.invalid)"
+            class="rounded-md px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
+            Next
+          </button>
+
+          <button
+            *ngIf="currentStep === totalSteps"
+            (click)="submitSacco()"
+            [disabled]="isSubmitting || saccoForm.invalid || userForm.invalid"
+            class="rounded-md px-4 py-2 bg-green-600 text-white hover:bg-green-700">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
