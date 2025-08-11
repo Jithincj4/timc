@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../admin.service';
+import { c } from 'node_modules/@angular/material/dialog.d-hlN3f-Hk';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ClickLockService } from 'src/app/core/services/click-lock.service';
-import { DisableAfterClickDirective } from 'src/app/core/directive/disable-after-click.directive';
 
 @Component({
   selector: 'app-link-sacco-facilitator',
-  imports: [FormsModule,DisableAfterClickDirective],
+  imports: [CommonModule,FormsModule],
   templateUrl: './link-sacco-facilitator.component.html'
 })
 export class LinkSaccoFacilitatorComponent implements OnInit {
@@ -16,7 +16,7 @@ export class LinkSaccoFacilitatorComponent implements OnInit {
   selectedFacilitatorId = '';
   loading = false;
 
-  constructor(  public clickLock: ClickLockService, private adminService: AdminService) {}
+  constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.loadSaccos();
@@ -32,28 +32,19 @@ export class LinkSaccoFacilitatorComponent implements OnInit {
   }
 
   linkSacco() {
-    if (this.clickLock.isLocked('createFacilitator')) return;
-
-   
-
-
     if (!this.selectedSaccoId || !this.selectedFacilitatorId) {
       alert('Please select both SACCO and Facilitator.');
-     
       return;
     }
-    this.clickLock.lock('createFacilitator');
 
     this.loading = true;
     this.adminService.linkSaccoToFacilitator(this.selectedSaccoId, this.selectedFacilitatorId).subscribe({
       next: () => {
         this.loading = false;
-        this.clickLock.unlock('createFacilitator');
         alert('SACCO linked to facilitator successfully!');
       },
       error: () => {
         this.loading = false;
-        this.clickLock.unlock('createFacilitator');
         alert('Error linking SACCO.');
       }
     });

@@ -1,24 +1,29 @@
 // src/app/components/facilitator-create/facilitator-create.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Specialization, FacilitatorDetails, Language } from 'src/app/core/models/facilitator.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FacilitatorService } from './facilitator.service';
-import { User } from '../../uikit/pages/table/model/user.model';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
+import { FacilitatorService } from './facilitator.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
+import { Specialization, FacilitatorDetails, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
+import { User } from '../../uikit/pages/table/model/user.model';
+import { specializationsData } from 'src/app/core/constants/master-data';
+
 @Component({
   selector: 'app-facilitator-create',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatInputModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule],
   templateUrl: './facilitator-create.component.html',
   styleUrls: ['./facilitator-create.component.css'],
 })
 export class FacilitatorCreateComponent implements OnInit {
   currentStep = 1;
   totalSteps = 2;
+
+  createFacilitatorRequest: CreateFacilitatorRequest = {} as CreateFacilitatorRequest;
 
   userForm!: FormGroup;
   facilitatorForm!: FormGroup;
@@ -28,18 +33,14 @@ export class FacilitatorCreateComponent implements OnInit {
     { languageId: 2, languageName: 'Swahili' },
     { languageId: 3, languageName: 'French' },
   ];
-  specializations: Specialization[] = [
-    { specializationId: 1, specializationName: 'Medical Agent', categoryId: 4, categoryName: 'Medical Agent' },
-    { specializationId: 2, specializationName: 'Travel Agent', categoryId: 2, categoryName: 'Travel Agent' },
-    { specializationId: 3, specializationName: 'Booking Agent', categoryId: 1, categoryName: 'Booking Agent' },
-    { specializationId: 4, specializationName: 'Insurance Agent', categoryId: 3, categoryName: 'Insurance Agent' },
-    { specializationId: 5, specializationName: 'Medical Tourism', categoryId: 5, categoryName: 'Medical Tourism' },
-    { specializationId: 6, specializationName: 'Healthcare Consultant', categoryId: 4, categoryName: 'Medical Agent' },
-  ];
+
+  specializations: Specialization[] = specializationsData;
+
   dropdownOptions = this.specializations.map((s) => ({
     label: s.specializationName,
     value: s.specializationId,
   }));
+
   selectedSpecializationIds: number[] = [];
   userId: number | null = null;
   isSubmitting = false;
@@ -49,6 +50,7 @@ export class FacilitatorCreateComponent implements OnInit {
     private dialog: MatDialog,
     private facilitatorService: FacilitatorService,
     public router: Router,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -65,14 +67,16 @@ export class FacilitatorCreateComponent implements OnInit {
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
       },
-      { validators: this.passwordMatchValidator },
+      { validators: this.passwordMatchValidator }
     );
 
     // Facilitator Details Form
     this.facilitatorForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: [''],
+      licenseNumber: ['', Validators.required],
+      organisationName: ['', Validators.required],
       address: [''],
       city: [''],
       country: [''],
@@ -80,19 +84,21 @@ export class FacilitatorCreateComponent implements OnInit {
       idNumber: [''],
       dateOfBirth: [''],
       gender: [''],
-      languageIds: [[], Validators.required],
+      languageIds: [[]],
+      yearsOfExperience: ['', [Validators.required, Validators.min(0)]],
       specializationIds: [[], Validators.required],
     });
   }
 
-  passwordMatchValidator(form: FormGroup): Validators {
+  passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
-
-    return password === confirmPassword ? true : { passwordMismatch: true };
+    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  loadReferenceData(): void {}
+  loadReferenceData(): void {
+    // Placeholder for any async data fetch if needed
+  }
 
   nextStep(): void {
     if (this.currentStep === 1) {
@@ -102,20 +108,10 @@ export class FacilitatorCreateComponent implements OnInit {
       }
 
       this.isSubmitting = true;
-      const userAccount: User = this.userForm.value;
-
-      this.facilitatorService.createUser(userAccount).subscribe({
-        next: (response) => {
-          this.userId = response.id;
-          this.currentStep++;
-          this.isSubmitting = false;
-        },
-        error: (error) => {
-          console.error('Error creating user:', error);
-          this.isSubmitting = false;
-          // Handle error (show message to user)
-        },
-      });
+      this.createFacilitatorRequest.userDto = { ...this.userForm.value };
+      this.createFacilitatorRequest.userDto.roleId = 3; // Assuming roleId 3 is for Facilitator
+      this.currentStep++;
+      this.isSubmitting = false;
     } else {
       this.currentStep++;
     }
@@ -126,44 +122,36 @@ export class FacilitatorCreateComponent implements OnInit {
   }
 
   submitFacilitator(): void {
-    // if (this.facilitatorForm.invalid) {
-    //   this.markFormGroupTouched(this.facilitatorForm);
-    //   return;
-    // }
-
-    if (!this.userId) {
-      console.error('User ID not available');
+    if (this.facilitatorForm.invalid) {
+      this.markFormGroupTouched(this.facilitatorForm);
       return;
     }
 
     this.isSubmitting = true;
-    const facilitatorDetails: FacilitatorDetails = this.facilitatorForm.value;
+    const request: CreateFacilitatorRequest = {
+      userDto: this.createFacilitatorRequest.userDto, // already captured in step 1
+      facilitatorDto: { ...this.facilitatorForm.value }
+    };
 
-    this.facilitatorService.createFacilitator(facilitatorDetails, this.userId).subscribe({
+    this.facilitatorService.createFacilitator(request).subscribe({
       next: (response) => {
         console.log('Facilitator created successfully:', response);
         this.isSubmitting = false;
         this.resetForms();
-        this.dialog.open(AlertDialogComponent, {
-          data: {
-            message: 'Your account has been created successfully.',
-            type: 'success',
-            route: '/home/admin/facilitators-list',
-          },
+        this.alertService.showSuccess('Facilitator created successfully', {
+          title: 'Facilitator Created',
+          buttonText: 'Go to Facilitators List',
+          route: '/home/admin/facilitators-list',
         });
-        // Navigate to success page or show success message
       },
       error: (error) => {
         console.error('Error creating facilitator:', error);
-        this.dialog.open(AlertDialogComponent, {
-          data: {
-            message: 'Error creating facilitator, please try again.',
-            type: 'error',
-            route: '/dashboard',
-          },
+        this.alertService.showError('Error creating facilitator', {
+          title: 'Error',
+          buttonText: 'OK',
+          route: '/home/admin/facilitator-create',
         });
         this.isSubmitting = false;
-        // Handle error (show message to user)
       },
     });
   }

@@ -75,6 +75,11 @@ module.exports = {
     animation: {
       'fade-in': 'fadeIn 0.3s ease-out',
     },
+    borderRadius: {
+      'lg': '0.5rem',
+      'md': '0.375rem',
+      'full': '9999px',
+    },
     keyframes: {
       fadeIn: {
         '0%': { opacity: 0, transform: 'scale(0.95)' },

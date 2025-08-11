@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MockUserService } from '../../services/mock-user.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { AlertDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
+import { AlertDialogComponent } from 'src/app/shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-sign-up',

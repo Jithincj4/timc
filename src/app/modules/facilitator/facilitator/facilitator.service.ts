@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { User } from '../../uikit/pages/table/model/user.model';
 import { environment } from 'src/environments/environment';
-import { FacilitatorDetails, Language, Specialization } from 'src/app/core/models/facilitator.model';
+import { CreateFacilitatorRequest, FacilitatorDetails, Language, Specialization } from 'src/app/core/models/facilitator.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,9 +35,8 @@ export class FacilitatorService {
     return this.http.post(`${this.apiUrl}/users`, user);
   }
 
-  createFacilitator(facilitator: FacilitatorDetails, userId: number): Observable<any> {
-    facilitator.userId = userId; // Associate with created user
-    return this.http.post(`${this.apiUrl}/facilitators?userId=${userId}`, facilitator);
+  createFacilitator(dto: CreateFacilitatorRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/facilitators`, dto);
   }
 // In FacilitatorMockService
 getLanguages(): Observable<Language[]> {

@@ -1,14 +1,15 @@
 // src/app/components/sacco-create/sacco-create.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SaccosService } from '../sacco.service';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
 
 @Component({
   selector: 'app-sacco-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,FormsModule],
   templateUrl: './sacco-create.component.html',
   styleUrls: ['./sacco-create.component.css']
 })
@@ -16,18 +17,30 @@ export class SaccoCreateComponent implements OnInit {
   currentStep = 1;
   totalSteps = 2;
   isSubmitting = false;
-
+  saccoCategories: any[] = [];
   userForm!: FormGroup;
   saccoForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private saccoService: SaccosService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
     this.initForms();
+    this.loadSaccoCategories();
+  }
+  loadSaccoCategories() {
+    // Replace with API if available
+    this.saccoCategories = [
+      { id: 1, name: 'Booking Agent' },
+      { id: 2, name: 'Travel Agent' },
+      { id: 3, name: 'Insurance Agent' },
+      { id: 4, name: 'Medical Agent' },
+      { id: 5, name: 'Medical Tourism' }
+    ];
   }
 
   private initForms(): void {
@@ -47,7 +60,8 @@ export class SaccoCreateComponent implements OnInit {
       contactPerson: ['', Validators.required],
       phone: ['', Validators.required],
       country: ['', Validators.required],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
+      AgentCategory:[0, Validators.required],
     });
   }
 
@@ -91,11 +105,19 @@ export class SaccoCreateComponent implements OnInit {
     this.saccoService.create(payload).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.router.navigate(['/home/admin/sacco-list']);
+        this.alertService.showSuccess('SACCO created successfully', {
+          title: 'SACCO Created',
+          buttonText: 'Go to SACCO List',
+          route: '/home/admin/sacco-list'
+        });
       },
       error: () => {
         this.isSubmitting = false;
-        alert('Error creating SACCO.');
+        this.alertService.showError('Error creating SACCO', {
+          title: 'Error',
+          buttonText: 'OK',
+          route: '/home/admin/sacco-create'
+        });
       }
     });
   }

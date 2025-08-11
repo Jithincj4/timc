@@ -3,6 +3,8 @@ import { AdminService } from '../../admin/admin.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { specializationsData } from 'src/app/core/constants/master-data';
+import { Specialization } from 'src/app/core/models/facilitator.model';
 
 @Component({
   selector: 'app-facilitator-list',
@@ -25,10 +27,12 @@ export class FacilitatorListComponent implements OnInit {
   start = 0;
   end = 0;
 
-  constructor(private facilitatorService: AdminService,private router:Router) {}
+  constructor(private facilitatorService: AdminService,private router:Router) {
+    console.log('FacilitatorListComponent initialized');
+    this.loadFacilitators();}
 
   ngOnInit(): void {
-    this.loadFacilitators();
+    
   }
 
   loadFacilitators(): void {
@@ -71,7 +75,12 @@ export class FacilitatorListComponent implements OnInit {
     this.search = '';
     this.applyFilter();
   }
-
+    getSpecializationNames(ids: Specialization[]): string {
+    return ids
+      .map(s => s.specializationName)
+      .join(', ');
+  }
+  
   prevPage(): void {
     if (this.page > 1) {
       this.page--;

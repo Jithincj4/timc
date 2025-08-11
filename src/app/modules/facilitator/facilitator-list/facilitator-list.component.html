@@ -37,7 +37,7 @@
               {{ f.firstName }} {{ f.lastName }}
             </h3>
             <p class="text-sm text-slate-500 mt-1">
-              <span *ngIf="f.idType">ID: {{ f.idType }} - {{ f.idNumber }}</span>
+              <span >LicenseNumber:{{f.licenseNumber}}</span>
             </p>
           </div>
 
@@ -45,7 +45,7 @@
             <span
               class="inline-block text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 text-white"
             >
-              {{ f.country }}
+              {{ f.yearsOfExperience || '0' }}
             </span>
           </div>
         </header>
@@ -62,21 +62,9 @@
                 d="M2 5a2 2 0 012-2h2a2 2 0 012 2H6v10h8V5h-2a2 2 0 01-2-2H8a2 2 0 00-2 2H4a2 2 0 00-2 2v6h0V7a0 0 0 010 0z"
               />
             </svg>
-            <span class="truncate">{{ f.address || '-' }}</span>
+            <span class="truncate">{{ f.organisationName || '-' }}</span>
           </div>
 
-          <div class="flex items-center gap-2">
-            <svg
-              class="w-4 h-4 text-slate-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M10 2a6 6 0 016 6c0 5-6 10-6 10S4 13 4 8a6 6 0 016-6zM8 8a2 2 0 114 0 2 2 0 01-4 0z"
-              />
-            </svg>
-            <span>{{ f.city || '—' }}</span>
-          </div>
 
           <div class="flex items-center gap-2">
             <svg
@@ -88,7 +76,7 @@
                 d="M2 3.5A1.5 1.5 0 013.5 2h13A1.5 1.5 0 0118 3.5v13a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5v-13zM6 7h8v1H6V7zm0 3h8v1H6v-1z"
               />
             </svg>
-            <span>{{ f.phone || '-' }}</span>
+            <span>{{ getSpecializationNames(f.specializations) || '-' }}</span>
           </div>
         </div>
 

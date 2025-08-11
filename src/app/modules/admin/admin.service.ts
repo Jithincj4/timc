@@ -27,14 +27,14 @@ export class AdminService {
   }
 
   createFacilitator(payload: any) {
-    return this.http.post('/Facilitators', payload);
+    return this.http.post(`${this.baseUrl}/Facilitators`, payload);
   }
   createSacco(saccoData: any) {
     return this.http.post<any>(`${this.baseUrl}/saccos`, saccoData);
   }
 
   getSaccos() {
-    return this.http.get<any[]>('/Saccos');
+    return this.http.get<any[]>(`${this.baseUrl}/Saccos`);
   }
   deleteSacco(id: string) {
     return this.http.delete(`${this.baseUrl}/saccos/${id}`);
@@ -53,8 +53,8 @@ export class AdminService {
     return this.http.get<any[]>(`${this.baseUrl}/facilitators`);
   }
   deleteFacilitator(id: string) {
-    return this.http.delete(`${this.baseUrl}/facilitators/${id}`);
-  }
+  return this.http.delete(`${this.baseUrl}/facilitators/${id}`);
+}
 
   getPatientsByFacilitator(facilitatorId: string) {
     return this.http.get<any[]>(`${this.baseUrl}/facilitators/${facilitatorId}/patients`);
