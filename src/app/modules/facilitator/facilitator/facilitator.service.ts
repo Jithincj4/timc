@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from '../../uikit/pages/table/model/user.model';
 import { environment } from 'src/environments/environment';
 import { CreateFacilitatorRequest, FacilitatorDetails, Language, Specialization } from 'src/app/core/models/facilitator.model';
+import { UserDto } from 'src/app/core/models/user-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +30,10 @@ export class FacilitatorService {
 
   constructor(private http: HttpClient) { }
 
-  createUser(user: User): Observable<any> {
+  createUser(user: UserDto): Observable<any> {
     user.roleId = 3; // Assuming roleId 3 is for Facilitator
     return this.http.post(`${this.apiUrl}/users`, user);
   }
-
   createFacilitator(dto: CreateFacilitatorRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/facilitators`, dto);
   }

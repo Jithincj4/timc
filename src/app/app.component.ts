@@ -10,7 +10,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   selector: 'app-root',
   imports: [RouterOutlet, ResponsiveHelperComponent, NgxSonnerToaster],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   private responsiveService = inject(ResponsiveService);

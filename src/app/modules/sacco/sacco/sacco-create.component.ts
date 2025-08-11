@@ -10,8 +10,7 @@ import { AlertService } from 'src/app/shared/components/alert/alert.service';
   selector: 'app-sacco-create',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule,FormsModule],
-  templateUrl: './sacco-create.component.html',
-  styleUrls: ['./sacco-create.component.css']
+  templateUrl: './sacco-create.component.html'
 })
 export class SaccoCreateComponent implements OnInit {
   currentStep = 1;

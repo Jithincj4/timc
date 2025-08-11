@@ -1,33 +1,31 @@
 module.exports = {
-  content: [
-    "./src/**/*.{html,ts}",
-  ],
+  content: ['./src/**/*.{html,ts}'],
   theme: {
     screens: {
-      'xs': '475px',
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
+      xs: '475px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
       '2xl': '1536px',
       '3xl': '1920px',
-      // Custom breakpoints for better mobile support
-      'mobile': {'max': '767px'},
-      'tablet': {'min': '768px', 'max': '1023px'},
-      'desktop': {'min': '1024px'},
-      // Height-based breakpoints for better vertical responsiveness
-      'short': {'raw': '(max-height: 600px)'},
-      'tall': {'raw': '(min-height: 800px)'},
+      // Custom breakpoints
+      mobile: { max: '767px' },
+      tablet: { min: '768px', max: '1023px' },
+      desktop: { min: '1024px' },
+      // Height-based breakpoints
+      short: { raw: '(max-height: 600px)' },
+      tall: { raw: '(min-height: 800px)' },
     },
     extend: {
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '128': '32rem',
-        '144': '36rem',
+        18: '4.5rem',
+        88: '22rem',
+        128: '32rem',
+        144: '36rem',
       },
       fontSize: {
-        'xxs': '0.625rem',
+        xxs: '0.625rem',
         '2xs': '0.6875rem',
       },
       maxWidth: {
@@ -48,6 +46,27 @@ module.exports = {
         'slide-in-left': 'slide-in-left 0.3s ease-out',
         'slide-out-left': 'slide-out-left 0.3s ease-out',
         'fade-in-scale': 'fade-in-scale 0.2s ease-out',
+        'fade-in': 'fadeIn 0.3s ease-out',
+      },
+      borderRadius: {
+        lg: '0.5rem',
+        md: '0.375rem',
+        full: '9999px',
+      },
+      colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        destructive: 'var(--destructive)',
+        'destructive-foreground': 'var(--destructive-foreground)',
+        border: 'var(--border)',
+        accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
       },
       keyframes: {
         'slide-in-left': {
@@ -62,6 +81,10 @@ module.exports = {
           '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'scale(0.95)' },
+          '100%': { opacity: 1, transform: 'scale(1)' },
+        },
       },
     },
   },
@@ -71,20 +94,4 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('tailwind-scrollbar'),
   ],
-  extend: {
-    animation: {
-      'fade-in': 'fadeIn 0.3s ease-out',
-    },
-    borderRadius: {
-      'lg': '0.5rem',
-      'md': '0.375rem',
-      'full': '9999px',
-    },
-    keyframes: {
-      fadeIn: {
-        '0%': { opacity: 0, transform: 'scale(0.95)' },
-        '100%': { opacity: 1, transform: 'scale(1)' },
-      },
-    },
-  }
 };

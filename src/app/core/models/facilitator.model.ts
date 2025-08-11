@@ -1,4 +1,4 @@
-import { User } from "src/app/modules/uikit/pages/table/model/user.model";
+import { UserDto } from "./user-dto.model";
 
 export interface FacilitatorDetails {
     firstName: string;
@@ -30,5 +30,5 @@ export interface FacilitatorDetails {
 
   export interface CreateFacilitatorRequest {
     facilitatorDto: FacilitatorDetails;
-    userDto: User;
+    userDto: UserDto;
   }

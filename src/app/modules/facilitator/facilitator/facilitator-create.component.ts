@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FacilitatorService } from './facilitator.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { Specialization, FacilitatorDetails, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
-import { User } from '../../uikit/pages/table/model/user.model';
 import { specializationsData } from 'src/app/core/constants/master-data';
 
 @Component({
@@ -116,7 +115,6 @@ export class FacilitatorCreateComponent implements OnInit {
       this.currentStep++;
     }
   }
-
   previousStep(): void {
     this.currentStep--;
   }
