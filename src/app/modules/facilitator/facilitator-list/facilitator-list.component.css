@@ -1,0 +1,16 @@
+
+.container {
+    background-color: #f8f4f5;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    overflow: hidden;
+    border-left: 4px solid #1a2a6c;
+}
+/* small helpers */
+.table-container { min-width: 720px; }
+
+select { -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+
+/* focus ring fallback for non-tailwind environments */
+button:focus, input:focus, select:focus { outline: none; box-shadow: 0 0 0 3px rgba(6,182,212,0.15); }

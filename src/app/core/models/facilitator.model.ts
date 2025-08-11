@@ -1,3 +1,5 @@
+import { UserDto } from "./user-dto.model";
+
 export interface FacilitatorDetails {
     firstName: string;
     lastName: string;
@@ -24,4 +26,9 @@ export interface FacilitatorDetails {
     specializationName: string;
     categoryId: number;
     categoryName: string;
+  }
+
+  export interface CreateFacilitatorRequest {
+    facilitatorDto: FacilitatorDetails;
+    userDto: UserDto;
   }
