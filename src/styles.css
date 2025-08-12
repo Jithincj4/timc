@@ -93,17 +93,22 @@ layer(base);
     background: var(--background, #ffffff);
     color: var(--foreground, #1a238f);
   }
+  app-navbar{
+    background: var(--nav-background, #2E3B61);
+    color: var(--foreground, #fdfdfd) !important;
+  }
 
   :root {
     /* Light theme tokens */
-    --background: #fdfdfd;
-    --foreground: #1f2937;
-    --card: #ffffff;
+    --background: #edf0f4;
+    --nav-background: #2E3B61;
+    --foreground: #fdfdfd;
+    --card: #1c2655;
     --card-foreground: #1f2937;
     --primary: #1a238f;
     --primary-foreground: #ffffff;
     --secondary: #b68cff; /* Soft Lavender */
-    --secondary-foreground: #ffffff;
+    --secondary-foreground: #0e0000;
     --muted: #f1f5f9;
     --muted-foreground: #64748b;
     --destructive: #dc2626;
@@ -139,6 +144,8 @@ layer(base);
   input, textarea, select, app-multi-select, button {
     font-family: inherit;
     font-size: inherit;
+    background: var(--primary);
+    color: var(--background);
   }
 }
 
@@ -184,8 +191,8 @@ layer(base);
 [type='search'], [type='tel'], [type='time'], [type='week'],
 [multiple], textarea, select, app-multi-select {
   border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--foreground);
+  background: var(--background);
+  color: var(--secondary-foreground);
   padding: .75rem 1rem;
   border-radius: .5rem;
   width: 100%;
@@ -200,7 +207,9 @@ layer(base);
 }
 
 /* app-multi-select small tweak */
-app-multi-select { height: fit-content; background: transparent; border: none; }
+app-multi-select { 
+  
+  height: fit-content; background: transparent; border: none; }
 
 /* Mobile tweaks */
 @media (max-width: 767px) {

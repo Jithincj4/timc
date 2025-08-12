@@ -3,7 +3,7 @@ import { AdminService } from '../../admin/admin.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { specializationsData } from 'src/app/core/constants/master-data';
+import { SPECIALIZATION_DATA } from 'src/app/core/constants/master-data';
 import { Specialization } from 'src/app/core/models/facilitator.model';
 
 @Component({

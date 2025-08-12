@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FacilitatorService } from './facilitator.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { Specialization, FacilitatorDetails, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
-import { specializationsData } from 'src/app/core/constants/master-data';
+import { SPECIALIZATION_DATA } from 'src/app/core/constants/master-data';
 
 @Component({
   selector: 'app-facilitator-create',
@@ -33,7 +33,7 @@ export class FacilitatorCreateComponent implements OnInit {
     { languageId: 3, languageName: 'French' },
   ];
 
-  specializations: Specialization[] = specializationsData;
+  specializations: Specialization[] = SPECIALIZATION_DATA;
 
   dropdownOptions = this.specializations.map((s) => ({
     label: s.specializationName,

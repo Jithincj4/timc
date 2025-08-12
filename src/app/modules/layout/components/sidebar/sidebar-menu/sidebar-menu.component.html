@@ -11,10 +11,10 @@
       <div
         (click)="toggleMenu(item)"
         [ngClass]="{
-          'hover:bg-primary/10': !menuService.showSideBar && item.active,
+          'hover:text-green-500': !menuService.showSideBar && item.active,
           'hover:bg-card/50': !menuService.showSideBar
         }"
-        class=" hover:text-foreground group relative flex grow items-center gap-4 rounded-lg px-2">
+        class=" hover:text-green-500 group relative flex grow items-center gap-4 rounded-lg px-2">
         <!-- Icon -->
         <div [ngClass]="item.active && !menuService.showSideBar ? 'text-primary' : 'text-white/50'">
           <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"> </svg-icon>
@@ -30,10 +30,10 @@
         <ng-template #parentMenu let-item="item">
           <div
             routerLink="{{ item.route }}"
-            class="text-gray-600 hover:text-primary flex h-[36px] cursor-pointer items-center justify-start rounded-sm">
+            class=" hover:text-green-500 flex h-[36px] cursor-pointer items-center justify-start rounded-sm">
             <a
               [ngClass]="{ hidden: !menuService.showSideBar }"
-              routerLinkActive="text-primary"
+              routerLinkActive="text-green-500"
               class="truncate text-xs font-semibold tracking-wide focus:outline-hidden">
               {{ item.label }}
             </a>

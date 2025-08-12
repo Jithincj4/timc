@@ -1,6 +1,11 @@
 import { UserDto } from "./user-dto.model";
 
 export interface FacilitatorDetails {
+    licenseNumber: any;
+    organisationName: any;
+    createdBy: any;
+    yearsOfExperience: any;
+    specializations: any;
     firstName: string;
     lastName: string;
     phone: string;
