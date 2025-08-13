@@ -1,0 +1,146 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="serviceForm" class="space-y-8">
+
+    <!-- Basic Info -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Basic Information</h2>
+  
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Service Name</label>
+          <input type="text" formControlName="serviceName"
+                 class="w-full border rounded-lg p-2 focus:ring focus:ring-primary" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Service Code</label>
+          <input type="text" formControlName="serviceCode"
+                 class="w-full border rounded-lg p-2 focus:ring focus:ring-primary" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Status</label>
+          <select formControlName="serviceStatus"
+                  class="w-full border rounded-lg p-2 focus:ring focus:ring-primary">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Category Selector -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Category</h2>
+      <div class="flex flex-wrap gap-4">
+        <button type="button" (click)="selectCategory('medical')" 
+                class="flex items-center px-4 py-2 border rounded-lg hover:bg-primary hover:text-white">
+          <i class="fas fa-stethoscope mr-2"></i> Medical Procedure
+        </button>
+        <button type="button" (click)="selectCategory('wellness')" 
+                class="flex items-center px-4 py-2 border rounded-lg hover:bg-primary hover:text-white">
+          <i class="fas fa-spa mr-2"></i> Wellness
+        </button>
+        <button type="button" (click)="selectCategory('diagnostic')" 
+                class="flex items-center px-4 py-2 border rounded-lg hover:bg-primary hover:text-white">
+          <i class="fas fa-vials mr-2"></i> Diagnostic
+        </button>
+        <!-- Add other categories as needed -->
+      </div>
+    </div>
+  
+    <!-- Pricing & Duration -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Pricing & Duration</h2>
+      <div class="grid md:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Price</label>
+          <input type="number" formControlName="price" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Duration</label>
+          <input type="text" formControlName="duration" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Discount %</label>
+          <input type="number" formControlName="discountPercentage" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Tax %</label>
+          <input type="number" formControlName="taxPercentage" class="w-full border rounded-lg p-2" />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Service Details -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Details</h2>
+      <div>
+        <label class="block text-sm font-medium mb-1">Description</label>
+        <textarea formControlName="description" rows="4" class="w-full border rounded-lg p-2"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Highlights</label>
+        <textarea formControlName="highlights" rows="3" class="w-full border rounded-lg p-2"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Inclusions</label>
+        <textarea formControlName="inclusions" rows="3" class="w-full border rounded-lg p-2"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Exclusions</label>
+        <textarea formControlName="exclusions" rows="3" class="w-full border rounded-lg p-2"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Terms & Conditions</label>
+        <textarea formControlName="termsConditions" rows="3" class="w-full border rounded-lg p-2"></textarea>
+      </div>
+    </div>
+  
+    <!-- Media Upload -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Media</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Image Upload</label>
+          <input type="file" (change)="onImageUpload($event)" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Video URL</label>
+          <input type="text" formControlName="videoUrl" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Brochure URL</label>
+          <input type="text" formControlName="brochureUrl" class="w-full border rounded-lg p-2" />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Availability -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Availability</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Available From</label>
+          <input type="date" formControlName="availabilityStart" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Available Until</label>
+          <input type="date" formControlName="availabilityEnd" class="w-full border rounded-lg p-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Booking Notice (days)</label>
+          <input type="number" formControlName="bookingNotice" class="w-full border rounded-lg p-2" />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Actions -->
+    <div class="flex justify-end space-x-4">
+      <button type="button" (click)="onReset()" 
+              class="px-4 py-2 border rounded-lg hover:bg-gray-100">Reset</button>
+      <button type="button" (click)="onSaveDraft()" 
+              class="px-4 py-2 border rounded-lg hover:bg-yellow-100">Save Draft</button>
+      <button type="submit" 
+              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">Submit</button>
+    </div>
+  
+  </form>
+  
