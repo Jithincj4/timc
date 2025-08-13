@@ -28,23 +28,99 @@
   
     <!-- Category Selector -->
     <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white">Category</h2>
-      <div class="flex flex-wrap gap-4">
-        <button type="button" (click)="selectCategory('medical')" 
-                class="flex items-center px-4 py-2 border rounded-lg hover:bg-primary hover:text-white">
-          <i class="fas fa-stethoscope mr-2"></i> Medical Procedure
-        </button>
-        <button type="button" (click)="selectCategory('wellness')" 
-                class="flex items-center px-4 py-2 border rounded-lg hover:bg-primary hover:text-white">
-          <i class="fas fa-spa mr-2"></i> Wellness
-        </button>
-        <button type="button" (click)="selectCategory('diagnostic')" 
-                class="flex items-center px-4 py-2 border rounded-lg hover:bg-primary hover:text-white">
-          <i class="fas fa-vials mr-2"></i> Diagnostic
-        </button>
-        <!-- Add other categories as needed -->
+        <h2 class="text-xl font-bold text-gray-800 dark:text-white">Category</h2>
+      
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 service-categories">
+          <!-- Medical Procedure -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'medical-procedure'"
+            [class.text-white]="selectedCategory === 'medical-procedure'"
+            (click)="selectCategory('medical-procedure')">
+            <i class="fas fa-procedures text-2xl mb-2"></i>
+            <h4 class="font-semibold">Medical Procedure</h4>
+            <p class="text-sm opacity-80">Surgical and non-surgical treatments</p>
+          </div>
+      
+          <!-- Wellness -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'wellness'"
+            [class.text-white]="selectedCategory === 'wellness'"
+            (click)="selectCategory('wellness')">
+            <i class="fas fa-spa text-2xl mb-2"></i>
+            <h4 class="font-semibold">Wellness Package</h4>
+            <p class="text-sm opacity-80">Health and wellness programs</p>
+          </div>
+      
+          <!-- Diagnostic -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'diagnostic'"
+            [class.text-white]="selectedCategory === 'diagnostic'"
+            (click)="selectCategory('diagnostic')">
+            <i class="fas fa-x-ray text-2xl mb-2"></i>
+            <h4 class="font-semibold">Diagnostic</h4>
+            <p class="text-sm opacity-80">Medical tests and imaging</p>
+          </div>
+      
+          <!-- Accommodation -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'accommodation'"
+            [class.text-white]="selectedCategory === 'accommodation'"
+            (click)="selectCategory('accommodation')">
+            <i class="fas fa-bed text-2xl mb-2"></i>
+            <h4 class="font-semibold">Accommodation</h4>
+            <p class="text-sm opacity-80">Stay options during treatment</p>
+          </div>
+      
+          <!-- Transport -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'transport'"
+            [class.text-white]="selectedCategory === 'transport'"
+            (click)="selectCategory('transport')">
+            <i class="fas fa-plane text-2xl mb-2"></i>
+            <h4 class="font-semibold">Transport</h4>
+            <p class="text-sm opacity-80">Travel and local transportation</p>
+          </div>
+      
+          <!-- Translation -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'translation'"
+            [class.text-white]="selectedCategory === 'translation'"
+            (click)="selectCategory('translation')">
+            <i class="fas fa-language text-2xl mb-2"></i>
+            <h4 class="font-semibold">Translation</h4>
+            <p class="text-sm opacity-80">Language assistance services</p>
+          </div>
+      
+          <!-- Insurance -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'insurance'"
+            [class.text-white]="selectedCategory === 'insurance'"
+            (click)="selectCategory('insurance')">
+            <i class="fas fa-shield-alt text-2xl mb-2"></i>
+            <h4 class="font-semibold">Insurance</h4>
+            <p class="text-sm opacity-80">Medical insurance services</p>
+          </div>
+      
+          <!-- Visa Assistance -->
+          <div 
+            class="service-category cursor-pointer border rounded-lg p-4 flex flex-col items-center text-center hover:bg-primary hover:text-white transition"
+            [class.bg-primary]="selectedCategory === 'visa'"
+            [class.text-white]="selectedCategory === 'visa'"
+            (click)="selectCategory('visa')">
+            <i class="fas fa-passport text-2xl mb-2"></i>
+            <h4 class="font-semibold">Visa Assistance</h4>
+            <p class="text-sm opacity-80">Visa processing services</p>
+          </div>
+        </div>
       </div>
-    </div>
+      
   
     <!-- Pricing & Duration -->
     <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
@@ -68,7 +144,37 @@
         </div>
       </div>
     </div>
-  
+    <div class="category-details active p-4 bg-[rgba(255,255,255,0.05)] rounded-xl" id="medical-procedure-details">
+        <h4 class="text-xl font-semibold text-primary mb-4">Medical Procedure Details</h4>
+    
+        <div class="mb-4">
+            <label for="procedureType" class="block text-sm font-medium text-secondary mb-1">Procedure Type</label>
+            <select id="procedureType" class="w-full p-2 rounded-lg bg-dark text-white border border-gray-700">
+                <option value="">Select procedure type</option>
+                <option value="cardiology">Cardiology</option>
+                <option value="orthopedics">Orthopedics</option>
+                <option value="neurology">Neurology</option>
+                <option value="oncology">Oncology</option>
+                <option value="cosmetic">Cosmetic Surgery</option>
+                <option value="dental">Dental Procedures</option>
+                <option value="fertility">Fertility Treatment</option>
+                <option value="organ-transplant">Organ Transplant</option>
+                <option value="ophthalmology">Ophthalmology</option>
+                <option value="gastroenterology">Gastroenterology</option>
+            </select>
+        </div>
+    
+        <div class="mb-4">
+            <label for="hospitalAffiliation" class="block text-sm font-medium text-secondary mb-1">Hospital Affiliation</label>
+            <input type="text" id="hospitalAffiliation" class="w-full p-2 rounded-lg bg-dark text-white border border-gray-700" placeholder="Hospital name">
+        </div>
+    
+        <div class="mb-4">
+            <label for="doctorSpecialization" class="block text-sm font-medium text-secondary mb-1">Doctor Specialization</label>
+            <input type="text" id="doctorSpecialization" class="w-full p-2 rounded-lg bg-dark text-white border border-gray-700" placeholder="Doctor specialization">
+        </div>
+    </div>
+    
     <!-- Service Details -->
     <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-4">
       <h2 class="text-xl font-bold text-gray-800 dark:text-white">Details</h2>
