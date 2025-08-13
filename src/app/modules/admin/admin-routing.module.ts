@@ -8,6 +8,7 @@ import { FacilitatorListComponent } from '../facilitator/facilitator-list/facili
 import { PatientByFacilitatorComponent } from '../shared/patients-list/patient-by-facilitator.component';
 import { LinkSaccoFacilitatorComponent } from './pages/link-sacco-facilitator/link-sacco-facilitator.component';
 import { FacilitatorEditComponent } from '../facilitator/facilitator-edit/facilitator-edit.component';
+import { ServiceCreateFormComponent } from '../services/create/service-create.component';
 
 const routes: Routes = [
   { path: '', component: AdminDashboardComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'facilitator-list', component: FacilitatorListComponent },
   { path: 'patient-by-facilitator', component: PatientByFacilitatorComponent },
   { path: 'link-sacco-facilitator', component: LinkSaccoFacilitatorComponent },
+  { path: 'service-management', component: ServiceCreateFormComponent },
 ];
 
 
