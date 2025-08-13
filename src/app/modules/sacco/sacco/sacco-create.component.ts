@@ -1,10 +1,10 @@
 // src/app/components/sacco-create/sacco-create.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SaccosService } from '../sacco.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
+import { AGENT_CATEGORY } from 'src/app/core/constants/master-data';
 
 @Component({
   selector: 'app-sacco-create',
@@ -13,6 +13,7 @@ import { AlertService } from 'src/app/shared/components/alert/alert.service';
   templateUrl: './sacco-create.component.html'
 })
 export class SaccoCreateComponent implements OnInit {
+  
   currentStep = 1;
   totalSteps = 2;
   isSubmitting = false;
@@ -23,7 +24,6 @@ export class SaccoCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private saccoService: SaccosService,
-    private router: Router,
     private alertService: AlertService
   ) {}
 
@@ -33,13 +33,7 @@ export class SaccoCreateComponent implements OnInit {
   }
   loadSaccoCategories() {
     // Replace with API if available
-    this.saccoCategories = [
-      { id: 1, name: 'Booking Agent' },
-      { id: 2, name: 'Travel Agent' },
-      { id: 3, name: 'Insurance Agent' },
-      { id: 4, name: 'Medical Agent' },
-      { id: 5, name: 'Medical Tourism' }
-    ];
+    this.saccoCategories = AGENT_CATEGORY;
   }
 
   private initForms(): void {

@@ -93,37 +93,36 @@ layer(base);
     background: var(--background, #ffffff);
     color: var(--foreground, #1a238f);
   }
+  app-navbar{
+    background: var(--nav-background, #2E3B61);
+    color: var(--foreground, #fdfdfd) !important;
+  }
 
   :root {
-    /* Light theme tokens */
-    --background: #fdfdfd;
+    --background: #ffffff;
+    --nav-background: #5baab1;
     --foreground: #1f2937;
-    --card: #ffffff;
-    --card-foreground: #1f2937;
-    --primary: #1a238f;
+    --card: #097083;
+    --card-foreground: #ffffff;
+    --primary: #0e3a5c;
     --primary-foreground: #ffffff;
-    --secondary: #b68cff; /* Soft Lavender */
-    --secondary-foreground: #ffffff;
+    --secondary: #b68cff;
+    --secondary-foreground: #1f1f1f;
     --muted: #f1f5f9;
-    --muted-foreground: #64748b;
+    --muted-foreground: #d8d8d8;
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
     --border: #e2e8f0;
     --accent: #f0f9ff;
     --accent-foreground: #0c4a6e;
-    --border: #e2e8f0;
-
-    --destructive: #dc2626;
-    --destructive-foreground: #ffffff;
-  
     --success: #16a34a;
     --success-foreground: #ffffff;
-  
     --warning: #f59e0b;
     --warning-foreground: #1f2937;
-  
-    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-color: #00000014;
   }
+  
+
 
 
   /* Focus-visible for keyboard accessibility */
@@ -139,6 +138,8 @@ layer(base);
   input, textarea, select, app-multi-select, button {
     font-family: inherit;
     font-size: inherit;
+    background: var(--primary);
+    color: var(--background);
   }
 }
 
@@ -184,8 +185,8 @@ layer(base);
 [type='search'], [type='tel'], [type='time'], [type='week'],
 [multiple], textarea, select, app-multi-select {
   border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--foreground);
+  background: var(--background);
+  color: var(--secondary-foreground);
   padding: .75rem 1rem;
   border-radius: .5rem;
   width: 100%;
@@ -200,7 +201,9 @@ layer(base);
 }
 
 /* app-multi-select small tweak */
-app-multi-select { height: fit-content; background: transparent; border: none; }
+app-multi-select { 
+  
+  height: fit-content; background: transparent; border: none; }
 
 /* Mobile tweaks */
 @media (max-width: 767px) {

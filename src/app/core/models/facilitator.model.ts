@@ -1,6 +1,11 @@
 import { UserDto } from "./user-dto.model";
 
 export interface FacilitatorDetails {
+    licenseNumber: any;
+    organisationName: any;
+    createdBy: any;
+    yearsOfExperience: any;
+    specializations: any;
     firstName: string;
     lastName: string;
     phone: string;
@@ -31,4 +36,13 @@ export interface FacilitatorDetails {
   export interface CreateFacilitatorRequest {
     facilitatorDto: FacilitatorDetails;
     userDto: UserDto;
+  }
+  export interface UpdateFacilitatorDto {
+    facilitatorId: number;
+    firstName: string;
+    lastName: string;
+    licenseNumber?: string;
+    organisationName?: string;
+    yearsOfExperience?: number;
+    specializationIds: number[];
   }

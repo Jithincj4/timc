@@ -1,37 +1,44 @@
 <!-- src/app/components/facilitator-create/facilitator-create.component.html -->
 <div class="py-8">
-  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="container">
     <!-- Header -->
     <div class="mb-6">
-      <h1 class="text-2xl font-bold text-blue-800 sm:text-3xl">FuFi Med — Facilitator Creation</h1>
-      <p class="mt-1 text-sm text-slate-500">Create user account first, then enter facilitator details and submit.</p>
+      <h1 class="text-2xl font-bold text-[var(--primary)] sm:text-3xl">
+        FuFi Med — Facilitator Creation
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">
+        Create user account first, then enter facilitator details and submit.
+      </p>
       <br />
       <button
-        class="bg-primary hover:bg-primary/80 rounded-lg px-4 py-2 text-white shadow"
+        class="bg-[var(--primary)] hover:brightness-90 rounded-lg px-4 py-2 text-[var(--primary-foreground)] shadow-[var(--shadow-custom)]"
         (click)="router.navigate(['/home/admin/facilitator-list'])">
         Facilitator List
       </button>
     </div>
 
     <!-- Card -->
-    <div class="overflow-hidden rounded-2xl bg-white shadow-sm">
+    <div class="overflow-hidden rounded-2xl bg-[var(--background)] shadow-[var(--shadow-custom)]">
       <!-- Stepper -->
-      <div class="border-b px-6 py-4">
+      <div class="border-b border-[var(--border)] px-6 py-4">
         <div class="flex items-center gap-6">
           <!-- Step 1 -->
           <div class="flex items-center gap-3">
             <div
               class="flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold"
               [ngClass]="{
-                'bg-blue-600 text-white shadow-md': currentStep === 1,
-                'bg-green-600 text-white': currentStep > 1,
-                'border border-slate-200 bg-white text-slate-500': currentStep < 1
+                'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-md': currentStep === 1,
+                'bg-[var(--success)] text-[var(--success-foreground)]': currentStep > 1,
+                'border border-[var(--border)] bg-[var(--background)] text-slate-500': currentStep < 1
               }">
               1
             </div>
             <div class="text-sm">
               <div
-                [ngClass]="{ 'font-semibold text-blue-600': currentStep === 1, 'text-slate-500': currentStep !== 1 }">
+                [ngClass]="{
+                  'font-semibold text-[var(--primary)]': currentStep === 1,
+                  'text-slate-500': currentStep !== 1
+                }">
                 User Account
               </div>
             </div>
@@ -39,22 +46,28 @@
 
           <div
             class="mx-3 h-0 flex-1 border-t"
-            [ngClass]="{ 'border-green-500': currentStep > 1, 'border-slate-200': currentStep <= 1 }"></div>
+            [ngClass]="{
+              'border-[var(--success)]': currentStep > 1,
+              'border-[var(--border)]': currentStep <= 1
+            }"></div>
 
           <!-- Step 2 -->
           <div class="flex items-center gap-3">
             <div
               class="flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold"
               [ngClass]="{
-                'bg-blue-600 text-white shadow-md': currentStep === 2,
-                'border border-slate-200 bg-white text-slate-500': currentStep < 2,
-                'bg-green-600 text-white': currentStep > 2
+                'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-md': currentStep === 2,
+                'border border-[var(--border)] bg-[var(--background)] text-slate-500': currentStep < 2,
+                'bg-[var(--success)] text-[var(--success-foreground)]': currentStep > 2
               }">
               2
             </div>
             <div class="text-sm">
               <div
-                [ngClass]="{ 'font-semibold text-blue-600': currentStep === 2, 'text-slate-500': currentStep !== 2 }">
+                [ngClass]="{
+                  'font-semibold text-[var(--primary)]': currentStep === 2,
+                  'text-slate-500': currentStep !== 2
+                }">
                 Facilitator Details
               </div>
             </div>
@@ -65,85 +78,71 @@
       <!-- Body -->
       <div class="px-6 py-6">
         <!-- Step 1: User Account -->
-        <div *ngIf="currentStep === 1">
-          <h2 class="mb-4 text-xl font-semibold text-slate-800">Create User Account</h2>
+        <div *ngIf="currentStep === 1" @fadeIn>
+          <h2 class="mb-4 text-xl font-semibold text-[var(--foreground)]">Create User Account</h2>
 
           <form [formGroup]="userForm" class="max-w-2xl space-y-4">
             <div class="grid grid-cols-1 gap-4">
+              <!-- Username -->
               <div>
-                <label class="text-sm font-medium text-slate-700">Username</label>
-                <div class="relative mt-1">
-                  <input
-                    id="username"
-                    formControlName="username"
-                    type="text"
-                    class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    placeholder="Username" />
-                </div>
-                <p
-                  class="mt-1 text-xs text-red-600"
-                  *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid">
+                <label class="text-sm font-medium text-[var(--foreground)]">Username</label>
+                <input
+                  id="username"
+                  formControlName="username"
+                  type="text"
+                  placeholder="Username" />
+                <p class="mt-1 text-xs text-red-600"
+                   *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid">
                   <span *ngIf="userForm.get('username')?.errors?.['required']">Username is required.</span>
                   <span *ngIf="userForm.get('username')?.errors?.['minlength']">Minimum 3 characters.</span>
                 </p>
               </div>
 
+              <!-- Email -->
               <div>
-                <label class="text-sm font-medium text-slate-700">Email</label>
-                <div class="mt-1">
-                  <input
-                    id="email"
-                    formControlName="email"
-                    type="email"
-                    class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    placeholder="Email" />
-                </div>
-                <p
-                  class="mt-1 text-xs text-red-600"
-                  *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
+                <label class="text-sm font-medium text-[var(--foreground)]">Email</label>
+                <input
+                  id="email"
+                  formControlName="email"
+                  type="email"
+                  placeholder="Email" />
+                <p class="mt-1 text-xs text-red-600"
+                   *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
                   <span *ngIf="userForm.get('email')?.errors?.['required']">Email is required.</span>
                   <span *ngIf="userForm.get('email')?.errors?.['email']">Enter a valid email.</span>
                 </p>
               </div>
 
               <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <!-- Password -->
                 <div>
-                  <label class="text-sm font-medium text-slate-700">Password</label>
-                  <div class="mt-1">
-                    <input
-                      id="password"
-                      formControlName="password"
-                      type="password"
-                      class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                      placeholder="Password" />
-                  </div>
-                  <p
-                    class="mt-1 text-xs text-red-600"
-                    *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
+                  <label class="text-sm font-medium text-[var(--foreground)]">Password</label>
+                  <input
+                    id="password"
+                    formControlName="password"
+                    type="password"
+                    placeholder="Password" />
+                  <p class="mt-1 text-xs text-red-600"
+                     *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
                     <span *ngIf="userForm.get('password')?.errors?.['required']">Password is required.</span>
                     <span *ngIf="userForm.get('password')?.errors?.['minlength']">Minimum 6 characters.</span>
                   </p>
                 </div>
 
+                <!-- Confirm Password -->
                 <div>
-                  <label class="text-sm font-medium text-slate-700">Confirm Password</label>
-                  <div class="mt-1">
-                    <input
-                      id="confirmPassword"
-                      formControlName="confirmPassword"
-                      type="password"
-                      class="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                      placeholder="Confirm Password" />
-                  </div>
-                  <p
-                    class="mt-1 text-xs text-red-600"
-                    *ngIf="
-                      (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) ||
-                      userForm.hasError('passwordMismatch')
-                    ">
-                    <span *ngIf="userForm.get('confirmPassword')?.errors?.['required']"
-                      >Please confirm your password.</span
-                    >
+                  <label class="text-sm font-medium text-[var(--foreground)]">Confirm Password</label>
+                  <input
+                    id="confirmPassword"
+                    formControlName="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password" />
+                  <p class="mt-1 text-xs text-red-600"
+                     *ngIf="
+                       (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) ||
+                       userForm.hasError('passwordMismatch')
+                     ">
+                    <span *ngIf="userForm.get('confirmPassword')?.errors?.['required']">Please confirm your password.</span>
                     <span *ngIf="userForm.hasError('passwordMismatch')">Passwords do not match.</span>
                   </p>
                 </div>
@@ -153,97 +152,70 @@
         </div>
 
         <!-- Step 2: Facilitator Details -->
-        <div *ngIf="currentStep === 2">
-          <h2 class="mb-4 text-xl font-semibold text-slate-800">Facilitator Details</h2>
+        <div *ngIf="currentStep === 2" @fadeIn>
+          <h2 class="mb-4 text-xl font-semibold text-[var(--foreground)]">Facilitator Details</h2>
 
           <form [formGroup]="facilitatorForm" class="grid gap-4 md:grid-cols-2">
+            <!-- First Name -->
             <div>
-              <label class="text-sm font-medium text-slate-700">First Name</label>
-              <input
-                formControlName="firstName"
-                type="text"
-                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                placeholder="First name" />
-              <p
-                class="mt-1 text-xs text-red-600"
-                *ngIf="facilitatorForm.get('firstName')?.touched && facilitatorForm.get('firstName')?.invalid">
+              <label class="text-sm font-medium text-[var(--foreground)]">First Name</label>
+              <input formControlName="firstName" type="text" placeholder="First name" />
+              <p class="mt-1 text-xs text-red-600"
+                 *ngIf="facilitatorForm.get('firstName')?.touched && facilitatorForm.get('firstName')?.invalid">
                 First name is required.
               </p>
             </div>
 
+            <!-- Last Name -->
             <div>
-              <label class="text-sm font-medium text-slate-700">Last Name</label>
-              <input
-                formControlName="lastName"
-                type="text"
-                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                placeholder="Last name" />
-              <p
-                class="mt-1 text-xs text-red-600"
-                *ngIf="facilitatorForm.get('lastName')?.touched && facilitatorForm.get('lastName')?.invalid">
+              <label class="text-sm font-medium text-[var(--foreground)]">Last Name</label>
+              <input formControlName="lastName" type="text" placeholder="Last name" />
+              <p class="mt-1 text-xs text-red-600"
+                 *ngIf="facilitatorForm.get('lastName')?.touched && facilitatorForm.get('lastName')?.invalid">
                 Last name is required.
               </p>
             </div>
-           
+
+            <!-- License Number -->
             <div>
-              <label class="text-sm font-medium text-slate-700">License Number</label>
-              <input
-                formControlName="licenseNumber"
-                type="text"
-                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                placeholder="License Number" />
-              <p
-                class="mt-1 text-xs text-red-600"
-                *ngIf="facilitatorForm.get('licenseNumber')?.touched && facilitatorForm.get('licenseNumber')?.invalid">
+              <label class="text-sm font-medium text-[var(--foreground)]">License Number</label>
+              <input formControlName="licenseNumber" type="text" placeholder="License Number" />
+              <p class="mt-1 text-xs text-red-600"
+                 *ngIf="facilitatorForm.get('licenseNumber')?.touched && facilitatorForm.get('licenseNumber')?.invalid">
                 License Number is required.
               </p>
             </div>
+
+            <!-- Organisation Name -->
             <div>
-              <label class="text-sm font-medium text-slate-700">Facilitator Organisation Name</label>
-              <input
-                formControlName="organisationName"
-                type="text"
-                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                placeholder="Organisation Name" />
-              <p
-                class="mt-1 text-xs text-red-600"
-                *ngIf="
-                  facilitatorForm.get('organisationName')?.touched && facilitatorForm.get('organisationName')?.invalid
-                ">
+              <label class="text-sm font-medium text-[var(--foreground)]">Facilitator Organisation Name</label>
+              <input formControlName="organisationName" type="text" placeholder="Organisation Name" />
+              <p class="mt-1 text-xs text-red-600"
+                 *ngIf="facilitatorForm.get('organisationName')?.touched && facilitatorForm.get('organisationName')?.invalid">
                 Organisation Name is required.
               </p>
             </div>
+
+            <!-- Years of Experience -->
             <div>
-              <label class="text-sm font-medium text-slate-700">Years of Experience</label>
-              <input
-                formControlName="yearsOfExperience"
-                type="number"
-                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                placeholder="Years of Experience" />
-              <p
-                class="mt-1 text-xs text-red-600"
-                *ngIf="
-                  facilitatorForm.get('yearsOfExperience')?.touched && facilitatorForm.get('yearsOfExperience')?.invalid
-                ">
+              <label class="text-sm font-medium text-[var(--foreground)]">Years of Experience</label>
+              <input formControlName="yearsOfExperience" type="number" placeholder="Years of Experience" />
+              <p class="mt-1 text-xs text-red-600"
+                 *ngIf="facilitatorForm.get('yearsOfExperience')?.touched && facilitatorForm.get('yearsOfExperience')?.invalid">
                 Years of Experience is required.
               </p>
             </div>
+
+            <!-- Specializations -->
             <div>
-              <label class="text-sm font-medium text-slate-700">Specializations</label>
-              <select
-                formControlName="specializationIds"
-                multiple
-                class="mt-1 w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                size="6">
+              <label class="text-sm font-medium text-[var(--foreground)]">Specializations</label>
+              <select formControlName="specializationIds" multiple size="6">
                 <option *ngFor="let s of specializations" [value]="s.specializationId">
                   {{ s.specializationName }} ({{ s.categoryName }})
                 </option>
               </select>
-              <p
-                class="mt-1 text-xs text-red-600"
-                *ngIf="
-                  facilitatorForm.get('specializationIds')?.touched && facilitatorForm.get('specializationIds')?.invalid
-                ">
+              <p class="mt-1 text-xs text-red-600"
+                 *ngIf="facilitatorForm.get('specializationIds')?.touched && facilitatorForm.get('specializationIds')?.invalid">
                 Select at least one specialization.
               </p>
             </div>
@@ -252,13 +224,13 @@
       </div>
 
       <!-- Footer navigation -->
-      <div class="flex items-center justify-between gap-4 border-t px-6 py-4">
+      <div class="flex items-center justify-between gap-4 border-t border-[var(--border)] px-6 py-4">
         <div>
           <button
             *ngIf="currentStep > 1"
             (click)="previousStep()"
             [disabled]="isSubmitting"
-            class="rounded-md bg-gray-200 px-4 py-2 text-slate-700 hover:bg-gray-300">
+            class="rounded-md bg-[var(--muted)] px-4 py-2 text-[var(--foreground)] hover:brightness-95">
             Back
           </button>
         </div>
@@ -270,7 +242,7 @@
             [disabled]="
               isSubmitting || (currentStep === 1 && userForm.invalid) || (currentStep === 2 && facilitatorForm.invalid)
             "
-            class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+            class="rounded-md bg-[var(--primary)] px-4 py-2 text-[var(--primary-foreground)] hover:brightness-90">
             <span
               *ngIf="isSubmitting && currentStep === 1"
               class="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
@@ -281,7 +253,7 @@
             *ngIf="currentStep === totalSteps"
             disableAfterClick
             (click)="submitFacilitator()"
-            class="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700">
+            class="rounded-md bg-[var(--success)] px-4 py-2 text-[var(--success-foreground)] hover:brightness-90">
             <span
               *ngIf="isSubmitting"
               class="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>

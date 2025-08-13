@@ -14,8 +14,8 @@ export class AdminService {
     return this.http.get<UserDto[]>(`${this.baseUrl}/Users`);
   }
    /** Get user by ID */
-   getUserById(id: number): Observable<UserDto> {
-    return this.http.get<UserDto>(`${this.baseUrl}/${id}`);
+   getUserById(id: string): Observable<UserDto> {
+    return this.http.get<UserDto>(`${this.baseUrl}/users/${id}`);
   }
 
   /** Create new user */
@@ -40,7 +40,7 @@ export class AdminService {
     return this.http.delete(`${this.baseUrl}/saccos/${id}`);
   }
   /** Update user */
-  updateUser(id: number, user: UserDto): Observable<void> {
+  updateUser(id: string, user: UserDto): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, user);
   }
 
