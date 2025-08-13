@@ -1,20 +1,21 @@
 <div class="p-6 space-y-8">
   <!-- Header -->
   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-    <h2 class="text-3xl font-bold text-gray-900 tracking-tight">
+    <h2 class="text-3xl font-bold text-[var(--foreground)] tracking-tight">
       Facilitators
     </h2>
 
     <div class="flex flex-col sm:flex-row gap-3">
+      <!-- Search -->
       <div class="relative">
         <input
           type="text"
           [(ngModel)]="search"
           placeholder="Search by name, phone, or country"
-          class="w-full sm:w-72 px-4 py-2 pl-10 border border-gray-200 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+          class="w-full sm:w-72 px-4 py-2 pl-10 border border-[var(--border)] rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 text-[var(--foreground)] bg-[var(--background)]"
         />
         <svg
-          class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+          class="absolute left-3 top-2.5 h-5 w-5 text-[color:var(--muted-foreground)]"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -28,15 +29,19 @@
           />
         </svg>
       </div>
+
+      <!-- Clear -->
       <button
         (click)="clearSearch()"
-        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition"
+        class="px-4 py-2 bg-[var(--muted)] text-[var(--muted-foreground)] rounded-full hover:bg-[var(--muted-foreground)]/10 transition"
       >
         Clear
       </button>
+
+      <!-- Create -->
       <button
         (click)="createFacilitator()"
-        class="flex items-center gap-2 px-5 py-2 bg-primary text-white rounded-full shadow hover:bg-primary/90 transition"
+        class="flex items-center gap-2 px-5 py-2 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-full shadow hover:bg-[var(--primary)]/90 transition"
       >
         <svg
           class="h-5 w-5"
@@ -56,36 +61,40 @@
   <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <ng-container *ngFor="let f of pagedFacilitators">
       <article
-        class="bg-white/80 backdrop-blur-lg rounded-xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition p-5"
+        class="bg-[var(--card)]/80 backdrop-blur-lg rounded-xl border border-[var(--border)] shadow-sm hover:shadow-lg hover:-translate-y-1 transition p-5 text-[var(--card-foreground)]"
       >
         <!-- Header -->
         <header class="flex justify-between items-start">
           <div>
-            <h3 class="text-lg font-semibold text-gray-900">
+            <h3 class="text-lg font-semibold text-[var(--card-foreground)]">
               {{ f.firstName }} {{ f.lastName }}
             </h3>
-            <p class="text-sm text-gray-500 mt-1">
+            <p class="text-sm text-[var(--muted-foreground)] mt-1">
               License: {{ f.licenseNumber || 'N/A' }}
             </p>
           </div>
           <span
-            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-indigo-500 to-cyan-400 text-white shadow"
+            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-[var(--secondary)] to-[var(--accent)] text-[var(--secondary-foreground)] shadow"
           >
             {{ f.yearsOfExperience || '0' }} yrs
           </span>
         </header>
 
         <!-- Body -->
-        <div class="mt-4 space-y-2 text-sm text-gray-700">
+        <div class="mt-4 space-y-2 text-sm text-[var(--foreground)]">
           <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2 5a2 2 0 012-2h2a2 2 0 012 2H6v10h8V5h-2a2 2 0 01-2-2H8a2 2 0 00-2 2H4a2 2 0 00-2 2v6h0V7a0 0 0 010 0z"/>
+            <svg class="w-4 h-4 text-[var(--muted-foreground)]" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 5a2 2 0 012-2h2a2 2 0 012 2H6v10h8V5h-2a2 2 0 01-2-2H8a2 2 0 00-2 2H4a2 2 0 00-2 2v6h0V7a0 0 0 010 0z"
+              />
             </svg>
             <span>{{ f.organisationName || '-' }}</span>
           </div>
           <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2 3.5A1.5 1.5 0 013.5 2h13A1.5 1.5 0 0118 3.5v13a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5v-13zM6 7h8v1H6V7zm0 3h8v1H6v-1z"/>
+            <svg class="w-4 h-4 text-[var(--muted-foreground)]" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 3.5A1.5 1.5 0 013.5 2h13A1.5 1.5 0 0118 3.5v13a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5v-13zM6 7h8v1H6V7zm0 3h8v1H6v-1z"
+              />
             </svg>
             <span>{{ getSpecializationNames(f.specializations) || '-' }}</span>
           </div>
@@ -93,19 +102,19 @@
 
         <!-- Footer -->
         <footer class="mt-5 flex justify-between items-center">
-          <div class="text-xs text-gray-400">
+          <div class="text-xs text-[var(--muted-foreground)]">
             Created: {{ f.createdAt | date: 'mediumDate' }}
           </div>
           <div class="flex gap-2">
             <button
               (click)="editFacilitator(f)"
-              class="px-3 py-1 text-xs font-medium border border-gray-200 rounded-full hover:bg-gray-50 transition"
+              class="px-3 py-1 text-xs font-medium border border-[var(--border)] rounded-full hover:bg-[var(--muted)] transition"
             >
               Edit
             </button>
             <button
               (click)="deleteFacilitator(f.userId)"
-              class="px-3 py-1 text-xs font-medium text-white bg-red-500 rounded-full hover:bg-red-600 transition"
+              class="px-3 py-1 text-xs font-medium text-[var(--destructive-foreground)] bg-[var(--destructive)] rounded-full hover:bg-[var(--destructive)]/90 transition"
             >
               Delete
             </button>
@@ -117,24 +126,24 @@
 
   <!-- Pagination -->
   <div class="mt-8 flex items-center justify-between text-sm">
-    <div class="text-gray-500">
+    <div class="text-[var(--muted-foreground)]">
       Showing {{ start + 1 }}–{{ end }} of {{ filteredFacilitators.length }}
     </div>
     <div class="flex items-center gap-2">
       <button
         (click)="prevPage()"
         [disabled]="page === 1"
-        class="px-3 py-1 border rounded-full disabled:opacity-50 hover:bg-gray-50"
+        class="px-3 py-1 border border-[var(--border)] rounded-full disabled:opacity-50 hover:bg-[var(--muted)]"
       >
         Prev
       </button>
-      <div class="px-3 py-1 bg-gray-100 rounded-full">
+      <div class="px-3 py-1 bg-[var(--muted)] rounded-full text-[var(--muted-foreground)]">
         {{ page }} / {{ totalPages }}
       </div>
       <button
         (click)="nextPage()"
         [disabled]="page === totalPages"
-        class="px-3 py-1 border rounded-full disabled:opacity-50 hover:bg-gray-50"
+        class="px-3 py-1 border border-[var(--border)] rounded-full disabled:opacity-50 hover:bg-[var(--muted)]"
       >
         Next
       </button>

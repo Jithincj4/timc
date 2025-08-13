@@ -99,36 +99,30 @@ layer(base);
   }
 
   :root {
-    /* Light theme tokens */
-    --background: #edf0f4;
-    --nav-background: #2E3B61;
-    --foreground: #fdfdfd;
-    --card: #1c2655;
-    --card-foreground: #1f2937;
-    --primary: #1a238f;
+    --background: #ffffff;
+    --nav-background: #5baab1;
+    --foreground: #1f2937;
+    --card: #097083;
+    --card-foreground: #ffffff;
+    --primary: #0e3a5c;
     --primary-foreground: #ffffff;
-    --secondary: #b68cff; /* Soft Lavender */
-    --secondary-foreground: #0e0000;
+    --secondary: #b68cff;
+    --secondary-foreground: #1f1f1f;
     --muted: #f1f5f9;
-    --muted-foreground: #64748b;
+    --muted-foreground: #d8d8d8;
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
     --border: #e2e8f0;
     --accent: #f0f9ff;
     --accent-foreground: #0c4a6e;
-    --border: #e2e8f0;
-
-    --destructive: #dc2626;
-    --destructive-foreground: #ffffff;
-  
     --success: #16a34a;
     --success-foreground: #ffffff;
-  
     --warning: #f59e0b;
     --warning-foreground: #1f2937;
-  
-    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-color: #00000014;
   }
+  
+
 
 
   /* Focus-visible for keyboard accessibility */
