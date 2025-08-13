@@ -37,3 +37,12 @@ export interface FacilitatorDetails {
     facilitatorDto: FacilitatorDetails;
     userDto: UserDto;
   }
+  export interface UpdateFacilitatorDto {
+    facilitatorId: number;
+    firstName: string;
+    lastName: string;
+    licenseNumber?: string;
+    organisationName?: string;
+    yearsOfExperience?: number;
+    specializationIds: number[];
+  }

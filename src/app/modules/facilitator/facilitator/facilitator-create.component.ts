@@ -6,15 +6,16 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
-import { FacilitatorService } from './facilitator.service';
+import { FacilitatorService } from '../facilitator.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { Specialization, FacilitatorDetails, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
 import { SPECIALIZATION_DATA } from 'src/app/core/constants/master-data';
+import { DisableAfterClickDirective } from 'src/app/core/directive/disable-after-click.directive';
 
 @Component({
   selector: 'app-facilitator-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule,DisableAfterClickDirective],
   templateUrl: './facilitator-create.component.html',
   styleUrls: ['./facilitator-create.component.css'],
 })
