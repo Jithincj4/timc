@@ -1,0 +1,97 @@
+<div class="max-w-6xl mx-auto bg-[var(--background)] rounded-2xl shadow-lg overflow-hidden">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[var(--primary)] to-[var(--nav-background)] p-6 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-[var(--primary-foreground)]">Edit Service</h1>
+        <p class="text-sm opacity-90 text-[var(--primary-foreground)]">Update the details of your service</p>
+      </div>
+      <button
+        (click)="goBack()"
+        class="bg-[var(--secondary)] text-[var(--secondary-foreground)] px-4 py-2 rounded-lg hover:opacity-90 flex items-center gap-2"
+      >
+        <i class="fas fa-arrow-left"></i> Back to Services
+      </button>
+    </div>
+  
+    <!-- Form -->
+    <form (ngSubmit)="onSubmit()" [formGroup]="serviceForm" class="p-6 space-y-8">
+  
+      <!-- Basic Info -->
+      <div class="bg-[var(--muted)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+        <h2 class="text-xl font-bold text-[var(--primary)]">Basic Information</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1 text-[var(--foreground)]">Service Name</label>
+            <input type="text" formControlName="serviceName" class="w-full border border-[var(--border)] rounded-lg p-2 focus:ring focus:ring-[var(--primary)] bg-[var(--background)] text-[var(--foreground)]" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-[var(--foreground)]">Service Code</label>
+            <input type="text" formControlName="serviceCode" class="w-full border border-[var(--border)] rounded-lg p-2 focus:ring focus:ring-[var(--primary)] bg-[var(--background)] text-[var(--foreground)]" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1 text-[var(--foreground)]">Status</label>
+            <select formControlName="serviceStatus" class="w-full border border-[var(--border)] rounded-lg p-2 bg-[var(--background)] text-[var(--foreground)]">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Category Selector -->
+      <div class="bg-[var(--muted)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+        <h2 class="text-xl font-bold text-[var(--primary)]">Category</h2>
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div
+            *ngFor="let cat of categories"
+            class="cursor-pointer border border-[var(--border)] rounded-lg p-4 flex flex-col items-center text-center hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)] transition"
+            [class.bg-[var(--primary)]]="selectedCategory === cat.value"
+            [class.text-[var(--primary-foreground)]]="selectedCategory === cat.value"
+            (click)="selectCategory(cat.value)"
+          >
+            <i class="{{ cat.icon }} text-2xl mb-2"></i>
+            <h4 class="font-semibold">{{ cat.label }}</h4>
+            <p class="text-sm opacity-80">{{ cat.description }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Pricing & Duration -->
+      <div class="bg-[var(--muted)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+        <h2 class="text-xl font-bold text-[var(--primary)]">Pricing & Duration</h2>
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Price</label>
+            <input type="number" formControlName="price" class="w-full border border-[var(--border)] rounded-lg p-2" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Duration</label>
+            <input type="text" formControlName="duration" class="w-full border border-[var(--border)] rounded-lg p-2" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Discount %</label>
+            <input type="number" formControlName="discountPercentage" class="w-full border border-[var(--border)] rounded-lg p-2" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Tax %</label>
+            <input type="number" formControlName="taxPercentage" class="w-full border border-[var(--border)] rounded-lg p-2" />
+          </div>
+        </div>
+      </div>
+  
+      <!-- Details -->
+      <div class="bg-[var(--muted)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+        <h2 class="text-xl font-bold text-[var(--primary)]">Details</h2>
+        <textarea formControlName="description" rows="4" class="w-full border border-[var(--border)] rounded-lg p-2" placeholder="Service description"></textarea>
+        <textarea formControlName="highlights" rows="3" class="w-full border border-[var(--border)] rounded-lg p-2" placeholder="Key highlights"></textarea>
+      </div>
+  
+      <!-- Actions -->
+      <div class="flex justify-end gap-4">
+        <button type="button" (click)="goBack()" class="px-4 py-2 border border-[var(--border)] rounded-lg hover:bg-[var(--muted)]">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg hover:opacity-90">Update Service</button>
+      </div>
+    </form>
+  </div>
+  
