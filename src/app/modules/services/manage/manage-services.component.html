@@ -1,0 +1,93 @@
+<div class="max-w-6xl mx-auto bg-[var(--background)] rounded-2xl shadow-lg overflow-hidden">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[var(--primary)] to-[var(--nav-background)] text-[var(--primary-foreground)] text-center p-6">
+      <h1 class="text-2xl font-bold mb-2">Manage Services</h1>
+      <p class="text-sm opacity-90">Search, filter, and manage your medical tourism services</p>
+    </div>
+  
+    <!-- Search & Filters -->
+    <div class="p-4 flex flex-col md:flex-row gap-4 border-b border-[var(--border)]">
+      <div class="relative flex-1">
+        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]"></i>
+        <input
+          [(ngModel)]="searchTerm"
+          type="text"
+          placeholder="Search services..."
+          class="pl-10 pr-4 py-2 border border-[var(--border)] rounded-lg w-full focus:ring focus:ring-[var(--primary)] text-[var(--foreground)] bg-[var(--background)]"
+        />
+      </div>
+  
+      <select
+        [(ngModel)]="filterCategory"
+        class="border border-[var(--border)] rounded-lg px-3 py-2 bg-[var(--background)] text-[var(--foreground)]"
+      >
+        <option value="">All Categories</option>
+        <option value="Medical Procedure">Medical Procedure</option>
+        <option value="Wellness Package">Wellness Package</option>
+        <option value="Diagnostic">Diagnostic</option>
+        <option value="Accommodation">Accommodation</option>
+        <option value="Transport">Transport</option>
+      </select>
+  
+      <select
+        [(ngModel)]="filterStatus"
+        class="border border-[var(--border)] rounded-lg px-3 py-2 bg-[var(--background)] text-[var(--foreground)]"
+      >
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="draft">Draft</option>
+      </select>
+        <!-- Create New Service Button -->
+    <button
+    (click)="createService()"
+    class="bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 flex items-center gap-2"
+  >
+    <i class="fas fa-plus"></i> New Service
+  </button> 
+    </div>
+  
+    <!-- Service List -->
+    <div class="p-4 space-y-4">
+      <div
+        *ngFor="let service of filteredServices"
+        class="bg-[var(--muted)] rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between border border-[var(--border)]"
+      >
+        <div class="flex items-start gap-3 flex-1">
+          <i class="fas {{ service.icon }} text-xl text-[var(--primary)]"></i>
+          <div>
+            <h4 class="font-semibold text-lg text-[var(--primary)]">{{ service.name }}</h4>
+            <p class="text-sm text-[var(--foreground)]"><i class="fas fa-tag"></i> {{ service.category }}</p>
+            <p class="text-sm text-[var(--foreground)]"><i class="fas fa-hospital"></i> {{ service.provider }}</p>
+            <p class="font-semibold text-[var(--primary)] mt-1">{{ service.price }}</p>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3 md:mt-0">
+          <button
+            (click)="editService(service.id)"
+            class="bg-[var(--primary)] text-[var(--primary-foreground)] px-3 py-1 rounded-lg text-sm hover:opacity-90"
+          >
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button
+            (click)="viewService(service.id)"
+            class="bg-[var(--secondary)] text-[var(--secondary-foreground)] px-3 py-1 rounded-lg text-sm hover:opacity-90"
+          >
+            <i class="fas fa-eye"></i> View
+          </button>
+          <button
+            (click)="deleteService(service.id)"
+            class="bg-[var(--destructive)] text-[var(--destructive-foreground)] px-3 py-1 rounded-lg text-sm hover:opacity-90"
+          >
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+  
+      <!-- No results -->
+      <div *ngIf="filteredServices.length === 0" class="text-center text-[var(--muted-foreground)] py-6">
+        No services found.
+      </div>
+    </div>
+  </div>
+  
