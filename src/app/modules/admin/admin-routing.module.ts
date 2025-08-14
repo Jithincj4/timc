@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminDashboardComponent } from './pages/dashboard/admin-dashboard.component';
 import { SaccoCreateComponent } from '../sacco/sacco/sacco-create.component';
@@ -11,6 +11,7 @@ import { FacilitatorEditComponent } from '../facilitator/facilitator-edit/facili
 import { ServiceCreateFormComponent } from '../services/create/service-create.component';
 import { ManageServicesComponent } from '../services/manage/manage-services.component';
 import { EditServiceComponent } from '../services/edit/edit-service.component';
+import { MessageScreenComponent } from '../chat/chat-home/message-screen.componen';
 
 const routes: Routes = [
   { path: '', component: AdminDashboardComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'link-sacco-facilitator', component: LinkSaccoFacilitatorComponent },
   { path: 'service-management', component: ManageServicesComponent },
   { path: 'service-create', component: ServiceCreateFormComponent },
-  { path: 'services/:id/edit', component: EditServiceComponent }
+  { path: 'services/:id/edit', component: EditServiceComponent },
+  {path: 'chat', component:MessageScreenComponent}
 ];
 
 

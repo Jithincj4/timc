@@ -32,7 +32,11 @@ export class Menu {
           label: 'Services',
           route: '/home/admin/service-management',
         },
-        { label: 'Link SACCO to Facilitator', route: '/home/admin/link-sacco-facilitator' },
+        { 
+          icon: 'assets/icons/heroicons/outline/users.svg',
+          label: 'Link SACCO to Facilitator', route: '/home/admin/link-sacco-facilitator' },
+          {icon: 'assets/icons/heroicons/outline/users.svg',
+          label: 'Messages', route: '/home/admin/chat' },
       ],
     },
   ];
