@@ -5,7 +5,7 @@ import { UserDto } from 'src/app/core/models/user-dto.model';
 import { BaseApiService, ApiSignals } from './base-api.service';
 
 @Injectable({ providedIn: 'root' })
-export class AdminService extends BaseApiService<UserDto> {
+export class UserService extends BaseApiService<UserDto> {
   constructor(http: HttpClient) {
     super(http, `${environment.apiUrl}/users`); // base URL for users
   }

@@ -1,6 +1,6 @@
 // src/app/components/facilitator-edit/facilitator-edit.component.ts
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, OnInit, effect, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisableAfterClickDirective } from 'src/app/core/directive/disable-after-click.directive';
@@ -8,9 +8,13 @@ import { UpdateFacilitatorDto } from 'src/app/core/models/facilitator.model';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { AdminService } from '../../admin/admin.service';
 import { FacilitatorService } from '../../../core/services/facilitator.service';
+import { ApiSignals } from 'src/app/core/services/base-api.service';
+import { User } from 'src/app/core/state/auth.store.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-facilitator-edit',
+  standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule, DisableAfterClickDirective],
   templateUrl: './facilitator-edit.component.html',
 })
@@ -24,14 +28,66 @@ export class FacilitatorEditComponent implements OnInit {
   userId!: string;
   facilitatorId!: string;
 
+  // Signals to store API responses
+  updateFacilitatorSignals = signal<ApiSignals<any> | null>(null);
+  updateUserSignals = signal<ApiSignals<any> | null>(null);
+  loadUserSignals = signal<ApiSignals<any> | null>(null);
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     public router: Router,
-    public facilitatorService: FacilitatorService, // public so we can bind signals in template
-    private userService: AdminService,
+    public facilitatorService: FacilitatorService,
+    private userService: UserService,
     private alertService: AlertService,
-  ) {}
+  ) {
+    // Handle update facilitator effects
+    effect(() => {
+      const sig = this.updateFacilitatorSignals();
+      if (!sig) return;
+
+      this.loading = sig.loading();
+
+      if (sig.success()) {
+        this.alertService.showSuccess('Facilitator details updated successfully.');
+      }
+
+      if (sig.failure()) {
+        this.alertService.showError('Failed to update facilitator details: ' + sig.error());
+      }
+    });
+
+    // Handle update user effects
+    effect(() => {
+      const sig = this.updateUserSignals();
+      if (!sig) return;
+
+      this.isSavingUser = sig.loading();
+
+      if (sig.success()) {
+        this.alertService.showSuccess('User account updated successfully.');
+      }
+
+      if (sig.failure()) {
+        this.alertService.showError(sig.error() || 'Failed to update user account.');
+      }
+    });
+
+    // Handle load user effects
+    effect(() => {
+      const sig = this.loadUserSignals();
+      if (!sig) return;
+
+      this.loading = sig.loading();
+
+      if (sig.success() && sig.data()) {
+        this.userForm.patchValue({
+          username: sig.data().username,
+          email: sig.data().email,
+        });
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.facilitatorId = this.route.snapshot.paramMap.get('facilitatorId') ?? '';
@@ -61,35 +117,20 @@ export class FacilitatorEditComponent implements OnInit {
   }
 
   private loadData(): void {
-    // Load specializations
     this.facilitatorService.getSpecializations().subscribe((sp) => {
       this.specializations = sp;
     });
 
     if (!this.facilitatorId) return;
 
-    // Use signal-enabled getOne for facilitator
     const facilitatorSignals = this.facilitatorService.getOne(this.facilitatorId);
 
     facilitatorSignals.result$.subscribe((facilitator) => {
       if (!facilitator) return;
 
       this.userId = facilitator.userId?.toString() || '';
+      this.loadUserSignals.set(this.userService.getOne(this.userId));
 
-      // Fetch user details
-      const signal= this.userService.getOne(this.userId);
-      
-      effect(() => {
-        this.loading = signal.loading();
-        if (signal.success()) {
-          this.userForm.patchValue({
-            username: signal.data().username,
-            email: signal.data().email,
-          });
-        }
-      });
-
-      // Patch facilitator form
       this.facilitatorForm.patchValue({
         firstName: facilitator.firstName,
         lastName: facilitator.lastName,
@@ -106,69 +147,34 @@ export class FacilitatorEditComponent implements OnInit {
       this.facilitatorForm.markAllAsTouched();
       return;
     }
-  
-    this.loading = true;
-  
+
     const dto: UpdateFacilitatorDto = {
       facilitatorId: Number(this.facilitatorId),
       ...this.facilitatorForm.value,
     };
-  
-    // Call the service
-    const api = this.facilitatorService.updateFacilitator(dto);
-  
-    // Subscribe to actually trigger the request
-    api.result$.subscribe(() => {
-      this.loading = api.loading();
-  
-      if (api.success()) {
-        this.alertService.showSuccess('Facilitator details updated successfully.');
-      }
-  
-      if (api.failure()) {
-        this.alertService.showError('Failed to update facilitator details: ' + api.error());
-      }
-    });
+
+    this.updateFacilitatorSignals.set(this.facilitatorService.updateFacilitator(dto));
   }
-  
+
   saveUserAccount(): void {
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       return;
     }
-  
+
     const data = { ...this.userForm.value };
-  
-    // Remove password fields if blank (no change)
+
     if (!data.password) {
       delete data.password;
       delete data.confirmPassword;
     }
-  
-    const signals = this.userService.update(this.userId, data);
-  
-    this.isSavingUser = true;
-  
-    // Subscribe to trigger the HTTP request and react to signals
-    signals.result$.subscribe(() => {
-      this.isSavingUser = signals.loading();
-  
-      if (signals.success()) {
-        this.alertService.showSuccess('User account updated successfully.');
-      }
-  
-      if (signals.failure()) {
-        this.alertService.showError(signals.error() || 'Failed to update user account.');
-      }
-    });
+
+    this.updateUserSignals.set(this.userService.update(this.userId, data));
   }
-  
-  
+
   private passwordMatchValidator(control: AbstractControl) {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
     return password && confirmPassword && password !== confirmPassword ? { passwordMismatch: true } : null;
   }
 }
-
-
