@@ -12,11 +12,7 @@ export class AlertService {
   // Success Alert
   showSuccess(
     message: string, 
-    options: {
-      title?: string;
-      buttonText?: string;
-      route?: string;
-    } = {}
+    options: { title?: string; buttonText?: string; route?: string } = {}
   ) {
     const data: AlertData = {
       title: options.title || 'Success',
@@ -36,11 +32,7 @@ export class AlertService {
   // Error Alert
   showError(
     message: string, 
-    options: {
-      title?: string;
-      buttonText?: string;
-      route?: string;
-    } = {}
+    options: { title?: string; buttonText?: string; route?: string } = {}
   ) {
     const data: AlertData = {
       title: options.title || 'Error',
@@ -60,13 +52,7 @@ export class AlertService {
   // Warning Alert
   showWarning(
     message: string, 
-    options: {
-      title?: string;
-      buttonText?: string;
-      actionText?: string;
-      route?: string;
-      actionRoute?: string;
-    } = {}
+    options: { title?: string; buttonText?: string; actionText?: string; route?: string; actionRoute?: string } = {}
   ) {
     const data: AlertData = {
       title: options.title || 'Warning',
@@ -88,19 +74,13 @@ export class AlertService {
   // Info Alert
   showInfo(
     message: string, 
-    options: {
-      title?: string;
-      buttonText?: string;
-      actionText?: string;
-      route?: string;
-      actionRoute?: string;
-    } = {}
+    options: { title?: string; buttonText?: string; actionText?: string; route?: string; actionRoute?: string } = {}
   ) {
     const data: AlertData = {
       title: options.title || 'Information',
       message,
       type: 'info',
-      buttonText: options.buttonText || 'OK',
+      buttonText: options.buttonText,
       actionText: options.actionText,
       route: options.route,
       actionRoute: options.actionRoute
@@ -117,13 +97,7 @@ export class AlertService {
   showAlert(
     message: string, 
     type: AlertType,
-    options: {
-      title?: string;
-      buttonText?: string;
-      actionText?: string;
-      route?: string;
-      actionRoute?: string;
-    } = {}
+    options: { title?: string; buttonText?: string; actionText?: string; route?: string; actionRoute?: string } = {}
   ) {
     const data: AlertData = {
       title: options.title || 'Notice',
@@ -135,6 +109,34 @@ export class AlertService {
       actionRoute: options.actionRoute
     };
     
+    return this.dialog.open(AlertDialogComponent, {
+      data,
+      width: '500px',
+      panelClass: 'custom-alert-panel'
+    });
+  }
+
+  // Confirm Alert
+  showConfirm(
+    message: string, 
+    options: { 
+      title?: string; 
+      confirmText?: string; 
+      cancelText?: string; 
+      confirmRoute?: string; 
+      cancelRoute?: string 
+    } = {}
+  ) {
+    const data: AlertData = {
+      title: options.title || 'Confirm',
+      message,
+      type: 'confirm',
+      buttonText: options.confirmText || 'OK',
+      actionText: options.cancelText || 'Cancel',
+      route: options.confirmRoute,
+      actionRoute: options.cancelRoute
+    };
+
     return this.dialog.open(AlertDialogComponent, {
       data,
       width: '500px',

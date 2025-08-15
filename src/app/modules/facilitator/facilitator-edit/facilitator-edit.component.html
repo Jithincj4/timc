@@ -61,9 +61,9 @@
           <div class="flex justify-end">
             <button
               (click)="saveUserAccount()"
-              [disabled]="isSavingUser || userForm.invalid"
+              [disabled]="loading || userForm.invalid"
               class="rounded-lg bg-[var(--primary)] px-5 py-2.5 text-[var(--primary-foreground)] shadow-[var(--shadow-custom)] hover:brightness-90 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed">
-              <span *ngIf="isSavingUser" class="mr-2 inline-block h-4 w-4 animate-spin border-2 border-[var(--primary-foreground)] border-t-transparent rounded-full"></span>
+              <span *ngIf="loading" class="mr-2 inline-block h-4 w-4 animate-spin border-2 border-[var(--primary-foreground)] border-t-transparent rounded-full"></span>
               Save User
             </button>
           </div>
@@ -118,7 +118,7 @@
               (click)="saveFacilitatorDetails()"
               disableAfterClick
               class="rounded-lg bg-[var(--success)] px-5 py-2.5 text-[var(--success-foreground)] shadow-[var(--shadow-custom)] hover:brightness-90 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed">
-              <span *ngIf="isSavingFacilitator" class="mr-2 inline-block h-4 w-4 animate-spin border-2 border-[var(--success-foreground)] border-t-transparent rounded-full"></span>
+              <span *ngIf="loading" class="mr-2 inline-block h-4 w-4 animate-spin border-2 border-[var(--success-foreground)] border-t-transparent rounded-full"></span>
               Save Facilitator
             </button>
           </div>
