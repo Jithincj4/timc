@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { catchError, finalize, shareReplay, tap } from 'rxjs/operators';
 import { signal, Signal } from '@angular/core';
 
 export interface ApiSignals<T> {
@@ -24,8 +24,8 @@ export abstract class BaseApiService<T> {
     const failure = signal(false);
     const error = signal<string | null>(null);
 
-    // 🔑 Auto-subscribe so HTTP call fires immediately
-    obs$.pipe(
+    // Make the observable hot and replay last value
+    const processed$ = obs$.pipe(
       tap(res => {
         data.set(res);
         success.set(true);
@@ -35,43 +35,41 @@ export abstract class BaseApiService<T> {
         failure.set(true);
         return of(null as R);
       }),
-      finalize(() => loading.set(false))
-    ).subscribe();
+      finalize(() => loading.set(false)),
+      shareReplay(1)
+    );
 
-    return { data, loading, success, failure, error, result$: obs$ };
+    // Fire the request immediately
+    processed$.subscribe();
+
+    return { data, loading, success, failure, error, result$: processed$ };
   }
 
-  /** GET all items (optional endpoint & query params) */
   getAll<R = T>(endpoint: string = '', params?: HttpParams): ApiSignals<R[]> {
     const url = `${this.baseUrl}${endpoint ? `/${endpoint}` : ''}`;
     return this.handleRequest<R[]>(this.http.get<R[]>(url, { params }));
   }
 
-  /** GET single item by ID */
   getOne<R = T>(id: string | number, endpoint: string = ''): ApiSignals<R> {
     const url = `${this.baseUrl}${endpoint ? `/${endpoint}` : ''}/${id}`;
     return this.handleRequest<R>(this.http.get<R>(url));
   }
 
-  /** POST / create with separate request & response types */
   create<Req, Res = T>(body: Req, endpoint: string = ''): ApiSignals<Res> {
     const url = `${this.baseUrl}${endpoint ? `/${endpoint}` : ''}`;
     return this.handleRequest<Res>(this.http.post<Res>(url, body));
   }
 
-  /** PUT / update with separate request & response types */
   update<Req, Res = T>(id: string | number, body: Req, endpoint: string = ''): ApiSignals<Res> {
     const url = `${this.baseUrl}${endpoint ? `/${endpoint}` : ''}/${id}`;
     return this.handleRequest<Res>(this.http.put<Res>(url, body));
   }
 
-  /** DELETE item by ID */
   delete<Res = T>(id: string | number, endpoint: string = ''): ApiSignals<Res> {
     const url = `${this.baseUrl}${endpoint ? `/${endpoint}` : ''}/${id}`;
     return this.handleRequest<Res>(this.http.delete<Res>(url));
   }
 
-  /** GET with custom query parameters */
   getWithParams<R = T>(endpoint: string, params: HttpParams): ApiSignals<R> {
     const url = `${this.baseUrl}/${endpoint}`;
     return this.handleRequest<R>(this.http.get<R>(url, { params }));

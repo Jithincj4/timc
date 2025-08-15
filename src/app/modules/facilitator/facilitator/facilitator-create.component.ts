@@ -1,5 +1,5 @@
 // src/app/components/facilitator-create/facilitator-create.component.ts
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, OnInit, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,11 +11,18 @@ import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { Specialization, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
 import { SPECIALIZATION_DATA } from 'src/app/core/constants/master-data';
 import { DisableAfterClickDirective } from 'src/app/core/directive/disable-after-click.directive';
+import { ApiSignals } from 'src/app/core/services/base-api.service';
 
 @Component({
   selector: 'app-facilitator-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, DisableAfterClickDirective],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    DisableAfterClickDirective
+  ],
   templateUrl: './facilitator-create.component.html',
   styleUrls: ['./facilitator-create.component.css'],
 })
@@ -36,14 +43,12 @@ export class FacilitatorCreateComponent implements OnInit {
 
   specializations: Specialization[] = SPECIALIZATION_DATA;
 
-  dropdownOptions = this.specializations.map((s) => ({
-    label: s.specializationName,
-    value: s.specializationId,
-  }));
-
   selectedSpecializationIds: number[] = [];
   userId: number | null = null;
   isSubmitting = false;
+
+  // Signal for tracking API request state
+  createServiceSignals = signal<ApiSignals<any> | null>(null);
 
   constructor(
     private fb: FormBuilder,
@@ -51,11 +56,31 @@ export class FacilitatorCreateComponent implements OnInit {
     private facilitatorService: FacilitatorService,
     public router: Router,
     private alertService: AlertService
-  ) {}
+  ) {
+    // Track API state reactively
+    effect(() => {
+      const sigs = this.createServiceSignals();
+      if (!sigs) return;
+
+      if (sigs.loading()) {
+        this.isSubmitting = true;
+      } else {
+        this.isSubmitting = false;
+      }
+
+      if (sigs.success()) {
+        this.alertService.showSuccess('Facilitator created successfully.', { route: '/home/admin/facilitator-list' });
+        this.resetForms();
+      }
+
+      if (sigs.failure()) {
+        this.alertService.showError(sigs.error() || 'Failed to create facilitator.');
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.initializeForms();
-    this.loadReferenceData();
   }
 
   initializeForms(): void {
@@ -94,27 +119,23 @@ export class FacilitatorCreateComponent implements OnInit {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  loadReferenceData(): void {
-    // Placeholder for async fetch if needed
-  }
-
   nextStep(): void {
     if (this.currentStep === 1) {
       if (this.userForm.invalid) {
         this.markFormGroupTouched(this.userForm);
         return;
       }
-      this.isSubmitting = true;
       this.createFacilitatorRequest.userDto = { ...this.userForm.value, roleId: 3 };
       this.currentStep++;
-      this.isSubmitting = false;
-    } else {
+    } else if (this.currentStep < this.totalSteps) {
       this.currentStep++;
     }
   }
 
   previousStep(): void {
-    this.currentStep--;
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
   }
 
   submitFacilitator(): void {
@@ -122,30 +143,15 @@ export class FacilitatorCreateComponent implements OnInit {
       this.markFormGroupTouched(this.facilitatorForm);
       return;
     }
-  
-    this.isSubmitting = true;
-  
+
     const request: CreateFacilitatorRequest = {
       userDto: this.createFacilitatorRequest.userDto,
       facilitatorDto: { ...this.facilitatorForm.value }
     };
-  
-    const signals = this.facilitatorService.create(request);
-  
-    signals.result$.subscribe(() => {
-      this.isSubmitting = signals.loading();
-  
-      if (signals.success()) {
-        this.alertService.showSuccess('Facilitator created successfully.');
-        this.facilitatorForm.reset();
-      }
-  
-      if (signals.failure()) {
-        this.alertService.showError(signals.error() || 'Failed to create facilitator.');
-      }
-    });
+
+    // Store API signals (no subscribe, no duplicate calls)
+    this.createServiceSignals.set(this.facilitatorService.create(request));
   }
-  
 
   markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach((control) => {
@@ -161,6 +167,7 @@ export class FacilitatorCreateComponent implements OnInit {
     this.facilitatorForm.reset();
     this.currentStep = 1;
     this.userId = null;
+    this.createFacilitatorRequest = {} as CreateFacilitatorRequest;
   }
 
   getStepTitle(step: number): string {
