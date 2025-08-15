@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { AdminService } from '../../admin/admin.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SPECIALIZATION_DATA } from 'src/app/core/constants/master-data';
 import { Specialization } from 'src/app/core/models/facilitator.model';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
+import { FacilitatorService } from 'src/app/core/services/facilitator.service';
 
 @Component({
   selector: 'app-facilitator-list',
@@ -13,12 +15,13 @@ import { Specialization } from 'src/app/core/models/facilitator.model';
   styleUrls: ['./facilitator-list.component.css'],
 })
 export class FacilitatorListComponent implements OnInit {
-  facilitators: any[] = [];
+ facilitators: any[] = [];
   filteredFacilitators: any[] = [];
   pagedFacilitators: any[] = [];
 
-  search: string = '';
+  facilitatorSignals  = this.facilitatorService.getAll();
 
+  search: string = '';
   // Pagination
   page = 1;
   pageSize = 6;
@@ -26,25 +29,26 @@ export class FacilitatorListComponent implements OnInit {
   start = 0;
   end = 0;
 
-  constructor(private facilitatorService: AdminService, private router: Router) {
-    console.log('FacilitatorListComponent initialized');
-    this.loadFacilitators();
-  }
+  constructor(private alertService: AlertService, private facilitatorService: FacilitatorService, private router: Router) {
+    effect(() => {
+      if (this.facilitatorSignals.loading()) {
+        console.log('Loading facilitators...');
+      }
+  
+      if (this.facilitatorSignals.data()) {
+        this.facilitators = this.facilitatorSignals.data()!;
+        this.applyFilter();
+      }
+  
+      if (this.facilitatorSignals.success()) {
+        console.log('Load succeeded');
+      }
+  })
+}
 
   ngOnInit(): void {}
 
-  loadFacilitators(): void {
-    this.facilitatorService.getFacilitators().subscribe({
-      next: (res) => {
-        this.facilitators = res || [];
-        this.applyFilter();
-      },
-      error: (err) => {
-        console.error('Error loading facilitators', err);
-      },
-    });
-  }
-
+ 
   applyFilter(): void {
     const term = this.search.trim().toLowerCase();
     if (term) {
@@ -99,16 +103,10 @@ export class FacilitatorListComponent implements OnInit {
   }
 
   deleteFacilitator(id: string): void {
-    if (confirm('Are you sure you want to delete this facilitator?')) {
-      this.facilitatorService.deleteFacilitator(id).subscribe({
-        next: () => {
-          this.facilitators = this.facilitators.filter((f) => f.id !== id);
-          this.applyFilter();
-        },
-        error: (err) => {
-          console.error('Error deleting facilitator', err);
-        },
-      });
+    if (this.alertService.showConfirm('Are you sure you want to delete this facilitator?')) {
+      this.facilitatorService.delete(id);
+      this.facilitators = this.facilitators.filter((f) => f.id !== id);
+      this.applyFilter();
     }
   }
   createFacilitator(): void {

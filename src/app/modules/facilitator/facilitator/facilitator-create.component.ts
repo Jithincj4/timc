@@ -1,21 +1,21 @@
 // src/app/components/facilitator-create/facilitator-create.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
-import { FacilitatorService } from '../facilitator.service';
+import { FacilitatorService } from '../../../core/services/facilitator.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
-import { Specialization, FacilitatorDetails, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
+import { Specialization, Language, CreateFacilitatorRequest } from 'src/app/core/models/facilitator.model';
 import { SPECIALIZATION_DATA } from 'src/app/core/constants/master-data';
 import { DisableAfterClickDirective } from 'src/app/core/directive/disable-after-click.directive';
 
 @Component({
   selector: 'app-facilitator-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule,DisableAfterClickDirective],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, DisableAfterClickDirective],
   templateUrl: './facilitator-create.component.html',
   styleUrls: ['./facilitator-create.component.css'],
 })
@@ -59,7 +59,6 @@ export class FacilitatorCreateComponent implements OnInit {
   }
 
   initializeForms(): void {
-    // User Account Form
     this.userForm = this.fb.group(
       {
         username: ['', [Validators.required, Validators.minLength(3)]],
@@ -70,7 +69,6 @@ export class FacilitatorCreateComponent implements OnInit {
       { validators: this.passwordMatchValidator }
     );
 
-    // Facilitator Details Form
     this.facilitatorForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -97,7 +95,7 @@ export class FacilitatorCreateComponent implements OnInit {
   }
 
   loadReferenceData(): void {
-    // Placeholder for any async data fetch if needed
+    // Placeholder for async fetch if needed
   }
 
   nextStep(): void {
@@ -106,16 +104,15 @@ export class FacilitatorCreateComponent implements OnInit {
         this.markFormGroupTouched(this.userForm);
         return;
       }
-
       this.isSubmitting = true;
-      this.createFacilitatorRequest.userDto = { ...this.userForm.value };
-      this.createFacilitatorRequest.userDto.roleId = 3; // Assuming roleId 3 is for Facilitator
+      this.createFacilitatorRequest.userDto = { ...this.userForm.value, roleId: 3 };
       this.currentStep++;
       this.isSubmitting = false;
     } else {
       this.currentStep++;
     }
   }
+
   previousStep(): void {
     this.currentStep--;
   }
@@ -125,35 +122,30 @@ export class FacilitatorCreateComponent implements OnInit {
       this.markFormGroupTouched(this.facilitatorForm);
       return;
     }
-
+  
     this.isSubmitting = true;
+  
     const request: CreateFacilitatorRequest = {
-      userDto: this.createFacilitatorRequest.userDto, // already captured in step 1
+      userDto: this.createFacilitatorRequest.userDto,
       facilitatorDto: { ...this.facilitatorForm.value }
     };
-
-    this.facilitatorService.createFacilitator(request).subscribe({
-      next: (response) => {
-        console.log('Facilitator created successfully:', response);
-        this.isSubmitting = false;
-        this.resetForms();
-        this.alertService.showSuccess('Facilitator created successfully', {
-          title: 'Facilitator Created',
-          buttonText: 'Go to Facilitators List',
-          route: '/home/admin/facilitators-list',
-        });
-      },
-      error: (error) => {
-        console.error('Error creating facilitator:', error);
-        this.alertService.showError('Error creating facilitator', {
-          title: 'Error',
-          buttonText: 'OK',
-          route: '/home/admin/facilitator-create',
-        });
-        this.isSubmitting = false;
-      },
+  
+    const signals = this.facilitatorService.create(request);
+  
+    signals.result$.subscribe(() => {
+      this.isSubmitting = signals.loading();
+  
+      if (signals.success()) {
+        this.alertService.showSuccess('Facilitator created successfully.');
+        this.facilitatorForm.reset();
+      }
+  
+      if (signals.failure()) {
+        this.alertService.showError(signals.error() || 'Failed to create facilitator.');
+      }
     });
   }
+  
 
   markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach((control) => {
@@ -173,12 +165,9 @@ export class FacilitatorCreateComponent implements OnInit {
 
   getStepTitle(step: number): string {
     switch (step) {
-      case 1:
-        return 'User Account';
-      case 2:
-        return 'Facilitator Details';
-      default:
-        return '';
+      case 1: return 'User Account';
+      case 2: return 'Facilitator Details';
+      default: return '';
     }
   }
 }

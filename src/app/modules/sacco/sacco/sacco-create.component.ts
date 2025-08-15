@@ -1,10 +1,10 @@
 // src/app/components/sacco-create/sacco-create.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SaccosService } from '../sacco.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { AGENT_CATEGORY } from 'src/app/core/constants/master-data';
+import { SaccosService } from 'src/app/core/services/sacco.service';
 
 @Component({
   selector: 'app-sacco-create',
@@ -86,31 +86,30 @@ export class SaccoCreateComponent implements OnInit {
       this.saccoForm.markAllAsTouched();
       return;
     }
-
+  
     this.isSubmitting = true;
-
-    // Combine both form values
+  
     const payload = {
       ...this.userForm.value,
       ...this.saccoForm.value
     };
-
-    this.saccoService.create(payload).subscribe({
-      next: () => {
-        this.isSubmitting = false;
-        this.alertService.showSuccess('SACCO created successfully', {
-          title: 'SACCO Created',
-          buttonText: 'Go to SACCO List',
-          route: '/home/admin/sacco-list'
-        });
-      },
-      error: () => {
-        this.isSubmitting = false;
-        this.alertService.showError('Error creating SACCO', {
-          title: 'Error',
-          buttonText: 'OK',
-          route: '/home/admin/sacco-create'
-        });
+  
+    // Call the service and get signals
+    const api = this.saccoService.create(payload);
+  
+    // Subscribe to trigger the API call
+    api.result$.subscribe(res => {
+      this.isSubmitting = api.loading(); // reflect loading
+  
+      if (api.success()) {
+        this.alertService.showSuccess('Sacco created successfully.');
+        this.userForm.reset();
+        this.saccoForm.reset();
+        // optionally navigate or reload list
+      }
+  
+      if (api.failure()) {
+        this.alertService.showError('Failed to create Sacco: ' + api.error());
       }
     });
   }

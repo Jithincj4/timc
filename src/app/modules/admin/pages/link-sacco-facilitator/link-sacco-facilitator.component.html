@@ -10,7 +10,7 @@
         class="w-full p-2 rounded bg-dark border border-gray-700"
       >
         <option value="">-- Choose SACCO --</option>
-        <option *ngFor="let s of saccos" [value]="s.agentId">{{ s.agentName }}</option>
+        <option *ngFor="let s of this.saccosObj.data()" [value]="s.agentId">{{ s.agentName }}</option>
       </select>
     </div>
 
@@ -22,7 +22,7 @@
         class="w-full p-2 rounded bg-dark border border-gray-700"
       >
         <option value="">-- Choose Facilitator --</option>
-        <option *ngFor="let f of facilitators" [value]="f.facilitatorId">{{ f.firstName }} {{ f.lastName }}</option>
+        <option *ngFor="let f of  this.facilitatorsObj.data()" [value]="f.facilitatorId">{{ f.firstName }} {{ f.lastName }}</option>
       </select>
     </div>
 

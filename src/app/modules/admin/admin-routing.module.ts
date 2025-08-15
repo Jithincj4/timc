@@ -5,7 +5,6 @@ import { SaccoCreateComponent } from '../sacco/sacco/sacco-create.component';
 import { SaccoListComponent } from '../sacco/sacco-list/sacco-list.component';
 import { FacilitatorCreateComponent } from '../facilitator/facilitator/facilitator-create.component';
 import { FacilitatorListComponent } from '../facilitator/facilitator-list/facilitator-list.component';
-import { PatientByFacilitatorComponent } from '../shared/patients-list/patient-by-facilitator.component';
 import { LinkSaccoFacilitatorComponent } from './pages/link-sacco-facilitator/link-sacco-facilitator.component';
 import { FacilitatorEditComponent } from '../facilitator/facilitator-edit/facilitator-edit.component';
 import { ServiceCreateFormComponent } from '../services/create/service-create.component';
@@ -20,7 +19,6 @@ const routes: Routes = [
   { path: 'facilitator-create', component: FacilitatorCreateComponent },
   { path: 'facilitator-edit/:facilitatorId', component: FacilitatorEditComponent },
   { path: 'facilitator-list', component: FacilitatorListComponent },
-  { path: 'patient-by-facilitator', component: PatientByFacilitatorComponent },
   { path: 'link-sacco-facilitator', component: LinkSaccoFacilitatorComponent },
   { path: 'service-management', component: ManageServicesComponent },
   { path: 'service-create', component: ServiceCreateFormComponent },
