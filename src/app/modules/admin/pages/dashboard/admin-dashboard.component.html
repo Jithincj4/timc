@@ -1,46 +1,116 @@
-<div class="p-6 space-y-8 max-w-screen-xl mx-auto">
-  <h1 class="text-3xl font-bold text-primary">Admin Dashboard</h1>
-
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div class="bg-white p-6 rounded-xl shadow border">
-      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Users</h2>
-      <p class="text-3xl font-bold text-primary">{{ stats.totalUsers }}</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow border">
-      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Patients</h2>
-      <p class="text-3xl font-bold text-primary">{{ stats.totalPatients }}</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow border">
-      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Facilitators</h2>
-      <p class="text-3xl font-bold text-primary">{{ stats.totalFacilitators }}</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow border">
-      <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Saccos</h2>
-      <p class="text-3xl font-bold text-primary">{{ stats.totalSaccos }}</p>
+<div class="p-6 max-w-7xl mx-auto space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b pb-4">
+    <h1 class="text-2xl font-bold text-primary">Admin Dashboard</h1>
+    <div class="flex items-center space-x-3">
+      <span>Welcome, Admin</span>
+      <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">A</div>
     </div>
   </div>
 
-  <!-- Messages and Milestones -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white p-6 rounded-xl shadow border">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Messages</h3>
-      <ul class="space-y-3">
-        <li *ngFor="let msg of recentMessages" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
-          <span class="font-medium text-secondary">{{ msg.sender }}:</span>
-          {{ msg.content }}
-        </li>
-      </ul>
+  <!-- Dashboard Tiles -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-primary">
+      <div class="flex items-center justify-between">
+        <span class="text-gray-500 text-sm">Total SACCO Agents</span>
+        <i class="fas fa-user-tie text-primary"></i>
+      </div>
+      <div class="text-3xl font-bold mt-2">{{ totalAgents }}</div>
+      <div class="text-green-500 text-sm mt-1">↑ 12% from last month</div>
+    </div>
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-teal-400">
+      <div class="flex items-center justify-between">
+        <span class="text-gray-500 text-sm">Total Facilitators</span>
+        <i class="fas fa-user-friends text-teal-400"></i>
+      </div>
+      <div class="text-3xl font-bold mt-2">{{ totalFacilitators }}</div>
+      <div class="text-green-500 text-sm mt-1">↑ 8% from last month</div>
+    </div>
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-yellow-400">
+      <div class="flex items-center justify-between">
+        <span class="text-gray-500 text-sm">Total Patients</span>
+        <i class="fas fa-user-injured text-yellow-400"></i>
+      </div>
+      <div class="text-3xl font-bold mt-2">{{ totalPatients }}</div>
+      <div class="text-green-500 text-sm mt-1">↑ 15% from last month</div>
+    </div>
+  </div>
+
+  <!-- Agents Section -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold">SACCO Agents</h2>
+      <div class="flex items-center space-x-3">
+        <button (click)="activeView='grid'" [class.bg-primary]="activeView==='grid'" [class.text-white]="activeView==='grid'"
+          class="px-3 py-1 rounded border border-primary hover:bg-primary hover:text-white">Grid</button>
+        <button (click)="activeView='table'" [class.bg-primary]="activeView==='table'" [class.text-white]="activeView==='table'"
+          class="px-3 py-1 rounded border border-primary hover:bg-primary hover:text-white">Table</button>
+      </div>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow border">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Patient Milestones</h3>
-      <ul class="space-y-3">
-        <li *ngFor="let milestone of milestones" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
-          <span class="font-medium text-secondary">{{ milestone.patientName }}</span>
-          – {{ milestone.stage }} ({{ milestone.date | date: 'shortDate' }})
-        </li>
-      </ul>
+    <!-- Grid View -->
+    <div *ngIf="activeView==='grid'" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div *ngFor="let agent of agents" class="border rounded-lg p-4 hover:shadow transition relative">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="font-semibold text-lg">{{ agent.name }}</div>
+            <div class="text-sm text-gray-500">{{ agent.id }}</div>
+          </div>
+          <span class="px-2 py-1 text-xs rounded-full"
+            [class.bg-green-100]="agent.status==='Active'" [class.text-green-600]="agent.status==='Active'"
+            [class.bg-yellow-100]="agent.status==='Inactive'" [class.text-yellow-600]="agent.status==='Inactive'">
+            {{ agent.status }}
+          </span>
+        </div>
+        <div class="mt-3 text-sm text-gray-600">
+          <div class="flex items-center space-x-2"><i class="fas fa-envelope text-primary"></i> <span>{{ agent.email }}</span></div>
+          <div class="flex items-center space-x-2"><i class="fas fa-phone text-primary"></i> <span>{{ agent.phone }}</span></div>
+        </div>
+        <div class="flex justify-between mt-4 border-t pt-3 text-center">
+          <div>
+            <div class="font-bold">{{ agent.facilitatorsCount }}</div>
+            <div class="text-xs text-gray-500">Facilitators</div>
+          </div>
+          <div>
+            <div class="font-bold">{{ agent.patientsCount }}</div>
+            <div class="text-xs text-gray-500">Patients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table View -->
+    <div *ngIf="activeView==='table'" class="overflow-x-auto">
+      <table class="min-w-full border text-sm">
+        <thead class="bg-gray-50 text-gray-500 uppercase text-xs">
+          <tr>
+            <th class="px-4 py-2 border">ID</th>
+            <th class="px-4 py-2 border">Name</th>
+            <th class="px-4 py-2 border">Email</th>
+            <th class="px-4 py-2 border">Phone</th>
+            <th class="px-4 py-2 border">Facilitators</th>
+            <th class="px-4 py-2 border">Patients</th>
+            <th class="px-4 py-2 border">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let agent of agents" class="hover:bg-gray-50">
+            <td class="px-4 py-2 border">{{ agent.id }}</td>
+            <td class="px-4 py-2 border">{{ agent.name }}</td>
+            <td class="px-4 py-2 border">{{ agent.email }}</td>
+            <td class="px-4 py-2 border">{{ agent.phone }}</td>
+            <td class="px-4 py-2 border">{{ agent.facilitatorsCount }}</td>
+            <td class="px-4 py-2 border">{{ agent.patientsCount }}</td>
+            <td class="px-4 py-2 border">
+              <span class="px-2 py-1 text-xs rounded-full"
+                [class.bg-green-100]="agent.status==='Active'" [class.text-green-600]="agent.status==='Active'"
+                [class.bg-yellow-100]="agent.status==='Inactive'" [class.text-yellow-600]="agent.status==='Inactive'">
+                {{ agent.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

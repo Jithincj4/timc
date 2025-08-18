@@ -26,7 +26,7 @@
               ? 'text-[var(--primary)]'
               : 'text-[var(--card-foreground)]/50'
           ">
-          <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5'"></svg-icon>
+         <span [classList]="item.icon"></span>
         </div>
 
         <!-- Condition -->

@@ -7,36 +7,41 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-pie.svg',
+          icon: 'fas fa-tachometer-alt',
           label: 'Admin Dashboard',
-          route: '/home/admin/dashboard', // Updated to point to Admin Console
+          route: '/home/admin',
         },
       ],
     },
     {
-      group: 'Create / Manage',
+      group: 'Administration',
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'SACCO/Agent Management',
+          icon: 'fas fa-user-tie',
+          label: 'SACCO & Agent Management',
           route: '/home/admin/sacco-list',
         },
         {
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Facilitators Management',
+          icon: 'fas fa-user-friends',
+          label: 'Facilitator Management',
           route: '/home/admin/facilitator-list',
         },
         {
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Services',
+          icon: 'fas fa-cogs',
+          label: 'Service Management',
           route: '/home/admin/service-management',
         },
         { 
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Link SACCO to Facilitator', route: '/home/admin/link-sacco-facilitator' },
-          {icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Messages', route: '/home/admin/chat' },
+          icon: 'fas fa-link',
+          label: 'Link SACCO to Facilitator',
+          route: '/home/admin/link-sacco-facilitator',
+        },
+        {
+          icon: 'fas fa-comments',
+          label: 'Messages',
+          route: '/home/admin/chat',
+        },
       ],
     },
   ];

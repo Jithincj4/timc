@@ -108,7 +108,7 @@ layer(base);
     --primary-foreground: #ffffff;
     --secondary: #b68cff;
     --secondary-foreground: #1f1f1f;
-    --muted: #f1f5f9;
+    --muted: #59a8af0d;
     --muted-foreground: #d8d8d8;
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
@@ -120,6 +120,7 @@ layer(base);
     --warning: #f59e0b;
     --warning-foreground: #1f2937;
     --shadow-color: #00000014;
+    --container: #f9f4f5;
   }
   
 

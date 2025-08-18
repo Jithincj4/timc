@@ -1,93 +1,166 @@
-<div class="max-w-6xl mx-auto bg-[var(--background)] rounded-2xl shadow-lg overflow-hidden">
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-[var(--primary)] to-[var(--nav-background)] text-[var(--primary-foreground)] text-center p-6">
-      <h1 class="text-2xl font-bold mb-2">Manage Services</h1>
-      <p class="text-sm opacity-90">Search, filter, and manage your medical tourism services</p>
+<div class="bg-[var(--background)] mx-auto max-w-6xl overflow-hidden rounded-2xl shadow-lg">
+  <!-- Header -->
+  <div
+    class="text-[var(--primary-foreground)] bg-gradient-to-r from-[var(--primary)] to-[var(--nav-background)] p-6 text-center">
+    <h1 class="mb-2 text-2xl font-bold">Manage Services</h1>
+    <p class="text-sm opacity-90">Search, filter, and manage your medical tourism services</p>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="border-[var(--border)] flex flex-col gap-4 border-b p-4 md:flex-row md:items-center">
+    <!-- Search Box -->
+    <div class="relative flex-1">
+      <i class="fas fa-search text-[var(--muted-foreground)] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        [(ngModel)]="search"
+        (ngModelChange)="applyFilter()"
+        type="text"
+        placeholder="Search services..."
+        class="border-[var(--border)] focus:ring-[var(--primary)] text-[var(--foreground)] bg-[var(--background)] w-full rounded-lg border py-2 pl-10 pr-10 focus:ring" />
+      <button
+        *ngIf="search"
+        (click)="search=''; applyFilter()"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] hover:text-[var(--primary)]">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-  
-    <!-- Search & Filters -->
-    <div class="p-4 flex flex-col md:flex-row gap-4 border-b border-[var(--border)]">
-      <div class="relative flex-1">
-        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]"></i>
-        <input
-          [(ngModel)]="searchTerm"
-          type="text"
-          placeholder="Search services..."
-          class="pl-10 pr-4 py-2 border border-[var(--border)] rounded-lg w-full focus:ring focus:ring-[var(--primary)] text-[var(--foreground)] bg-[var(--background)]"
-        />
-      </div>
-  
-      <select
-        [(ngModel)]="filterCategory"
-        class="border border-[var(--border)] rounded-lg px-3 py-2 bg-[var(--background)] text-[var(--foreground)]"
-      >
-        <option value="">All Categories</option>
-        <option value="Medical Procedure">Medical Procedure</option>
-        <option value="Wellness Package">Wellness Package</option>
-        <option value="Diagnostic">Diagnostic</option>
-        <option value="Accommodation">Accommodation</option>
-        <option value="Transport">Transport</option>
-      </select>
-  
-      <select
-        [(ngModel)]="filterStatus"
-        class="border border-[var(--border)] rounded-lg px-3 py-2 bg-[var(--background)] text-[var(--foreground)]"
-      >
-        <option value="">All Statuses</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-        <option value="draft">Draft</option>
-      </select>
-        <!-- Create New Service Button -->
+
+    <!-- Category Filter -->
+    <select
+      [(ngModel)]="filterCategory"
+      (ngModelChange)="applyFilter()"
+      class="border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] rounded-lg border px-3 py-2">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of categories" [value]="cat.value">
+        {{ cat.label }}
+      </option>
+    </select>
+
+    <!-- Status Filter -->
+    <select
+      [(ngModel)]="filterStatus"
+      (ngModelChange)="applyFilter()"
+      class="border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] rounded-lg border px-3 py-2">
+      <option value="">All Statuses</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+      <option value="draft">Draft</option>
+    </select>
+
+    <!-- Create New Service -->
     <button
-    (click)="createService()"
-    class="bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 flex items-center gap-2"
-  >
-    <i class="fas fa-plus"></i> New Service
-  </button> 
-    </div>
-  
-    <!-- Service List -->
-    <div class="p-4 space-y-4">
-      <div
-        *ngFor="let service of filteredServices"
-        class="bg-[var(--muted)] rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between border border-[var(--border)]"
-      >
-        <div class="flex items-start gap-3 flex-1">
-          <i class="fas {{ service.icon }} text-xl text-[var(--primary)]"></i>
-          <div>
-            <h4 class="font-semibold text-lg text-[var(--primary)]">{{ service.name }}</h4>
-            <p class="text-sm text-[var(--foreground)]"><i class="fas fa-tag"></i> {{ service.category }}</p>
-            <p class="text-sm text-[var(--foreground)]"><i class="fas fa-hospital"></i> {{ service.provider }}</p>
-            <p class="font-semibold text-[var(--primary)] mt-1">{{ service.price }}</p>
+      (click)="createService()"
+      class="bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold hover:opacity-90">
+      <i class="fas fa-plus"></i> New Service
+    </button>
+  </div>
+
+  <!-- Active Filters Chips -->
+  <div *ngIf="filterCategory || filterStatus || search" class="flex flex-wrap gap-2 p-4">
+    <span *ngIf="search" class="bg-[var(--muted)] px-2 py-1 text-xs rounded-lg flex items-center gap-1">
+      <i class="fas fa-search"></i> "{{ search }}"
+      <button (click)="search=''; applyFilter()" class="ml-1 hover:text-[var(--primary)]"><i class="fas fa-times"></i></button>
+    </span>
+    <span *ngIf="filterCategory" class="bg-[var(--muted)] px-2 py-1 text-xs rounded-lg flex items-center gap-1">
+      Category: {{ filterCategory }}
+      <button (click)="filterCategory=''; applyFilter()" class="ml-1 hover:text-[var(--primary)]"><i class="fas fa-times"></i></button>
+    </span>
+    <span *ngIf="filterStatus" class="bg-[var(--muted)] px-2 py-1 text-xs rounded-lg flex items-center gap-1">
+      Status: {{ filterStatus }}
+      <button (click)="filterStatus=''; applyFilter()" class="ml-1 hover:text-[var(--primary)]"><i class="fas fa-times"></i></button>
+    </span>
+  </div>
+
+  <!-- Service List -->
+  <div class="space-y-4 p-4">
+    <div
+      *ngFor="let service of pagedServices"
+      class="bg-[var(--muted)] border-[var(--border)] flex flex-col justify-between rounded-lg border p-4 transition hover:shadow-md cursor-pointer md:flex-row md:items-center"
+      (click)="viewService(service)">
+      <div class="flex flex-1 items-start gap-3">
+        <i class="fas {{ service.icon || 'fa-briefcase-medical' }} text-xl text-[var(--primary)]"></i>
+        <div>
+          <h4 class="text-[var(--primary)] text-lg font-semibold">{{ service.name }}</h4>
+          <p class="text-[var(--foreground)] text-sm">{{ service.categoryName }}</p>
+          <p class="text-[var(--foreground)] text-sm"><i class="fas fa-hospital"></i> {{ service.provider }}</p>
+
+          <!-- Pricing with discount -->
+          <div class="mt-1">
+            <p *ngIf="service.discount" class="text-sm text-[var(--muted-foreground)] line-through">
+              {{ service.currency }} {{ service.price | number : '1.0-0' }}
+            </p>
+            <p class="text-[var(--primary)] font-semibold">
+              {{ service.currency }}
+              {{ service.discount ? (service.price - (service.price * (service.discount/100))) : service.price | number : '1.0-0' }}
+            </p>
           </div>
-        </div>
-        <div class="flex gap-2 mt-3 md:mt-0">
-          <button
-            (click)="editService(service.id)"
-            class="bg-[var(--primary)] text-[var(--primary-foreground)] px-3 py-1 rounded-lg text-sm hover:opacity-90"
-          >
-            <i class="fas fa-edit"></i> Edit
-          </button>
-          <button
-            (click)="viewService(service.id)"
-            class="bg-[var(--secondary)] text-[var(--secondary-foreground)] px-3 py-1 rounded-lg text-sm hover:opacity-90"
-          >
-            <i class="fas fa-eye"></i> View
-          </button>
-          <button
-            (click)="deleteService(service.id)"
-            class="bg-[var(--destructive)] text-[var(--destructive-foreground)] px-3 py-1 rounded-lg text-sm hover:opacity-90"
-          >
-            <i class="fas fa-trash"></i> Delete
-          </button>
+
+          <!-- Status Badge -->
+          <span
+            class="mt-1 inline-block rounded-lg px-2 py-1 text-xs"
+            [ngClass]="{
+              'bg-green-500/20 text-green-600': service.status === 'active',
+              'bg-yellow-500/20 text-yellow-600': service.status === 'draft',
+              'bg-red-500/20 text-red-600': service.status === 'inactive'
+            }">
+            {{ service.status | titlecase }}
+          </span>
         </div>
       </div>
-  
-      <!-- No results -->
-      <div *ngIf="filteredServices.length === 0" class="text-center text-[var(--muted-foreground)] py-6">
-        No services found.
+
+      <!-- Actions -->
+      <div class="mt-3 flex gap-2 md:mt-0" (click)="$event.stopPropagation()">
+        <button
+          (click)="editService(service)"
+          class="bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg px-3 py-1 text-sm hover:opacity-90 flex items-center gap-1">
+          <i class="fas fa-edit"></i><span class="hidden md:inline">Edit</span>
+        </button>
+        <button
+          (click)="viewService(service)"
+          class="bg-[var(--secondary)] text-[var(--secondary-foreground)] rounded-lg px-3 py-1 text-sm hover:opacity-90 flex items-center gap-1">
+          <i class="fas fa-eye"></i><span class="hidden md:inline">View</span>
+        </button>
+        <button
+          (click)="deleteService(service.id)"
+          class="bg-[var(--destructive)] text-[var(--destructive-foreground)] rounded-lg px-3 py-1 text-sm hover:opacity-90 flex items-center gap-1">
+          <i class="fas fa-trash"></i><span class="hidden md:inline">Delete</span>
+        </button>
       </div>
+    </div>
+
+    <!-- No results -->
+    <div *ngIf="filteredServices.length === 0" class="text-[var(--muted-foreground)] py-6 text-center">
+      No services found.
     </div>
   </div>
-  
+
+  <!-- Pagination -->
+  <div class="border-[var(--border)] flex flex-col gap-2 items-center justify-between border-t p-4 md:flex-row">
+    <span class="text-[var(--foreground)] text-sm">
+      Showing {{ (page-1)*pageSize + 1 }}–
+      {{ (page*pageSize) > filteredServices.length ? filteredServices.length : (page*pageSize) }}
+      of {{ filteredServices.length }} services
+    </span>
+
+    <div class="flex items-center gap-2">
+      <button
+        (click)="prevPage()"
+        [disabled]="page === 1"
+        class="bg-[var(--muted)] rounded-lg px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed">
+        Prev
+      </button>
+      <span class="text-[var(--foreground)] text-sm"> Page {{ page }} of {{ totalPages }} </span>
+      <button
+        (click)="nextPage()"
+        [disabled]="page === totalPages"
+        class="bg-[var(--muted)] rounded-lg px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed">
+        Next
+      </button>
+
+      <!-- Page size selector -->
+      <select [(ngModel)]="pageSize" (ngModelChange)="applyFilter()" class="ml-2 rounded-lg border px-2 py-1 text-sm">
+        <option *ngFor="let size of [5,10,20,50]" [value]="size">{{ size }}/page</option>
+      </select>
+    </div>
+  </div>
+</div>
