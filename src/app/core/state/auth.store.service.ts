@@ -82,7 +82,7 @@ export class AuthStore {
               email: decoded.email,
               name: decoded.email.split('@')[0], // fallback name from email
               token: res.token,
-              role: decoded.role ?? res.role,
+              role:  res.role,
               exp: decoded.exp
             };
 
@@ -114,6 +114,7 @@ export class AuthStore {
   autoLogin(): void {
     const stored = localStorage.getItem('auth_user');
     if (stored) {
+      console.log('Restoring user from localStorage:', stored);
       try {
         const user: User = JSON.parse(stored);
         if (!this.isTokenExpired()) {

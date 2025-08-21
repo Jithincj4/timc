@@ -12,7 +12,6 @@ import { FacilitatorService } from 'src/app/core/services/facilitator.service';
   selector: 'app-facilitator-list',
   imports: [CommonModule, FormsModule],
   templateUrl: './facilitator-list.component.html',
-  styleUrls: ['./facilitator-list.component.css'],
 })
 export class FacilitatorListComponent implements OnInit {
  facilitators: any[] = [];

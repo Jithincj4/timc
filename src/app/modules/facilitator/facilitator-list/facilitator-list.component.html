@@ -5,35 +5,31 @@
       Facilitators
     </h2>
 
-    <div class="flex flex-col sm:flex-row gap-3">
+    <div class="flex flex-col sm:flex-row gap-3 items-center">
       <!-- Search -->
-      <div class="relative">
+      <div class="relative w-full sm:w-72">
         <input
           type="text"
           [(ngModel)]="search"
           placeholder="Search by name, phone, or country"
-          class="w-full sm:w-72 px-4 py-2 pl-10 border border-[var(--border)] rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 text-[var(--foreground)] bg-[var(--background)]"
+          class="w-full pl-10 pr-4 py-2 border border-[var(--border)] rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 text-[var(--foreground)] bg-[var(--background)]"
         />
         <svg
-          class="absolute left-3 top-2.5 h-5 w-5 text-[color:var(--muted-foreground)]"
+          class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted-foreground)]"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
 
       <!-- Clear -->
       <button
         (click)="clearSearch()"
-        class="px-4 py-2 bg-[var(--muted)] text-[var(--muted-foreground)] rounded-full hover:bg-[var(--muted-foreground)]/10 transition"
+        class="px-4 py-2 rounded-full bg-[var(--muted)] text-[var(--muted-foreground)] hover:bg-[var(--muted-foreground)]/10 transition shadow-sm"
       >
         Clear
       </button>
@@ -41,7 +37,7 @@
       <!-- Create -->
       <button
         (click)="createFacilitator()"
-        class="flex items-center gap-2 px-5 py-2 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-full shadow hover:bg-[var(--primary)]/90 transition"
+        class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] shadow hover:bg-[var(--primary)]/90 transition"
       >
         <svg
           class="h-5 w-5"
@@ -108,13 +104,13 @@
           <div class="flex gap-2">
             <button
               (click)="editFacilitator(f)"
-              class="px-3 py-1 text-xs font-medium border border-[var(--border)] rounded-full hover:bg-[var(--muted)] transition"
+              class="px-4 py-1.5 text-xs font-medium rounded-full border border-[var(--border)] text-[var(--foreground)] bg-[var(--muted)]/40 hover:bg-[var(--muted)] transition"
             >
               Edit
             </button>
             <button
               (click)="deleteFacilitator(f.userId)"
-              class="px-3 py-1 text-xs font-medium text-[var(--destructive-foreground)] bg-[var(--destructive)] rounded-full hover:bg-[var(--destructive)]/90 transition"
+              class="px-4 py-1.5 text-xs font-medium rounded-full bg-[var(--destructive)] text-[var(--destructive-foreground)] hover:bg-[var(--destructive)]/90 transition"
             >
               Delete
             </button>

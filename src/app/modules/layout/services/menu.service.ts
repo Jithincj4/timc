@@ -17,23 +17,27 @@ export class MenuService implements OnDestroy {
   private _role = this._auth.user()?.role;
 
   constructor(private router: Router) {
-    /** Set dynamic menu */
-    console.log('Role:', this._role);
-    switch (this._role) {
-      case 'Admin':
-        this._pagesMenu.set(Menu.adminPages);
-        break;
-      case 'SACCO':
-        this._pagesMenu.set(Menu.agentMenus);
-        break;
-      default:
-        this._pagesMenu.set([]);
-    }
+    /** Reactively watch role */
+    effect(() => {
+      const role = this._auth.user()?.role;
+      console.log('Role changed:', role);
 
-    // Initialize sidebar state based on screen size
+      switch (role) {
+        case 'Admin':
+          this._pagesMenu.set(Menu.adminPages);
+          break;
+        case 'SACCO':
+          this._pagesMenu.set(Menu.agentMenus);
+          break;
+        default:
+          this._pagesMenu.set([]);
+      }
+    });
+
+    // Initialize sidebar state
     this.initializeSidebarState();
 
-    // Listen to window resize events
+    // Resize handling
     if (typeof window !== 'undefined') {
       const resizeObserver = new ResizeObserver(() => {
         this.handleScreenResize();
@@ -41,9 +45,9 @@ export class MenuService implements OnDestroy {
       resizeObserver.observe(document.body);
     }
 
+    // Active menu expansion
     let sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        /** Expand menu base on active route */
         this._pagesMenu().forEach((menu) => {
           let activeGroup = false;
           menu.items.forEach((subMenu) => {
@@ -51,9 +55,7 @@ export class MenuService implements OnDestroy {
             subMenu.expanded = active;
             subMenu.active = active;
             if (active) activeGroup = true;
-            if (subMenu.children) {
-              this.expand(subMenu.children);
-            }
+            if (subMenu.children) this.expand(subMenu.children);
           });
           menu.active = activeGroup;
         });
@@ -151,6 +153,11 @@ export class MenuService implements OnDestroy {
       fragment: 'ignored',
       matrixParams: 'ignored',
     });
+  }
+
+  logout() {
+    this._auth.logout();
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {

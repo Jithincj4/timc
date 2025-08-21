@@ -2,10 +2,12 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { AuthStore } from '../state/auth.store.service';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const token = localStorage.getItem('token');
+ const _auth = inject(AuthStore);
+  const token = _auth.user()?.token || localStorage.getItem('token');
 
   const clonedReq = token
     ? req.clone({

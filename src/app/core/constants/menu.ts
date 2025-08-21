@@ -50,6 +50,11 @@ export class Menu {
           label: 'Dashboard',
           route: '/home',
         },
+        {
+          icon: 'fas fa-comments',
+          label: 'Messages',
+          route: '/home/agent/chat',
+        },
       ]
     }
   ];

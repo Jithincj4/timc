@@ -1,10 +1,23 @@
-<div class="bg-[var(--background)] text-[var(--foreground)] min-h-screen font-poppins">
+<div class="bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col font-poppins">
   <!-- Header/Navigation -->
-  <app-navbar> </app-navbar>
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-6">
-    <div class="bg-[var(--card)] rounded-lg p-6 shadow">
-      <router-outlet></router-outlet>
+  <header class="sticky top-0 z-50 shadow-md bg-[var(--card-bg)] backdrop-blur-md">
+    <app-navbar></app-navbar>
+  </header>
+
+<main class="flex-1 container mx-auto px-4 py-10">
+  <div class="bg-[var(--card)] rounded-2xl p-6 md:p-10 shadow-xl backdrop-blur-md">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+  <!-- Footer -->
+  <footer class="bg-[var(--card-bg)] border-t border-[var(--border)] py-6 text-center text-sm text-[var(--muted-foreground)]">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <p> FuFi Med – International Medical Facilitation System</p>
+      <nav class="flex gap-4">
+        <a routerLink="/about" class="hover:text-[var(--primary)]">About Us</a>
+        <a routerLink="/contact" class="hover:text-[var(--primary)]">Contact</a>
+        <a routerLink="/privacy" class="hover:text-[var(--primary)]">Privacy Policy</a>
+      </nav>
     </div>
-  </main>
+  </footer>
 </div>

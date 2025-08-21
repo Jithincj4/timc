@@ -2,7 +2,7 @@
   <!-- Left -->
   <div class="flex items-center space-x-4">
     <!-- Brand -->
-    <a routerLink="/" class="text-[var(--primary)] font-bold text-xl">
+    <a routerLink="/home" class="text-[var(--primary)] font-bold text-xl">
       Fufi Med
     </a>
 
@@ -30,15 +30,15 @@
   <!-- Right -->
   <div class="flex items-center space-x-4">
     <div class="text-right hidden sm:block">
-      <p class="font-medium text-[var(--card-foreground)]">John Doe</p>
-      <p class="text-xs text-[var(--muted-foreground)]">Patient</p>
+      <p class="font-medium text-[var(--card-foreground)]">{{auth.user()?.email}}</p>
+      <p class="text-xs text-[var(--muted-foreground)]">{{auth.user()?.role}}</p>
     </div>
     <div
       class="w-10 h-10 bg-[var(--primary)] rounded-full flex items-center justify-center text-white font-medium"
     >
-      JD
+      {{auth.user()?.email?.charAt(0)?.toUpperCase() ?? ''}}
     </div>
-    <button class="text-[var(--destructive)] flex items-center text-sm hover:underline">
+    <button class="text-[var(--destructive)] flex items-center text-sm hover:underline" (click)="logout()">
       <i class="fas fa-sign-out-alt mr-1"></i> Logout
     </button>
   </div>
