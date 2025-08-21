@@ -1,21 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MenuService } from '../../services/menu.service';
-import { NavbarMenuComponent } from './navbar-menu/navbar-menu.component';
-import { NavbarMobileComponent } from './navbar-mobile/navbar-mobilecomponent';
-import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
+import { MenuItem, SubMenuItem } from 'src/app/core/models/menu.model';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   templateUrl: './navbar.component.html',
-  imports: [AngularSvgIconModule, NavbarMenuComponent, ProfileMenuComponent, NavbarMobileComponent]
+  imports: [AngularSvgIconModule,RouterLink],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private menuService: MenuService) {}
+  menus = signal<MenuItem[]>([]);
+  
 
-  ngOnInit(): void {}
+  constructor(public menuService: MenuService) {}
 
-  public toggleMobileMenu(): void {
-    this.menuService.showMobileMenu = true;
+  ngOnInit(): void {
+    this.menus.set(this.menuService.pagesMenu);
+  }
+
+  toggleMobileMenu(): void {
+    this.menuService.showMobileMenu = !this.menuService.showMobileMenu;
+  }
+
+  closeMobileMenu(): void {
+    this.menuService.showMobileMenu = false;
   }
 }

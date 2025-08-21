@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
@@ -42,31 +43,32 @@ module.exports = {
         '2/3': '2 / 3',
         '9/16': '9 / 16',
       },
-      animation: {
-        'slide-in-left': 'slide-in-left 0.3s ease-out',
-        'slide-out-left': 'slide-out-left 0.3s ease-out',
-        'fade-in-scale': 'fade-in-scale 0.2s ease-out',
-        'fade-in': 'fadeIn 0.3s ease-out',
-      },
       borderRadius: {
-        lg: '0.5rem',
-        md: '0.375rem',
+        lg: '0.75rem',
+        md: '0.5rem',
         full: '9999px',
       },
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        card: 'var(--card)',
-        'card-foreground': 'var(--card-foreground)',
         primary: 'var(--primary)',
         'primary-foreground': 'var(--primary-foreground)',
+        secondary: 'var(--secondary)',
+        'secondary-foreground': 'var(--secondary-foreground)',
+        accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
+        background: 'var(--background)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        border: 'var(--border)',
         muted: 'var(--muted)',
         'muted-foreground': 'var(--muted-foreground)',
         destructive: 'var(--destructive)',
         'destructive-foreground': 'var(--destructive-foreground)',
-        border: 'var(--border)',
-        accent: 'var(--accent)',
-        'accent-foreground': 'var(--accent-foreground)',
+      },
+      fontFamily: {
+        poppins: ['var(--font-poppins)', 'sans-serif'],
+      },
+      boxShadow: {
+        custom: '0 6px 20px rgba(0,0,0,0.1)',
       },
       keyframes: {
         'slide-in-left': {
@@ -85,6 +87,12 @@ module.exports = {
           '0%': { opacity: 0, transform: 'scale(0.95)' },
           '100%': { opacity: 1, transform: 'scale(1)' },
         },
+      },
+      animation: {
+        'slide-in-left': 'slide-in-left 0.3s ease-out',
+        'slide-out-left': 'slide-out-left 0.3s ease-out',
+        'fade-in-scale': 'fade-in-scale 0.2s ease-out',
+        'fade-in': 'fadeIn 0.3s ease-out',
       },
     },
   },

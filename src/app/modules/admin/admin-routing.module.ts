@@ -2,7 +2,6 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminDashboardComponent } from './pages/dashboard/admin-dashboard.component';
 import { SaccoCreateComponent } from '../sacco/sacco/sacco-create.component';
-import { SaccoListComponent } from '../sacco/sacco-list/sacco-list.component';
 import { FacilitatorCreateComponent } from '../facilitator/facilitator/facilitator-create.component';
 import { FacilitatorListComponent } from '../facilitator/facilitator-list/facilitator-list.component';
 import { LinkSaccoFacilitatorComponent } from './pages/link-sacco-facilitator/link-sacco-facilitator.component';
@@ -11,6 +10,8 @@ import { ServiceCreateFormComponent } from '../services/create/service-create.co
 import { ManageServicesComponent } from '../services/manage/manage-services.component';
 import { EditServiceComponent } from '../services/edit/edit-service.component';
 import { MessageScreenComponent } from '../chat/chat-home/message-screen.componen';
+import { PatientRegistrationComponent } from '../patient/patient-registration/patient-registration.component';
+import { SaccoListComponent } from '../sacco/sacco-list/sacco-list.component';
 
 const routes: Routes = [
   { path: '', component: AdminDashboardComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'service-management', component: ManageServicesComponent },
   { path: 'service-create', component: ServiceCreateFormComponent },
   { path: 'services/:id/edit', component: EditServiceComponent },
+  { path: 'patient-registration', component: PatientRegistrationComponent },
   {path: 'chat', component:MessageScreenComponent}
 ];
 

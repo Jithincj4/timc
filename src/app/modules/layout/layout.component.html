@@ -1,19 +1,10 @@
-<div class="flex h-screen w-full overflow-hidden">
-  <!-- Sidebar -->
-  <app-sidebar></app-sidebar>
-
-  <div class="flex grow flex-col content-start overflow-hidden">
-    <!-- Header -->
-    <app-navbar></app-navbar>
-    <!-- main content -->
-    <div
-      id="main-content"
-      class="scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted">
-      <div class="mx-auto px-4 py-6 sm:px-8">
-        <!-- Routed page content should render inside (and the routed component will render its own card/table) -->
-        <router-outlet></router-outlet>
-      </div>
+<div class="bg-[var(--background)] text-[var(--foreground)] min-h-screen font-poppins">
+  <!-- Header/Navigation -->
+  <app-navbar> </app-navbar>
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-6">
+    <div class="bg-[var(--card)] rounded-lg p-6 shadow">
+      <router-outlet></router-outlet>
     </div>
-
-  </div>
+  </main>
 </div>

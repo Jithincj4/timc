@@ -1,11 +1,11 @@
 <!-- src/app/components/facilitator-edit/facilitator-edit.component.html -->
-<div class="py-8 min-h-screen" style="background: linear-gradient(135deg, var(--background), var(--accent));">
+<div class="py-8 min-h-screen ">
   <div class="container max-w-7xl">
     <!-- Header -->
     <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <h1 class="text-3xl font-bold text-[var(--foreground)]">FuFi Med — Edit Facilitator</h1>
-        <p class="mt-1 text-sm text-slate-500">
+        <p class="mt-1 text-sm text-[var(--muted-foreground)]">
           Update user account or facilitator details independently.
         </p>
       </div>
@@ -20,7 +20,7 @@
     <div class="grid gap-8 lg:grid-cols-2">
 
       <!-- User Account Card -->
-      <div class="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 shadow-[var(--shadow-custom)] hover:shadow-xl transition-shadow">
+      <div class="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-[var(--shadow-custom)] hover:shadow-xl transition-shadow">
         <h2 class="mb-5 flex items-center gap-2 text-xl font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">
           <span class="w-1.5 h-6 rounded-full bg-[var(--primary)]"></span>
           User Account
@@ -30,8 +30,8 @@
           <!-- Username -->
           <div>
             <label class="block text-sm font-medium text-[var(--foreground)]">Username</label>
-            <input formControlName="username" type="text" class="mt-1 w-full rounded-lg" />
-            <p class="mt-1 text-xs text-red-600" *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid">
+            <input formControlName="username" type="text" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
+            <p class="mt-1 text-xs text-[var(--destructive)]" *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid">
               Username is required.
             </p>
           </div>
@@ -39,8 +39,8 @@
           <!-- Email -->
           <div>
             <label class="block text-sm font-medium text-[var(--foreground)]">Email</label>
-            <input formControlName="email" type="email" class="mt-1 w-full rounded-lg" />
-            <p class="mt-1 text-xs text-red-600" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
+            <input formControlName="email" type="email" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
+            <p class="mt-1 text-xs text-[var(--destructive)]" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
               Enter a valid email.
             </p>
           </div>
@@ -49,11 +49,11 @@
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label class="block text-sm font-medium text-[var(--foreground)]">Password</label>
-              <input formControlName="password" type="password" placeholder="Leave blank to keep current" class="mt-1 w-full rounded-lg" />
+              <input formControlName="password" type="password" placeholder="Leave blank to keep current" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
             </div>
             <div>
               <label class="block text-sm font-medium text-[var(--foreground)]">Confirm Password</label>
-              <input formControlName="confirmPassword" type="password" placeholder="Leave blank to keep current" class="mt-1 w-full rounded-lg" />
+              <input formControlName="confirmPassword" type="password" placeholder="Leave blank to keep current" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
             </div>
           </div>
 
@@ -71,7 +71,7 @@
       </div>
 
       <!-- Facilitator Details Card -->
-      <div class="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6 shadow-[var(--shadow-custom)] hover:shadow-xl transition-shadow">
+      <div class="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-[var(--shadow-custom)] hover:shadow-xl transition-shadow">
         <h2 class="mb-5 flex items-center gap-2 text-xl font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">
           <span class="w-1.5 h-6 rounded-full bg-[var(--success)]"></span>
           Facilitator Details
@@ -81,32 +81,32 @@
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label class="block text-sm font-medium text-[var(--foreground)]">First Name</label>
-              <input formControlName="firstName" type="text" class="mt-1 w-full rounded-lg" />
+              <input formControlName="firstName" type="text" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
             </div>
             <div>
               <label class="block text-sm font-medium text-[var(--foreground)]">Last Name</label>
-              <input formControlName="lastName" type="text" class="mt-1 w-full rounded-lg" />
+              <input formControlName="lastName" type="text" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
             </div>
           </div>
 
           <div>
             <label class="block text-sm font-medium text-[var(--foreground)]">License Number</label>
-            <input formControlName="licenseNumber" type="text" class="mt-1 w-full rounded-lg" />
+            <input formControlName="licenseNumber" type="text" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-[var(--foreground)]">Organisation Name</label>
-            <input formControlName="organisationName" type="text" class="mt-1 w-full rounded-lg" />
+            <input formControlName="organisationName" type="text" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-[var(--foreground)]">Years of Experience</label>
-            <input formControlName="yearsOfExperience" type="number" class="mt-1 w-full rounded-lg" />
+            <input formControlName="yearsOfExperience" type="number" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]" />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-[var(--foreground)]">Specializations</label>
-            <select formControlName="specializationIds" multiple size="6" class="mt-1 w-full rounded-lg">
+            <select formControlName="specializationIds" multiple size="6" class="mt-1 w-full rounded-lg bg-[var(--muted)] text-[var(--foreground)]">
               <option *ngFor="let s of specializations" [value]="s.specializationId">
                 {{ s.specializationName }} ({{ s.categoryName }})
               </option>
@@ -117,7 +117,7 @@
             <button
               (click)="saveFacilitatorDetails()"
               disableAfterClick
-              class="rounded-lg bg-[var(--success)] px-5 py-2.5 text-[var(--success-foreground)] shadow-[var(--shadow-custom)] hover:brightness-90 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed">
+              class="rounded-lg bg-[var(--primary)] px-5 py-2.5 text-[var(--primary-foreground)] shadow-[var(--shadow-custom)] hover:brightness-90 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed">
               <span *ngIf="loading" class="mr-2 inline-block h-4 w-4 animate-spin border-2 border-[var(--success-foreground)] border-t-transparent rounded-full"></span>
               Save Facilitator
             </button>

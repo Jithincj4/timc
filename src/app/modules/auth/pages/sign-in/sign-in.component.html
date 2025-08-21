@@ -1,114 +1,108 @@
-<div class="flex min-h-screen">
-  <!-- Left portion with image - properly contained -->
-  <div class="relative hidden w-1/2 lg:block">
+<div class="flex min-h-screen bg-[var(--background)]">
+  <!-- Left portion with image -->
+  <div class="relative hidden lg:flex w-1/2">
     <img
       src="assets/bg/auth.jpg"
       alt="Authentication illustration"
       class="h-full w-full object-cover" />
-    <!-- Gradient overlay contained within the image container -->
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
+    <!-- Darker gradient overlay for better text visibility -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(0,0,0,0.6)] to-transparent"></div>
     <!-- Welcome text overlay -->
-    <div class="absolute bottom-10 left-10 p-6 text-white">
-      <h1 class="mb-2 text-4xl font-bold">Fufi Med Health Care Portal</h1>
-      <p class="text-lg opacity-90">A socially committed, technology-enabled international medical care system.
-        We help you to find the right doctor, fix the right treatment, and fulfil your complete medical care journey</p>
+    <div class="absolute bottom-12 left-12 p-6 max-w-xs text-white">
+      <h1 class="mb-3 text-4xl font-bold leading-tight">Fufi Med Health Care Portal</h1>
+      <p class="text-lg opacity-90 leading-relaxed">
+        A socially committed, technology-enabled international medical care system. We help you find the right doctor, fix the right treatment, and fulfil your complete medical care journey.
+      </p>
     </div>
   </div>
 
-  <!-- Right portion with form - properly positioned -->
-  <div class="flex w-full flex-col items-center justify-center p-8 lg:w-1/2 relative z-10">
-    <form class="my-10 w-full max-w-md space-y-6" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!-- Right portion with form -->
+  <div class="flex w-full lg:w-1/2 flex-col items-center justify-center p-8 relative z-10">
+    <form class="w-full max-w-md space-y-6 bg-[var(--card-bg)] rounded-xl p-8 shadow-xl" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Header -->
       <div class="text-center">
-        <div class="flex items-center justify-center gap-3 mb-6">
-          <a class="bg-primary rounded-sm p-2">
-            <svg-icon src="assets/icons/logo.svg" [svgClass]="'h-5 w-5'"> </svg-icon>
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <a class="bg-[var(--primary)] hover:bg-[var(--primary-foreground)] transition-colors rounded-lg p-3 flex items-center justify-center">
+            <svg-icon src="assets/icons/logo.svg" [svgClass]="'h-6 w-6'"></svg-icon>
           </a>
-          <b class="text-md text-foreground font-bold"> Fufi Med Health Care Portal</b>
+          <b class="text-lg text-[var(--foreground)] font-bold">Fufi Med Health Care Portal</b>
         </div>
-        <p class="text-muted-foreground text-sm">{{ 'auth.subtitle' | translate }}</p>
+        <p class="text-[var(--muted-foreground)] text-sm">{{ 'auth.subtitle' | translate }}</p>
       </div>
-      
-      <div class="space-y-3 text-left">
-        <!-- Email field -->
-        <div class="form__group">
-          <div class="relative">
-            <input
-              type="text"
-              id="email"
-              [ngClass]="{ 'is__invalid-input': submitted() && f['email'].errors }"
-              class="peer block"
-              placeholder=" "
-              formControlName="email" />
-            <label
-              for="email"
-              [ngClass]="{ 'peer-focus:text-destructive!': submitted() && f['email'].errors }"
-              class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
-              {{ 'auth.email.label' | translate }}
-            </label>
-          </div>
-          <div *ngIf="submitted() && f['email'].errors" class="is__invalid-error">
+
+      <!-- Inputs -->
+      <div class="space-y-4">
+        <!-- Email -->
+        <div class="relative">
+          <input
+            type="text"
+            id="email"
+            [ngClass]="{ 'is__invalid-input': submitted() && f['email'].errors }"
+            class="peer block w-full rounded-lg border border-[var(--border)] bg-[var(--card-bg)] px-3 pt-4 pb-2 text-[var(--foreground)] placeholder-transparent focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            placeholder="Email"
+            formControlName="email" />
+          <label
+            for="email"
+            class="absolute left-3 top-2 text-[var(--muted-foreground)] text-sm transition-all duration-300 peer-placeholder-shown:top-4 peer-placeholder-shown:text-[var(--muted-foreground)] peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-[var(--primary)] peer-focus:text-sm px-1">
+            {{ 'auth.email.label' | translate }}
+          </label>
+          <div *ngIf="submitted() && f['email'].errors" class="text-destructive text-xs mt-1">
             <div *ngIf="f['email'].errors['required']">{{ 'auth.email.errors.required' | translate }}</div>
             <div *ngIf="f['email'].errors['email']">{{ 'auth.email.errors.invalid' | translate }}</div>
           </div>
         </div>
-        
-        <!-- Password field -->
-        <div class="form__group">
-          <div class="relative">
-            <input
-              [type]="passwordTextType ? 'text' : 'password'"
-              id="password"
-              [ngClass]="{ 'is__invalid-input': submitted() && f['password'].errors }"
-              class="peer block"
-              placeholder=" "
-              formControlName="password" />
-            <label
-              for="password"
-              [ngClass]="{ 'peer-focus:text-destructive!': submitted() && f['password'].errors }"
-              class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
-              {{ 'auth.password.label' | translate }}
-            </label>
-            <span
-              class="text-muted-foreground absolute top-2 cursor-pointer ltr:right-3 rtl:left-3 z-20"
-              (click)="togglePasswordTextType()"
-              [attr.aria-label]="
-                passwordTextType ? ('auth.password.toggle.hide' | translate) : ('auth.password.toggle.show' | translate)
-              ">
-              <svg-icon
-                [src]="
-                  !passwordTextType
-                    ? 'assets/icons/heroicons/outline/eye-off.svg'
-                    : 'assets/icons/heroicons/outline/eye.svg'
-                "
-                [svgClass]="'h-5 w-5'">
-              </svg-icon>
-            </span>
-          </div>
-          <div *ngIf="submitted() && f['password'].errors" class="is__invalid-error">
+
+        <!-- Password -->
+        <div class="relative">
+          <input
+            [type]="passwordTextType ? 'text' : 'password'"
+            id="password"
+            [ngClass]="{ 'is__invalid-input': submitted() && f['password'].errors }"
+            class="peer block w-full rounded-lg border border-[var(--border)] bg-[var(--card-bg)] px-3 pt-4 pb-2 text-[var(--foreground)] placeholder-transparent focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            placeholder="Password"
+            formControlName="password" />
+          <label
+            for="password"
+            class="absolute left-3 top-2 text-[var(--muted-foreground)] text-sm transition-all duration-300 peer-placeholder-shown:top-4 peer-placeholder-shown:text-[var(--muted-foreground)] peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-[var(--primary)] peer-focus:text-sm px-1">
+            {{ 'auth.password.label' | translate }}
+          </label>
+          <span
+            class="absolute top-3 right-3 cursor-pointer text-[var(--muted-foreground)]"
+            (click)="togglePasswordTextType()"
+            [attr.aria-label]="passwordTextType ? ('auth.password.toggle.hide' | translate) : ('auth.password.toggle.show' | translate)">
+            <svg-icon
+              [src]="!passwordTextType ? 'assets/icons/heroicons/outline/eye-off.svg' : 'assets/icons/heroicons/outline/eye.svg'"
+              [svgClass]="'h-5 w-5'">
+            </svg-icon>
+          </span>
+          <div *ngIf="submitted() && f['password'].errors" class="text-destructive text-xs mt-1">
             <div *ngIf="f['password'].errors['required']">{{ 'auth.password.errors.required' | translate }}</div>
           </div>
         </div>
       </div>
-      
-      <div class="mb-2 flex items-center justify-between space-x-3">
-        <div class="flex items-center">
-          <input id="remember-me" name="remember-me" type="checkbox" />
-          <label for="remember-me" class="text-muted-foreground ml-2 block text-sm">
-            {{ 'auth.remember' | translate }}
-          </label>
+
+      <!-- Remember & Forgot -->
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <input id="remember-me" name="remember-me" type="checkbox" class="accent-[var(--primary)]" />
+          <label for="remember-me" class="text-[var(--muted-foreground)] text-sm">{{ 'auth.remember' | translate }}</label>
         </div>
         <app-button routerLink="/auth/forgot-password" impact="none" tone="primary" shape="rounded" size="small">
           {{ 'auth.forgot' | translate }}
         </app-button>
       </div>
-      
-      <div>
-        <app-button full impact="bold" tone="primary" shape="rounded" size="medium">
-          {{ 'auth.login' | translate }}
-        </app-button>
-      </div>
-      
-      <div class="text-muted-foreground flex items-center text-sm">
+
+      <!-- Login button -->
+      <button
+      type="submit"
+      class="w-full bg-[var(--primary)] text-white font-semibold rounded-lg py-3 
+             hover:bg-[var(--primary-foreground)] hover:text-[var(--primary)] 
+             transition-colors shadow-md">
+      {{ 'auth.login' | translate }}
+    </button>
+
+      <!-- Signup prompt -->
+      <div class="text-[var(--muted-foreground)] flex justify-center items-center gap-2 text-sm">
         {{ 'auth.signup.prompt' | translate }}
         <app-button routerLink="/sign-up" impact="none" tone="primary" shape="rounded" size="small">
           {{ 'auth.signup.action' | translate }}

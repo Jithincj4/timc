@@ -1,0 +1,457 @@
+<!-- Stepper -->
+<div class="flex items-center gap-6">
+  <ng-container *ngFor="let step of steps; let i = index">
+    <div class="flex items-center gap-3 cursor-pointer select-none" (click)="goToStep(i + 1)">
+      <div class="flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold"
+        [ngClass]="{
+          'bg-blue-600 text-white shadow-md': currentStep === i + 1,
+          'bg-green-600 text-white': currentStep > i + 1,
+          'border border-slate-200 bg-white text-slate-500': currentStep < i + 1
+        }">
+        <i *ngIf="i === 0" class="fas fa-user"></i>
+        <i *ngIf="i === 1" class="fas fa-notes-medical"></i>
+        <i *ngIf="i === 2" class="fas fa-hand-holding-usd"></i>
+        <i *ngIf="i === 3" class="fas fa-clipboard-check"></i>
+      </div>
+      <div class="text-sm"
+        [ngClass]="{
+          'font-semibold text-blue-600': currentStep === i + 1,
+          'text-slate-500': currentStep !== i + 1
+        }">
+        {{ step }}
+      </div>
+    </div>
+
+    <div *ngIf="i < steps.length - 1" class="mx-3 h-0 flex-1 border-t"
+      [ngClass]="{
+        'border-green-500': currentStep > i + 1,
+        'border-slate-200': currentStep <= i + 1
+      }">
+    </div>
+  </ng-container>
+</div>
+
+
+<form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+
+  <!-- STEP 1: Personal & Contact Information -->
+  
+<div class="p-6" *ngIf="currentStep === 1">
+
+  <!-- Personal Information -->
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mb-4">Personal Information</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- First Name -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">First Name</label>
+      <input type="text" formControlName="firstName" class="input" />
+      <div *ngIf="isInvalid('firstName')" class="text-red-500 text-sm">First Name is required.</div>
+    </div>
+
+    <!-- Last Name -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Last Name</label>
+      <input type="text" formControlName="lastName" class="input" />
+      <div *ngIf="isInvalid('lastName')" class="text-red-500 text-sm">Last Name is required.</div>
+    </div>
+
+    <!-- Date of Birth -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Date of Birth</label>
+      <input type="date" formControlName="dateOfBirth" class="input" />
+      <div *ngIf="isInvalid('dateOfBirth')" class="text-red-500 text-sm">Date of Birth is required.</div>
+    </div>
+
+    <!-- Age -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Age</label>
+      <input type="number" formControlName="age" class="input" readonly />
+    </div>
+
+    <!-- Gender -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Gender</label>
+      <select formControlName="gender" class="input">
+        <option value="" disabled>Select Gender</option>
+        <option *ngFor="let gender of genders" [value]="gender.GenderId">{{ gender.GenderName }}</option>
+      </select>
+      <div *ngIf="isInvalid('gender')" class="text-red-500 text-sm">Gender is required.</div>
+    </div>
+
+    <!-- Nationality -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Nationality</label>
+      <select formControlName="nationality" class="input">
+        <option value="">Select Nationality</option>
+        <option *ngFor="let nationality of nationalities" [value]="nationality.NationalityId">{{ nationality.NationalityName }}</option>
+      </select>
+      <div *ngIf="isInvalid('nationality')" class="text-red-500 text-sm">Nationality is required.</div>
+    </div>
+
+    <!-- Marital Status -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Marital Status</label>
+      <select formControlName="maritalStatus" class="input">
+        <option value="">Select Marital Status</option>
+        <option *ngFor="let status of maritalStatus" [value]="status.MaritalStatusId">{{ status.MaritalStatusName }}</option>
+      </select>
+      <div *ngIf="isInvalid('maritalStatus')" class="text-red-500 text-sm">Marital Status is required.</div>
+    </div>
+
+    <!-- Passport Number -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Passport Number</label>
+      <input type="text" formControlName="passportNumber" class="input" />
+      <div *ngIf="isInvalid('passportNumber')" class="text-red-500 text-sm">Passport Number is required.</div>
+    </div>
+
+    <!-- Passport Issue Date -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Issue Date</label>
+      <input type="date" formControlName="passportIssueDate" class="input" />
+      <div *ngIf="isInvalid('passportIssueDate')" class="text-red-500 text-sm">Issue Date is required.</div>
+    </div>
+
+    <!-- Passport Expiry Date -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Expiry Date</label>
+      <input type="date" formControlName="passportExpiryDate" class="input" />
+      <div *ngIf="isInvalid('passportExpiryDate')" class="text-red-500 text-sm">Expiry Date is required.</div>
+    </div>
+
+    <!-- Identification Type -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Identification Type</label>
+      <select formControlName="identificationType" class="input">
+        <option value="">Select Identification Type</option>
+        <option *ngFor="let type of identificationTypes" [value]="type.IdentificationTypeId">{{ type.IdentificationTypeName }}</option>
+      </select>
+      <div *ngIf="isInvalid('identificationType')" class="text-red-500 text-sm">Identification Type is required.</div>
+    </div>
+
+    <!-- Upload ID/Passport -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Upload ID/Passport</label>
+      <label for="identificationFile" class="mt-1 input flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-indigo-50 px-2 py-3 text-center text-indigo-700 cursor-pointer hover:bg-indigo-100 hover:border-indigo-500 transition">
+        <i class="fas fa-paperclip mr-2"></i>
+        <span class="text-gray-600">Click here to select a file</span>
+      </label>
+      <input id="identificationFile" type="file" class="hidden" formControlName="identificationFile" (change)="onFileSelected($event, 'identificationFile', 'identificationFilePath')" />
+      <div *ngIf="isInvalid('identificationFile')" class="text-red-500 text-sm">ID/Passport file is required (JPEG/PDF).</div>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mt-8 mb-4">Contact Information</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- Country of Residence -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Country of Residence</label>
+      <select formControlName="countryOfResidence" class="input" (change)="autoPopulatePhoneCode()">
+        <option value="">Select Country</option>
+        <option *ngFor="let country of countries" [value]="country.CountryId">{{ country.CountryName }}</option>
+      </select>
+      <div *ngIf="isInvalid('countryOfResidence')" class="text-red-500 text-sm">Country of Residence is required.</div>
+    </div>
+
+    <!-- City / Town -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">City / Town</label>
+      <input type="text" formControlName="cityTown" class="input" />
+      <div *ngIf="isInvalid('cityTown')" class="text-red-500 text-sm">City / Town is required.</div>
+    </div>
+
+    <!-- Phone Number -->
+    <div>
+        <i class="fas fa-phone text-blue-500 mr-2"></i>
+      <label class="text-sm font-medium text-slate-700 required">Phone Number</label>
+      <input type="tel" formControlName="phoneNumber" class="w-full border rounded-md px-3 py-2" />
+      <div *ngIf="isInvalid('phoneNumber')" class="text-red-500 text-sm">Phone Number is required.</div>
+    </div>
+
+    <!-- Alternate Phone -->
+    <div>
+       <i class="fas fa-phone text-blue-500 mr-2"></i>
+      <label class="text-sm font-medium text-slate-700">Alternate Phone</label>
+      <input type="tel" formControlName="alternatePhone" class="w-full border rounded-md px-3 py-2" />
+    </div>
+
+    <!-- Email -->
+    <div>
+       <i class="fas fa-envelope text-red-500 mr-2"></i>
+      <label class="text-sm font-medium text-slate-700 required">Email</label>
+      <input type="email" formControlName="email" class="w-full border rounded-md px-3 py-2" placeholder="example@mail.com" />
+      <div *ngIf="isInvalid('email')" class="text-red-500 text-sm">Email Address is required.</div>
+    </div>
+
+    <!-- WhatsApp -->
+    <div>
+        <i class="fab fa-whatsapp text-green-500 mr-2"></i> <!-- WhatsApp icon -->
+      <label class="text-sm font-medium text-slate-700">WhatsApp Number</label>
+      <input type="tel" formControlName="whatsappNumber" class="w-full border rounded-md px-3 py-2" />
+    </div>
+  </div>
+</div>
+
+
+  <!-- STEP 2: Medical & Travel Information -->
+  <!-- STEP 2: Medical & Travel Information -->
+<div class="p-6" *ngIf="currentStep === 2">
+
+  <!-- Medical Information -->
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mb-4">Medical Information</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- Primary Diagnosis -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Primary Diagnosis / Condition</label>
+      <input type="text" formControlName="primaryDiagnosis" class="input" />
+      <div *ngIf="isInvalid('primaryDiagnosis')" class="text-red-500 text-sm">Primary Diagnosis is required.</div>
+    </div>
+
+    <!-- Duration of Illness -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Duration of Illness</label>
+      <input type="text" formControlName="illnessDuration" class="input" placeholder="e.g., 6 months, 2 years" />
+      <div *ngIf="isInvalid('illnessDuration')" class="text-red-500 text-sm">Duration of Illness is required.</div>
+    </div>
+
+    <!-- Description of Symptoms -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Description of Symptoms</label>
+      <textarea formControlName="symptomDescription" rows="3" class="input"></textarea>
+      <div *ngIf="isInvalid('symptomDescription')" class="text-red-500 text-sm">Description of Symptoms is required.</div>
+    </div>
+
+    <!-- Current Medications (Optional) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Current Medications</label>
+      <textarea formControlName="currentMedications" rows="3" class="input"></textarea>
+    </div>
+
+    <!-- Upload Medical Reports -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Upload Medical Reports</label>
+      <label for="medicalReports" class="mt-1 input flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-indigo-50 px-2 py-3 text-center text-indigo-700 cursor-pointer hover:bg-indigo-100 hover:border-indigo-500 transition">
+        <i class="fas fa-paperclip mr-2"></i>
+        <span class="text-gray-600">Click here to select a file</span>
+      </label>
+      <input id="medicalReports" type="file" accept=".pdf,.jpeg,.jpg,.dcm" class="hidden" formControlName="medicalReports" (change)="onFileSelected($event, 'medicalReports', 'medicalReportsPath')" />
+      <div *ngIf="isInvalid('medicalReports')" class="text-red-500 text-sm">Medical Report file is required (PDF/JPEG/DICOM).</div>
+    </div>
+
+    <!-- Upload Prescriptions / Scans (Optional) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Upload Prescriptions / Scans</label>
+      <label for="prescriptions" class="mt-1 input flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-indigo-50 px-2 py-3 text-center text-indigo-700 cursor-pointer hover:bg-indigo-100 hover:border-indigo-500 transition">
+        <i class="fas fa-paperclip mr-2"></i>
+        <span class="text-gray-600">Click here to select a file</span>
+      </label>
+      <input id="prescriptions" type="file" class="hidden" formControlName="prescriptions" (change)="onFileSelected($event, 'prescriptions', 'prescriptionsPath')" />
+    </div>
+
+    <!-- Preferred Specialty / Doctor (Optional) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Preferred Specialty / Doctor</label>
+      <ng-select [items]="specialties" bindLabel="name" bindValue="id" formControlName="preferredSpecialty" [multiple]="true" placeholder="Select one or more specialties" class="w-full"></ng-select>
+    </div>
+
+    <!-- Known Allergies (Optional) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Known Allergies</label>
+      <input type="text" formControlName="knownAllergies" class="input" />
+    </div>
+  </div>
+
+  <!-- Travel & Visa Information -->
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mt-8 mb-4">Travel & Visa Information</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- Intended Travel Date -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Intended Travel Date</label>
+      <input type="date" formControlName="intendedTravelDate" class="input" />
+      <div *ngIf="isInvalid('intendedTravelDate')" class="text-red-500 text-sm">Intended Travel Date is required.</div>
+    </div>
+
+    <!-- Preferred City in India -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Preferred City in India</label>
+      <select formControlName="preferredCityIndia" class="input">
+        <option value="">Select City</option>
+        <option *ngFor="let city of indianCities" [value]="city.CityId">{{ city.CityName }}</option>
+      </select>
+      <div *ngIf="isInvalid('preferredCityIndia')" class="text-red-500 text-sm">Preferred City in India is required.</div>
+    </div>
+
+    <!-- Visa Assistance Needed -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Visa Assistance Needed</label>
+      <input type="checkbox" formControlName="visaAssistanceNeeded" class="appearance-auto" />
+      <div *ngIf="isInvalid('visaAssistanceNeeded')" class="text-red-500 text-sm">Visa assistance selection is required.</div>
+    </div>
+
+    <!-- Medical Attendant Coming (Optional) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Medical Attendant Coming</label>
+      <input type="checkbox" formControlName="medicalAttendantComing" class="appearance-auto" />
+    </div>
+
+    <!-- Passport Scan (Patient) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Passport Scan (Patient)</label>
+      <label for="passportScanPatient" class="mt-1 input flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-indigo-50 px-2 py-3 text-center text-indigo-700 cursor-pointer hover:bg-indigo-100 hover:border-indigo-500 transition">
+        <i class="fas fa-paperclip mr-2"></i>
+        <span class="text-gray-600">Click here to select a file</span>
+      </label>
+      <input id="passportScanPatient" type="file" class="hidden" formControlName="passportScanPatient" (change)="onFileSelected($event, 'passportScanPatient', 'passportScanPatientPath')" />
+      <div *ngIf="isInvalid('passportScanPatient')" class="text-red-500 text-sm">Passport scan (Patient) is required.</div>
+    </div>
+
+    <!-- Passport Scan (Attendant) -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Passport Scan (Attendant)</label>
+      <label for="passportScanAttendant" class="mt-1 input flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-indigo-50 px-2 py-3 text-center text-indigo-700 cursor-pointer hover:bg-indigo-100 hover:border-indigo-500 transition">
+        <i class="fas fa-paperclip mr-2"></i>
+        <span class="text-gray-600">Click here to select a file</span>
+      </label>
+      <input id="passportScanAttendant" type="file" class="hidden" formControlName="passportScanAttendant" (change)="onFileSelected($event, 'passportScanAttendant', 'passportScanAttendantPath')" />
+    </div>
+  </div>
+</div>
+
+
+  <!-- STEP 3: Financial & SACCO Connection -->
+<div class="p-6" *ngIf="currentStep === 3">
+
+  <!-- Financial & Sponsor Information -->
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mb-4">Financial & Sponsor Information</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- Self Funded -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Is the treatment self-funded?</label>
+      <div class="flex gap-4 mt-1">
+        <label><input type="radio" value="Yes" formControlName="selfFunded" class="appearance-auto" /> Yes</label>
+        <label><input type="radio" value="No" formControlName="selfFunded" class="appearance-auto" /> No</label>
+      </div>
+      <div *ngIf="isInvalid('selfFunded')" class="text-red-500 text-sm">Please select Yes or No.</div>
+    </div>
+
+    <!-- Sponsor Name -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Sponsor Name (if any)</label>
+      <input type="text" formControlName="sponsorName" class="input" />
+    </div>
+
+    <!-- Sponsor Contact Number -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Sponsor Contact Number</label>
+      <input type="tel" formControlName="sponsorContact" class="input" />
+    </div>
+
+    <!-- Insurance Coverage -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Insurance Coverage</label>
+      <input type="checkbox" formControlName="insuranceCoverage" class="appearance-auto" />
+    </div>
+
+    <!-- Insurance Documents -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Upload Insurance Documents</label>
+      <label for="insuranceDocuments" class="mt-1 input flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-indigo-50 px-2 py-3 text-center text-indigo-700 cursor-pointer hover:bg-indigo-100 hover:border-indigo-500 transition">
+        <i class="fas fa-paperclip mr-2"></i>
+        <span class="text-gray-600">Click here to select a file</span>
+      </label>
+      <input id="insuranceDocuments" type="file" class="hidden" formControlName="insuranceDocuments" (change)="onFileSelected($event, 'insuranceDocuments', 'insuranceDocPath')" />
+    </div>
+  </div>
+
+  <!-- SACCO Connection -->
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mt-8 mb-4">SACCO Connection</h2>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- Associated SACCO -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Associated SACCO</label>
+      <select formControlName="associatedSacco" class="input">
+        <option value="">Select SACCO</option>
+        <option *ngFor="let sacco of saccos" [value]="sacco.id">{{ sacco.name }}</option>
+      </select>
+    </div>
+
+    <!-- Member ID -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Member ID</label>
+      <input type="text" formControlName="memberId" class="input" />
+    </div>
+  </div>
+</div>
+
+  <!-- STEP 4: Consent & Declaration -->
+<div class="p-6" *ngIf="currentStep === 4">
+  <h2 class="text-lg font-semibold text-blue-800 border-b pb-2 mb-4">Consent & Declaration</h2>
+  <div class="space-y-4">
+
+    <!-- Declaration True -->
+    <div>
+      <input type="checkbox" formControlName="declarationTrue" class="appearance-auto" />
+      I confirm the information is correct.
+      <div *ngIf="isInvalid('declarationTrue')" class="text-red-500 text-sm">
+        You must confirm the information is correct.
+      </div>
+    </div>
+
+    <!-- Consent to Share -->
+    <div>
+      <input type="checkbox" formControlName="consentToShare" class="appearance-auto" />
+      I consent to share my data with hospitals for medical processing.
+      <div *ngIf="isInvalid('consentToShare')" class="text-red-500 text-sm">
+        Consent is required for processing.
+      </div>
+    </div>
+
+    <!-- Digital Signature -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700 required">Digital Signature / Full Name</label>
+      <input type="text" formControlName="digitalSignature" class="input" />
+      <div *ngIf="isInvalid('digitalSignature')" class="text-red-500 text-sm">
+        Digital Signature / Full Name is required.
+      </div>
+    </div>
+
+    <!-- Date of Submission -->
+    <div>
+      <label class="block text-sm font-medium text-slate-700">Date of Submission</label>
+      <input type="text" formControlName="dateOfSubmission" class="input" readonly />
+    </div>
+  </div>
+</div>
+
+
+  <!-- Navigation -->
+  <div class="border-t bg-slate-50 px-6 py-4 flex justify-between">
+    <div>
+      <button type="button" *ngIf="currentStep > 1" (click)="previousStep()" class="btn-secondary rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+        &lt;&lt; Previous
+      </button>
+    </div>
+    <div>
+      <button type="button"   *ngIf="currentStep < 4" (click)="nextStep()" class="btn-primary rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 
+         disabled:opacity-50 disabled:cursor-not-allowed">
+        Next &gt;&gt;
+      </button>
+
+      <!-- [disabled]="!patientForm.valid"::TODO -->
+      <button type="submit"  *ngIf="currentStep === 4" class="btn-success bg-primary text-white px-4 py-2 rounded-lg shadow hover:bg-primary/80">
+        Submit Registration
+      </button>
+    </div>
+  </div>
+  <div *ngIf="submitted && patientForm.invalid" class="mb-4 p-3 rounded bg-red-100 text-red-700 border border-red-400">
+  ⚠️ Some required fields are missing. Please review all steps.
+</div>
+
+</form>

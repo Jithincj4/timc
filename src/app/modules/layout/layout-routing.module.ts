@@ -1,10 +1,8 @@
 import { inject, NgModule } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterModule, Routes  } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { authGuard } from 'src/app/core/guards/auth.guard';
 import { AuthStore } from 'src/app/core/state/auth.store.service';
-
-
 
 const routes: Routes = [
   {
@@ -20,8 +18,8 @@ const routes: Routes = [
           return 'patient';
         case 'facilitator':
           return 'facilitator';
-        case 'sacco':
-          return 'sacco';
+        case 'SACCO':
+          return 'agent';
         default:
           return '/unauthorized';
       }
@@ -33,9 +31,14 @@ const routes: Routes = [
     canActivate: [authGuard],
     component: LayoutComponent,
     loadChildren: () => import('../admin/admin.module').then((m) => m.AdminModule),
-  }
+  },
+  {
+    path: 'agent',
+    canActivate: [authGuard],
+    component: LayoutComponent,
+    loadChildren: () => import('../sacco/sacco.module').then((m) => m.SaccoModule),
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

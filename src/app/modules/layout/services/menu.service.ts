@@ -1,8 +1,9 @@
-import { Injectable, OnDestroy, signal, effect } from '@angular/core';
+import { Injectable, OnDestroy, signal, effect, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { expand, Subscription } from 'rxjs';
 import { Menu } from 'src/app/core/constants/menu';
 import { MenuItem, SubMenuItem } from 'src/app/core/models/menu.model';
+import { AuthStore } from 'src/app/core/state/auth.store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +13,22 @@ export class MenuService implements OnDestroy {
   private _showMobileMenu = signal(false);
   private _pagesMenu = signal<MenuItem[]>([]);
   private _subscription = new Subscription();
+  private _auth = inject(AuthStore);
+  private _role = this._auth.user()?.role;
 
   constructor(private router: Router) {
     /** Set dynamic menu */
-    this._pagesMenu.set(Menu.adminPages);
+    console.log('Role:', this._role);
+    switch (this._role) {
+      case 'Admin':
+        this._pagesMenu.set(Menu.adminPages);
+        break;
+      case 'SACCO':
+        this._pagesMenu.set(Menu.agentMenus);
+        break;
+      default:
+        this._pagesMenu.set([]);
+    }
 
     // Initialize sidebar state based on screen size
     this.initializeSidebarState();
@@ -94,7 +107,7 @@ export class MenuService implements OnDestroy {
   public toggleSidebar() {
     const newState = !this._showSidebar();
     this._showSidebar.set(newState);
-    
+
     // Persist sidebar state
     if (typeof window !== 'undefined') {
       localStorage.setItem('sidebarState', JSON.stringify(newState));

@@ -19,23 +19,18 @@ export class Menu {
       items: [
         {
           icon: 'fas fa-user-tie',
-          label: 'SACCO & Agent Management',
+          label: 'Agents',
           route: '/home/admin/sacco-list',
         },
         {
           icon: 'fas fa-user-friends',
-          label: 'Facilitator Management',
+          label: 'Facilitators',
           route: '/home/admin/facilitator-list',
         },
         {
           icon: 'fas fa-cogs',
-          label: 'Service Management',
+          label: 'Services',
           route: '/home/admin/service-management',
-        },
-        { 
-          icon: 'fas fa-link',
-          label: 'Link SACCO to Facilitator',
-          route: '/home/admin/link-sacco-facilitator',
         },
         {
           icon: 'fas fa-comments',
@@ -44,5 +39,18 @@ export class Menu {
         },
       ],
     },
+  ];
+  public static agentMenus: MenuItem[] = [
+    {
+      group: 'Agent',
+      separator: true,
+      items: [
+        {
+          icon: 'fas fa-tachometer-alt',
+          label: 'Dashboard',
+          route: '/home',
+        },
+      ]
+    }
   ];
 }

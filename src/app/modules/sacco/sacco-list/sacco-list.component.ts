@@ -2,10 +2,9 @@ import { Component, OnInit, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-import { Sacco } from '../../../core/models/sacco';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { SaccosService } from 'src/app/core/services/sacco.service';
+import { Sacco } from 'src/app/core/models/sacco';
 
 @Component({
   selector: 'app-sacco-list',

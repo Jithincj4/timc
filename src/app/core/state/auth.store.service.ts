@@ -1,14 +1,13 @@
-// core/state/auth.store.ts
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 export interface User {
-  id: number;
   email: string;
   name: string;
-  token: string; 
-  role?: string; // Optional roles for role-based access control
+  token: string;
+  role?: string;
+  exp?: number; // JWT expiry timestamp (seconds)
 }
 
 @Injectable({ providedIn: 'root' })
@@ -18,41 +17,83 @@ export class AuthStore {
   private readonly _error = signal<string | null>(null);
 
   readonly user = this._user.asReadonly();
-  readonly isLoggedIn = computed(() => !!this._user());
+  readonly isLoggedIn = computed(() => !!this._user() && !this.isTokenExpired());
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
-  private baseUrl = environment.apiUrl + '/Auth';
-  constructor(private http: HttpClient) {}
 
-  private decodeJwt(token: string): { userId: number; email: string; username: string } {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return {
-      userId: payload.userId,
-      email: payload.email,
-      username: payload.username
-    };
+  private readonly baseUrl = `${environment.apiUrl}/Auth`;
+
+  constructor(private http: HttpClient) {
+    this.autoLogin();
+
+    // Auto-logout when token expires
+    effect(() => {
+      const user = this._user();
+      if (user?.exp) {
+        const expiresInMs = user.exp * 1000 - Date.now();
+        if (expiresInMs > 0) {
+          setTimeout(() => this.logout(), expiresInMs);
+        }
+      }
+    });
   }
+
+  /** Decode JWT token safely */
+  private decodeJwt(token: string): { email: string; role?: string; exp?: number } {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        email: payload.sub, // "sub" holds the email
+        role: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"], // role claim
+        exp: payload.exp
+      };
+    } catch (e) {
+      console.error('Invalid JWT token', e);
+      return { email: '' };
+    }
+  }
+
+  /** Check if current token is expired */
+  private isTokenExpired(): boolean {
+    const user = this._user();
+    if (!user?.exp) return false;
+    return Date.now() >= user.exp * 1000;
+  }
+
+  /** Perform login and persist user/token */
   login(username: string, password: string): Promise<boolean> {
     this._loading.set(true);
     this._error.set(null);
-  
+
     return new Promise((resolve) => {
-      this.http.post<{ token: string,role:string }>(`${this.baseUrl}/login`, { username, password })
+      this.http.post<{ token: string; role?: string }>(`${this.baseUrl}/login`, { username, password })
         .subscribe({
           next: (res) => {
+            console.log('Login response:', res);
             const decoded = this.decodeJwt(res.token);
-            this._user.set({
-              id: decoded.userId,
+            if (!decoded.email) {
+              this._error.set('Invalid token received');
+              this._loading.set(false);
+              resolve(false);
+              return;
+            }
+
+            const user: User = {
               email: decoded.email,
-              name: decoded.username,
+              name: decoded.email.split('@')[0], // fallback name from email
               token: res.token,
-              role: res.role
-            });
-            localStorage.setItem('token', res.token);
+              role: decoded.role ?? res.role,
+              exp: decoded.exp
+            };
+
+            this._user.set(user);
+            localStorage.setItem('auth_user', JSON.stringify(user));
+
             this._loading.set(false);
             resolve(true);
           },
           error: (err) => {
+            console.error('Login error:', err);
             this._user.set(null);
             this._error.set(err.error?.message || 'Login failed');
             this._loading.set(false);
@@ -61,21 +102,28 @@ export class AuthStore {
         });
     });
   }
-  logout() {
+
+  /** Logout user */
+  logout(): void {
     this._user.set(null);
     this._error.set(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('auth_user');
   }
-  autoLogin() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = this.decodeJwt(token);
-      this._user.set({
-        id: decoded.userId,
-        email: decoded.email,
-        name: decoded.username,
-        token
-      });
+
+  /** Try restore user from localStorage */
+  autoLogin(): void {
+    const stored = localStorage.getItem('auth_user');
+    if (stored) {
+      try {
+        const user: User = JSON.parse(stored);
+        if (!this.isTokenExpired()) {
+          this._user.set(user);
+        } else {
+          this.logout();
+        }
+      } catch {
+        this.logout();
+      }
     }
   }
 }

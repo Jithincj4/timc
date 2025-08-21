@@ -1,37 +1,75 @@
-<div class="relative">
-  <div class="mx-auto px-5">
-    <div class="flex items-center justify-between py-3.5 md:justify-start">
-      <!-- Mobile Navigation Menu Button-->
-      <div class="sm:order-1 md:hidden">
-        <button
-          (click)="toggleMobileMenu()"
-          type="button"
-          class="bg-muted text-muted-foreground focus:ring-primary hover:bg-muted-foreground hover:text-muted inline-flex items-center justify-center rounded-md p-2 focus:outline-hidden focus:ring-2 focus:ring-inset"
-          aria-expanded="false">
-          <span class="sr-only">Open menu</span>
-          <!-- Heroicon name: outline/menu -->
-          <svg-icon src="assets/icons/heroicons/outline/menu.svg" [svgClass]="'h-6 w-6'"> </svg-icon>
-        </button>
-      </div>
+<nav class="bg-[var(--card)] shadow-sm px-4 py-3 flex justify-between items-center border-b border-[var(--border)]">
+  <!-- Left -->
+  <div class="flex items-center space-x-4">
+    <!-- Brand -->
+    <a routerLink="/" class="text-[var(--primary)] font-bold text-xl">
+      Fufi Med
+    </a>
 
-      <!-- Logo -->
-      <div class="flex items-center justify-start gap-3 sm:order-2 ltr:md:mr-10 rtl:md:ml-10 lg:hidden">
-        <a class="bg-primary flex items-center justify-center rounded-sm p-2 focus:outline-hidden focus:ring-1">
-        </a>
-        <b class="text-foreground hidden text-sm font-bold sm:block"> Fufi Med </b>
-      </div>
+    <!-- Desktop Menu -->
+    <div class="hidden sm:flex space-x-2">
+      @for (group of menus(); track group) {
+        @for (item of group.items; track item) {
+          <a
+            [routerLink]="item.route"
+            class="px-3 py-1 rounded-md text-sm text-[var(--card-foreground)] hover:bg-[var(--muted)] transition-colors"
+            [class.bg-[var(--muted)]]="item.active"
+          >
+            {{ item.label }}
+          </a>
+        }
+      }
+    </div>
 
-      <!-- Desktop Menu -->
-      <div class="hidden space-x-10 sm:order-3 md:flex">
-        <app-navbar-menu></app-navbar-menu>
-      </div>
+    <!-- Hamburger for Mobile -->
+    <button class="sm:hidden text-[var(--muted-foreground)]" (click)="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
 
-      <!-- Profile menu -->
-      <div class="items-center justify-end sm:order-4 md:flex md:flex-1 lg:w-0">
-        <app-profile-menu></app-profile-menu>
-      </div>
+  <!-- Right -->
+  <div class="flex items-center space-x-4">
+    <div class="text-right hidden sm:block">
+      <p class="font-medium text-[var(--card-foreground)]">John Doe</p>
+      <p class="text-xs text-[var(--muted-foreground)]">Patient</p>
+    </div>
+    <div
+      class="w-10 h-10 bg-[var(--primary)] rounded-full flex items-center justify-center text-white font-medium"
+    >
+      JD
+    </div>
+    <button class="text-[var(--destructive)] flex items-center text-sm hover:underline">
+      <i class="fas fa-sign-out-alt mr-1"></i> Logout
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Slide Menu -->
+@if (menuService.showMobileMenu) {
+  <div
+    class="sm:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+    (click)="closeMobileMenu()"
+  >
+    <div
+      class="absolute top-0 left-0 w-64 bg-[var(--card)] h-full shadow-lg p-4"
+      (click)="$event.stopPropagation()"
+    >
+      <button class="mb-4 text-[var(--muted-foreground)]" (click)="closeMobileMenu()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      @for (group of menus(); track group) {
+        @for (item of group.items; track item) {
+          <a
+            [routerLink]="item.route"
+            class="block px-3 py-2 rounded-md text-sm text-[var(--card-foreground)] hover:bg-[var(--muted)]"
+            [class.bg-[var(--muted)]]="item.active"
+            (click)="closeMobileMenu()"
+          >
+            {{ item.label }}
+          </a>
+        }
+      }
     </div>
   </div>
-  <!-- Mobile menu -->
-  <app-navbar-mobile></app-navbar-mobile>
-</div>
+}

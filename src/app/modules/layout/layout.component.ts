@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  imports: [SidebarComponent, NavbarComponent, RouterOutlet],
+  imports: [NavbarComponent, RouterOutlet,CommonModule],
 })
 export class LayoutComponent implements OnInit {
   private mainContent: HTMLElement | null = null;
@@ -23,5 +23,10 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainContent = document.getElementById('main-content');
+  }
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }

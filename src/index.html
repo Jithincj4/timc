@@ -5,30 +5,50 @@
     <title>Fufi Med</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
 
-  <body class="bg-background font-poppins selection:bg-primary selection:text-primary-foreground">
+  <body class="bg-background font-poppins text-sm md:text-base selection:bg-primary selection:text-primary-foreground p-2 sm:p-0">
     <app-root>
-      <div class="flex h-screen">
-        <div class="m-auto">
+      <!-- Loading Screen -->
+      <div class="flex h-screen items-center justify-center">
+        <div class="w-full max-w-xs sm:max-w-md px-4">
           <button
             type="button"
-            class="bg-primary text-primary-foreground inline-flex cursor-not-allowed items-center rounded-md px-4 py-2 text-sm font-semibold leading-6 shadow-sm transition duration-150 ease-in-out"
-            disabled="">
+            class="bg-primary text-primary-foreground w-full sm:w-auto inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold leading-6 shadow-sm transition duration-150 ease-in-out cursor-not-allowed"
+            disabled
+          >
             <svg
               class="-ml-1 mr-3 h-5 w-5 animate-spin"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
               <path
                 class="opacity-75"
                 fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 
+                   5.373 0 12h4zm2 5.291A7.962 7.962 
+                   0 014 12H0c0 3.042 1.135 5.824 3 
+                   7.938l3-2.647z"
+              ></path>
             </svg>
             Loading...
           </button>
